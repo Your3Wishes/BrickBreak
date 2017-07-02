@@ -47,7 +47,6 @@ public class Paddle extends Actor {
         // Set x velocity to the distance between current X and last X multiplied by delta time and constant
         dx = (getX() - lastX) * delta * 3.0f;
         lastX = getX();
-        Gdx.app.log("test", String.valueOf(dx));
     }
 
 
