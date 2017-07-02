@@ -63,13 +63,14 @@ public class GameScreen implements Screen {
 
     private void checkCollisions() {
         // Paddle and ball collision
-        if (paddle.getBounds().overlaps(ball.getBounds()) && ball.getY() < 0) {
-            ball.setyVel(ball.getyVel() * - 1);
+        if (paddle.getBounds().overlaps(ball.getBounds()) && ball.getDy() < 0) {
+            ball.setDy(ball.getDy() * - 1);
+            ball.setDx(ball.getStartDx() - paddle.getDx());
         }
     }
 
     private void handleInput() {
-        // Control bucket
+        // Control paddle
         if (Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -79,6 +80,7 @@ public class GameScreen implements Screen {
                 paddle.setBounds(paddle.getX(), paddle.getY());
             }
         }
+
     }
 
     @Override

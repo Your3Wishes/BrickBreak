@@ -15,8 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 public class Ball extends Actor {
     private Texture texture;
     private Rectangle bounds;
-    private float xVel = 3.0f;
-    private float yVel = 3.0f;
+    private float startDx = 3.0f; // Starting/standard x velocity
+    private float dx = 3.0f; // Current x velocity
+    private float dy = 4.5f; // Current y velocity
 
     public Ball () {
         texture = new Texture(Gdx.files.internal("ball.png"));
@@ -33,14 +34,14 @@ public class Ball extends Actor {
     @Override
     public void act (float delta) {
         // Move ball using velocities
-        this.setX(getX() + xVel);
-        this.setY(getY() + yVel);
+        this.setX(getX() + dx);
+        this.setY(getY() + dy);
 
         // Check for wall collisions
         if (getX() > MyGame.SCREENWIDTH - getWidth() || getX() < 0)
-            xVel *= -1;
+            dx *= -1;
         if (getY() + getHeight() > MyGame.SCREENHEIGHT)
-            yVel *= -1;
+            dy *= -1;
 
         // Update bounding box
         setBounds(getX(), getY());
@@ -56,11 +57,20 @@ public class Ball extends Actor {
         this.bounds.setY(y);
     }
 
-    public float getyVel() {
-        return yVel;
+    public float getDy() {
+        return dy;
     }
 
-    public void setyVel(float vel) {
-        yVel = vel;
+    public float getDx() { return dx; }
+
+    public float getStartDx () {
+        return startDx;
     }
+    public void setDy(float vel) {
+        dy = vel;
+    }
+
+    public void setDx(float vel) { dx = vel; }
+
+
 }

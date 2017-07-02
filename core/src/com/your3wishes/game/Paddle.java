@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 public class Paddle extends Actor {
     private Texture texture;
     private Rectangle bounds;
+    private float dx = 0;
+    public float lastX;
     public boolean touched;
 
     public Paddle () {
@@ -40,6 +42,15 @@ public class Paddle extends Actor {
         batch.draw(texture, getX(), getY());
     }
 
+    @Override
+    public void act (float delta) {
+        // Set x velocity to the distance between current X and last X multiplied by delta time and constant
+        dx = (getX() - lastX) * delta * 3.0f;
+        lastX = getX();
+        Gdx.app.log("test", String.valueOf(dx));
+    }
+
+
 
     public Rectangle getBounds() {
         return bounds;
@@ -48,5 +59,13 @@ public class Paddle extends Actor {
     public void setBounds(float x, float y) {
         this.bounds.setX(x);
         this.bounds.setY(y);
+    }
+
+    public void setDx(float vel) {
+        dx = vel;
+    }
+
+    public float getDx() {
+        return dx;
     }
 }
