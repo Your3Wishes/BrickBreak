@@ -50,7 +50,6 @@ public class Paddle extends Actor {
     }
 
 
-
     public Rectangle getBounds() {
         return bounds;
     }
