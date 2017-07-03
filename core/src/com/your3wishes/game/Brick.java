@@ -17,13 +17,17 @@ public class Brick extends Actor {
     public Brick () {
         texture = new Texture(Gdx.files.internal("brick.png"));
         setBounds(0,0,texture.getWidth(),texture.getHeight());
-        bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
+        bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
     }
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
-        batch.draw(texture, getX(), getY());
+        batch.draw(texture,this.getX(),getY(),this.getOriginX(),this.getOriginY(),this.getWidth(),
+                this.getHeight(),this.getScaleX(), this.getScaleY(),this.getRotation(),0,0,
+                texture.getWidth(),texture.getHeight(),false,false);
     }
+
+
 
     public Rectangle getBounds() {
         return bounds;
@@ -33,5 +37,6 @@ public class Brick extends Actor {
         this.bounds.setX(x);
         this.bounds.setY(y);
     }
+
 
 }

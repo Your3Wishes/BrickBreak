@@ -18,6 +18,7 @@ public class Ball extends Actor {
     private float startDx = 3.0f; // Starting/standard x velocity
     private float dx = 3.0f; // Current x velocity
     private float dy = 7.0f; // Current y velocity
+    public boolean brickHit;
 
     public Ball () {
         texture = new Texture(Gdx.files.internal("ball.png"));
@@ -28,7 +29,9 @@ public class Ball extends Actor {
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
-        batch.draw(texture, getX(), getY());
+        batch.draw(texture,this.getX(),getY(),this.getOriginX(),this.getOriginY(),this.getWidth(),
+                this.getHeight(),this.getScaleX(), this.getScaleY(),this.getRotation(),0,0,
+                texture.getWidth(),texture.getHeight(),false,false);
     }
 
     @Override

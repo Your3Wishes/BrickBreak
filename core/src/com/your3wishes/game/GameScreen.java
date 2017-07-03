@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+import java.util.Iterator;
+
 import static java.lang.Math.abs;
 
 /**
@@ -23,6 +25,8 @@ public class GameScreen implements Screen {
     private Stage stage;
     private Paddle paddle;
     private Ball ball;
+    private Array<Brick> bricks;
+    private Brick brick;
 
 
     public GameScreen(final MyGame game) {
@@ -38,6 +42,19 @@ public class GameScreen implements Screen {
         // Add ball to stage
         ball = new Ball();
         stage.addActor(ball);
+
+        // Initialize bricks array
+        bricks = new Array<Brick>();
+
+        // Spawn bricks
+        for (int i = 0; i <= 4; i++) {
+            brick = new Brick();
+            brick.setX(brick.getWidth() + 16 + (i * brick.getWidth()));
+            brick.setY(500);
+            brick.setBounds(brick.getX(), brick.getY());
+            bricks.add(brick);
+            stage.addActor(brick);
+        }
 
     }
 
@@ -68,6 +85,27 @@ public class GameScreen implements Screen {
             //ball.setDx(ball.getDx() * -1);
             // ball.setDx(ball.getStartDx() - paddle.getDx());
         }
+
+        // Check for collisions between ball and bricks
+        // Using an iterator for safe removal of items while iterating
+        ball.brickHit = false;
+        for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
+            Brick brick = iterator.next();
+            if (brick.getBounds().overlaps(ball.getBounds())) {
+                // Remove the current element from the iterator and the list.
+                iterator.remove();
+                brick.remove();
+                ball.brickHit = true;
+
+
+            }
+        }
+
+        if (ball.brickHit) {
+            // Bounce ball
+            ball.setDy(ball.getDy() * -1);
+        }
+
     }
 
     private void handleInput() {
