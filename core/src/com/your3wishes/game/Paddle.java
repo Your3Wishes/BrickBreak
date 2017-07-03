@@ -21,9 +21,9 @@ public class Paddle extends Actor {
 
     public Paddle () {
         texture = new Texture(Gdx.files.internal("paddle.png"));
-        this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), 20);
         setBounds(0,0,texture.getWidth(),texture.getHeight());
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
+        this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), 20);
 
         this.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

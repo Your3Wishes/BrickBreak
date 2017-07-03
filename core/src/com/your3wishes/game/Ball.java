@@ -17,7 +17,7 @@ public class Ball extends Actor {
     private Rectangle bounds;
     private float startDx = 3.0f; // Starting/standard x velocity
     private float dx = 3.0f; // Current x velocity
-    private float dy = 4.5f; // Current y velocity
+    private float dy = 7.0f; // Current y velocity
 
     public Ball () {
         texture = new Texture(Gdx.files.internal("ball.png"));

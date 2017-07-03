@@ -64,8 +64,9 @@ public class GameScreen implements Screen {
     private void checkCollisions() {
         // Paddle and ball collision
         if (paddle.getBounds().overlaps(ball.getBounds()) && ball.getDy() < 0) {
-            ball.setDy(ball.getDy() * - 1);
-            ball.setDx(ball.getStartDx() - paddle.getDx());
+            ball.setDy(ball.getDy() * -1);
+            //ball.setDx(ball.getDx() * -1);
+            // ball.setDx(ball.getStartDx() - paddle.getDx());
         }
     }
 
