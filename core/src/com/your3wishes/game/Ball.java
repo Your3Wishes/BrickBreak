@@ -18,13 +18,14 @@ public class Ball extends Actor {
     private float startDx = 3.0f; // Starting/standard x velocity
     private float dx = 3.0f; // Current x velocity
     private float dy = 7.0f; // Current y velocity
+    private float maxDx = 8.0f; // Maximum x velocity
     public boolean brickHit;
 
     public Ball () {
         texture = new Texture(Gdx.files.internal("ball.png"));
         setBounds(0,0,texture.getWidth(),texture.getHeight());
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
-        this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), 20);
+        this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), 80);
     }
 
     @Override
@@ -65,6 +66,7 @@ public class Ball extends Actor {
     }
 
     public float getDx() { return dx; }
+    public float getMaxDx() { return maxDx;}
 
     public float getStartDx () {
         return startDx;

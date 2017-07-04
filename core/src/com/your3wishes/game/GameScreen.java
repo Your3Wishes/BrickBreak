@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
@@ -82,6 +83,14 @@ public class GameScreen implements Screen {
         // Paddle and ball collision
         if (paddle.getBounds().overlaps(ball.getBounds()) && ball.getDy() < 0) {
             ball.setDy(ball.getDy() * -1);
+
+            // Add a slight random speed fluctuation of the x velocity
+            ball.setDx(ball.getDx() * MathUtils.random(0.2f, 2.5f));
+            // Don't allow the ball to go faster than it's maxDx
+            if (abs(ball.getDx()) > ball.getMaxDx()) {
+                if (ball.getDx() < 0) ball.setDx(-ball.getMaxDx());
+                else ball.setDx(ball.getMaxDx());
+            }
             //ball.setDx(ball.getDx() * -1);
             // ball.setDx(ball.getStartDx() - paddle.getDx());
         }
