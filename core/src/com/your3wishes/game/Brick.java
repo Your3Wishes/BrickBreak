@@ -16,7 +16,8 @@ public class Brick extends Actor {
 
     public Brick () {
         texture = new Texture(Gdx.files.internal("brick.png"));
-        setBounds(0,0,texture.getWidth(),texture.getHeight());
+        this.setScale(0.8f, 0.8f);
+        setBounds(0, 0, texture.getWidth() * getScaleX(), texture.getHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
     }
 

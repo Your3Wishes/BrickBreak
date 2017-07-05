@@ -48,13 +48,16 @@ public class GameScreen implements Screen {
         bricks = new Array<Brick>();
 
         // Spawn bricks
-        for (int i = 0; i <= 4; i++) {
-            brick = new Brick();
-            brick.setX(brick.getWidth() + 16 + (i * brick.getWidth()));
-            brick.setY(500);
-            brick.setBounds(brick.getX(), brick.getY());
-            bricks.add(brick);
-            stage.addActor(brick);
+        for (int i = 0; i <= 8; i++) {
+            for (int j = 0; j <= 3; j++) {
+                brick = new Brick();
+                brick.setX(40 + i * brick.getWidth() * brick.getScaleX());
+                brick.setY(500 + (j * (brick.getHeight() * brick.getScaleY() + 10)));
+                brick.setBounds(brick.getX(), brick.getY());
+                bricks.add(brick);
+                stage.addActor(brick);
+            }
+
         }
 
     }
@@ -65,6 +68,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void render (float delta) {
+
+
+
+
+
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.camera.update();
@@ -85,7 +93,7 @@ public class GameScreen implements Screen {
             ball.setDy(ball.getDy() * -1);
 
             // Add a slight random speed fluctuation of the x velocity
-            ball.setDx(ball.getDx() * MathUtils.random(0.2f, 2.5f));
+            ball.setDx(ball.getDx() * MathUtils.random(0.4f, 2.5f));
             // Don't allow the ball to go faster than it's maxDx
             if (abs(ball.getDx()) > ball.getMaxDx()) {
                 if (ball.getDx() < 0) ball.setDx(-ball.getMaxDx());
@@ -126,6 +134,18 @@ public class GameScreen implements Screen {
             if (paddle.touched) {
                 paddle.setX(touchPos.x - paddle.getWidth() / 2);
                 paddle.setBounds(paddle.getX(), paddle.getY());
+            }
+        }
+
+        // Control ball for debugging
+        if (MyGame.DEBUG) {
+            if (Gdx.input.isTouched()) {
+                Vector3 touchPos = new Vector3();
+                touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+                game.camera.unproject(touchPos);
+                ball.setX(touchPos.x - ball.getWidth() / 2);
+                ball.setY(touchPos.y - ball.getHeight() / 2);
+                ball.setBounds(ball.getX(), ball.getY());
             }
         }
 

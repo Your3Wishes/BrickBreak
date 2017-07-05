@@ -23,8 +23,10 @@ public class Ball extends Actor {
 
     public Ball () {
         texture = new Texture(Gdx.files.internal("ball.png"));
-        setBounds(0,0,texture.getWidth(),texture.getHeight());
+        this.setScale(0.75f, 0.75f);
+        setBounds(0,0,texture.getWidth() * getScaleX(),texture.getHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
+
         this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), 80);
     }
 

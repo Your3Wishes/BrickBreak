@@ -13,6 +13,7 @@ public class MyGame extends Game {
 	public static final int SCREENWIDTH = 480;
 	public static final int SCREENHEIGHT = 800;
 	public static final float GRAVITY = 250.0f;
+	public static final boolean DEBUG = false;
 	public SpriteBatch batch;
 	public BitmapFont font;
 	public OrthographicCamera camera;
