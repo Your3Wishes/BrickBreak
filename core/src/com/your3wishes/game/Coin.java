@@ -6,16 +6,19 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Pool;
 
 /**
  * Created by Joecool321 on 7/9/2017.
  */
 
-public class Coin extends Actor {
+public class Coin extends Actor implements Pool.Poolable {
     private Texture texture;
     private Rectangle bounds;
     private float dx=0.0f;
     private float dy=0.0f;
+
+    public boolean alive;
 
 
 
@@ -38,7 +41,7 @@ public class Coin extends Actor {
 
     @Override
     public void act (float delta) {
-        dy-=MyGame.GRAVITY;
+        dy -= MyGame.GRAVITY * delta;
         // Move ball using velocities
         this.setX(getX() + dx * delta);
         this.setY(getY() + dy * delta);
@@ -60,6 +63,13 @@ public class Coin extends Actor {
     public void setBounds(float x, float y) {
         this.bounds.setX(x);
         this.bounds.setY(y);
+    }
+
+    @Override
+    public void reset() {
+        dy = MathUtils.random(50.0f,250f);
+        dx = MathUtils.random(-30.0f,30.0f);
+        alive = true;
     }
 
 }

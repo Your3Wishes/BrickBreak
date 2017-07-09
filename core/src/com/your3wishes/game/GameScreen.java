@@ -29,21 +29,22 @@ public class GameScreen implements Screen {
     private Paddle paddle;
     private Ball ball;
     private Array<Brick> bricks;
-    private Array<Coin> coins;
     private Brick brick;
     private ParticleEffect explosionEffect = new ParticleEffect();
     private Explosion explosion;
     private Coin coin;
-    private int coincount;
-    private float randomnumber;
-    private int maxcoincount;
+    private final Array<Coin> coins;
+    private final Pool<Coin> coinPool;
+    private int coinCount;
+    private float randomNumber;
+    private int maxCoinCount;
 
 
 
     public GameScreen(final MyGame game) {
         this.game = game;
-        maxcoincount=30;
 
+        // Setup stage
         stage = new Stage(new StretchViewport(MyGame.SCREENWIDTH, MyGame.SCREENHEIGHT, game.camera));
         Gdx.input.setInputProcessor(stage);
 
@@ -58,14 +59,18 @@ public class GameScreen implements Screen {
         // Initialize bricks array
         bricks = new Array<Brick>();
 
-        // Initialize bricks array
-        bricks = new Array<Brick>();
-
-        //Initialize coins array
+        //Initialize coins
+        maxCoinCount=30;
         coins = new Array<Coin>();
+        coinPool = new Pool<Coin>() {
+            @Override
+            protected  Coin newObject() {
+                return new Coin();
+            }
+        };
 
         // Spawn bricks
-            for (int i = 0; i <= 10; i++) {
+        for (int i = 0; i <= 10; i++) {
             for (int j = 0; j <= 3; j++) {
                 brick = new Brick();
                 coin = new Coin();
@@ -75,8 +80,7 @@ public class GameScreen implements Screen {
                 bricks.add(brick);
                 stage.addActor(brick);
             }
-
-            }
+        }
     
         // Load explosion particle
         explosionEffect.load(Gdx.files.internal("explosion.p"), Gdx.files.internal(""));
@@ -101,6 +105,7 @@ public class GameScreen implements Screen {
         stage.act(delta);
         checkCollisions();
         handleInput();
+        freeCoins();
     }
 
     private void checkCollisions() {
@@ -115,19 +120,14 @@ public class GameScreen implements Screen {
                 if (ball.getDx() < 0) ball.setDx(-ball.getMaxDx());
                 else ball.setDx(ball.getMaxDx());
             }
-            //ball.setDx(ball.getDx() * -1);
-            // ball.setDx(ball.getStartDx() - paddle.getDx());
         }
-        for (Iterator<Coin> iterator = coins.iterator(); iterator.hasNext();) {
-            Coin coin = iterator.next();
-            if (paddle.getBounds().overlaps(coin.getBounds())) {
-                coin.remove();
 
+        // Paddle and coin collision. Coin collected
+        for (Coin item : coins) {
+            if (paddle.getBounds().overlaps(item.getBounds())) {
+                item.alive = false;
             }
         }
-            //ball.setDx(ball.getDx() * -1);
-            // ball.setDx(ball.getStartDx() - paddle.getDx());
-
 
         // Check for collisions between ball and bricks
         // Using an iterator for safe removal of items while iterating
@@ -141,23 +141,18 @@ public class GameScreen implements Screen {
                 explosion.getEffect().reset();
                 explosion.getEffect().start();
 
-                randomnumber = MathUtils.random(0.0f, 100.0f);
-                if ((randomnumber > 10) & coincount < maxcoincount)  {
-                    coin = new Coin();
+                randomNumber = MathUtils.random(0.0f, 100.0f);
+                if ((randomNumber > 10) & coinCount < maxCoinCount)  {
+                    coin = coinPool.obtain();
                     coin.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
                     coins.add(coin);
                     stage.addActor(coin);
-                    coincount++;
+                    coinCount++;
                 }
                 // Remove the current element from the iterator and the list.
                 iterator.remove();
                 brick.remove();
                 ball.brickHit = true;
-
-
-
-
-
             }
         }
 
@@ -193,6 +188,17 @@ public class GameScreen implements Screen {
             }
         }
 
+    }
+
+    private void freeCoins() {
+        for (int i = coins.size; --i >= 0;) {
+            coin = coins.get(i);
+            if (coin.alive == false) {
+                coin.remove(); // Remove coin from stage
+                coins.removeIndex(i); // Remove coin from coins array
+                coinPool.free(coin); // Remove coin from coinPool
+            }
+        }
     }
 
     @Override
