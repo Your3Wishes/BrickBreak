@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.Iterator;
+import java.util.Random;
 
 import static java.lang.Math.abs;
 
@@ -28,13 +29,22 @@ public class GameScreen implements Screen {
     private Paddle paddle;
     private Ball ball;
     private Array<Brick> bricks;
+    private Array<Coin> coins;
     private Brick brick;
+<<<<<<< HEAD
     private ParticleEffect explosionEffect = new ParticleEffect();
     private Explosion explosion;
+=======
+    private Coin coin;
+    private int coincount;
+    private float randomnumber;
+    private int maxcoincount;
+>>>>>>> 13ff6afa2eae3326f7b93b8a9421a57e2c52f27c
 
 
     public GameScreen(final MyGame game) {
         this.game = game;
+        maxcoincount=30;
 
         stage = new Stage(new StretchViewport(MyGame.SCREENWIDTH, MyGame.SCREENHEIGHT, game.camera));
         Gdx.input.setInputProcessor(stage);
@@ -47,6 +57,7 @@ public class GameScreen implements Screen {
         ball = new Ball();
         stage.addActor(ball);
 
+<<<<<<< HEAD
         // Initialize bricks array
         bricks = new Array<Brick>();
 
@@ -60,6 +71,25 @@ public class GameScreen implements Screen {
                 bricks.add(brick);
                 stage.addActor(brick);
             }
+=======
+    // Initialize bricks array
+    bricks = new Array<Brick>();
+
+    //Initialize coins array
+    coins = new Array<Coin>();
+
+    // Spawn bricks
+        for (int i = 0; i <= 10; i++) {
+        for (int j = 0; j <= 3; j++) {
+            brick = new Brick();
+            coin = new Coin();
+            brick.setX(16 + i * brick.getWidth() * brick.getScaleX());
+            brick.setY(500 + (j * (brick.getHeight() * brick.getScaleY() + 10)));
+            brick.setBounds(brick.getX(), brick.getY());
+            bricks.add(brick);
+            stage.addActor(brick);
+        }
+>>>>>>> 13ff6afa2eae3326f7b93b8a9421a57e2c52f27c
 
         }
 
@@ -103,6 +133,16 @@ public class GameScreen implements Screen {
             //ball.setDx(ball.getDx() * -1);
             // ball.setDx(ball.getStartDx() - paddle.getDx());
         }
+        for (Iterator<Coin> iterator = coins.iterator(); iterator.hasNext();) {
+            Coin coin = iterator.next();
+            if (paddle.getBounds().overlaps(coin.getBounds())) {
+                coin.remove();
+
+            }
+        }
+            //ball.setDx(ball.getDx() * -1);
+            // ball.setDx(ball.getStartDx() - paddle.getDx());
+
 
         // Check for collisions between ball and bricks
         // Using an iterator for safe removal of items while iterating
@@ -110,17 +150,37 @@ public class GameScreen implements Screen {
         for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
             Brick brick = iterator.next();
             if (brick.getBounds().overlaps(ball.getBounds())) {
+<<<<<<< HEAD
                 // Display explosion
                 explosion.setPosition(brick.getX(), brick.getY());
                 explosion.getEffect().setPosition(brick.getX(), brick.getY());
                 explosion.getEffect().reset();
                 explosion.getEffect().start();
+=======
+
+                randomnumber = MathUtils.random(0.0f, 100.0f);
+                if ((randomnumber > 10) & coincount < maxcoincount)  {
+                    coin = new Coin();
+                    coin.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
+                    coins.add(coin);
+                    stage.addActor(coin);
+                    coincount++;
+                }
+>>>>>>> 13ff6afa2eae3326f7b93b8a9421a57e2c52f27c
                 // Remove the current element from the iterator and the list.
                 iterator.remove();
                 brick.remove();
                 ball.brickHit = true;
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> 13ff6afa2eae3326f7b93b8a9421a57e2c52f27c
             }
         }
+
 
         if (ball.brickHit) {
             // Bounce ball
