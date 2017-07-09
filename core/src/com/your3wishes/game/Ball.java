@@ -15,10 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 public class Ball extends Actor {
     private Texture texture;
     private Rectangle bounds;
-    private float startDx = 3.0f; // Starting/standard x velocity
-    private float dx = 3.0f; // Current x velocity
-    private float dy = 7.0f; // Current y velocity
-    private float maxDx = 8.0f; // Maximum x velocity
+    private float startDx = 90.0f; // Starting/standard x velocity
+    private float dx = 90.0f; // Current x velocity
+    private float dy = 280.0f; // Current y velocity
+    private float maxDx = 150.0f; // Maximum x velocity
     public boolean brickHit;
 
     public Ball () {
@@ -40,8 +40,8 @@ public class Ball extends Actor {
     @Override
     public void act (float delta) {
         // Move ball using velocities
-        this.setX(getX() + dx);
-        this.setY(getY() + dy);
+        this.setX(getX() + dx * delta);
+        this.setY(getY() + dy * delta);
 
         // Check for wall collisions
         if (getX() > MyGame.SCREENWIDTH - getWidth() || getX() < 0)
