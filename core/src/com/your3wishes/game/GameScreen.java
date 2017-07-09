@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -28,6 +29,8 @@ public class GameScreen implements Screen {
     private Ball ball;
     private Array<Brick> bricks;
     private Brick brick;
+    private ParticleEffect explosionEffect = new ParticleEffect();
+    private Explosion explosion;
 
 
     public GameScreen(final MyGame game) {
@@ -40,26 +43,30 @@ public class GameScreen implements Screen {
         paddle = new Paddle();
         stage.addActor(paddle);
 
-    // Add ball to stage
-    ball = new Ball();
+        // Add ball to stage
+        ball = new Ball();
         stage.addActor(ball);
 
-    // Initialize bricks array
-    bricks = new Array<Brick>();
+        // Initialize bricks array
+        bricks = new Array<Brick>();
 
-    // Spawn bricks
-        for (int i = 0; i <= 8; i++) {
-        for (int j = 0; j <= 3; j++) {
-            brick = new Brick();
-            brick.setX(40 + i * brick.getWidth() * brick.getScaleX());
-            brick.setY(500 + (j * (brick.getHeight() * brick.getScaleY() + 10)));
-            brick.setBounds(brick.getX(), brick.getY());
-            bricks.add(brick);
-            stage.addActor(brick);
+        // Spawn bricks
+            for (int i = 0; i <= 8; i++) {
+            for (int j = 0; j <= 3; j++) {
+                brick = new Brick();
+                brick.setX(40 + i * brick.getWidth() * brick.getScaleX());
+                brick.setY(500 + (j * (brick.getHeight() * brick.getScaleY() + 10)));
+                brick.setBounds(brick.getX(), brick.getY());
+                bricks.add(brick);
+                stage.addActor(brick);
+            }
+
         }
 
-    }
-
+        // Load explosion particle
+        explosionEffect.load(Gdx.files.internal("explosion.p"), Gdx.files.internal(""));
+        explosion = new Explosion(explosionEffect);
+        stage.addActor(explosion);
 }
 
     @Override
@@ -68,11 +75,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void render (float delta) {
-
-
-
-
-
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.camera.update();
@@ -84,7 +86,6 @@ public class GameScreen implements Screen {
         stage.act(delta);
         checkCollisions();
         handleInput();
-
     }
 
     private void checkCollisions() {
@@ -109,12 +110,15 @@ public class GameScreen implements Screen {
         for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
             Brick brick = iterator.next();
             if (brick.getBounds().overlaps(ball.getBounds())) {
+                // Display explosion
+                explosion.setPosition(brick.getX(), brick.getY());
+                explosion.getEffect().setPosition(brick.getX(), brick.getY());
+                explosion.getEffect().reset();
+                explosion.getEffect().start();
                 // Remove the current element from the iterator and the list.
                 iterator.remove();
                 brick.remove();
                 ball.brickHit = true;
-
-
             }
         }
 
