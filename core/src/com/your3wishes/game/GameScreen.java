@@ -182,6 +182,12 @@ public class GameScreen implements Screen {
             if (paddle.touched) {
                 paddle.setX(touchPos.x - paddle.getWidth() / 2);
                 paddle.setBounds(paddle.getX(), paddle.getY());
+                if (paddle.getX() < 0) {
+                    paddle.setX(0);
+                }
+                else if (paddle.getX() > MyGame.SCREENWIDTH - paddle.getWidth()) {
+                    paddle.setX(MyGame.SCREENWIDTH - paddle.getWidth());
+                }
             }
         }
 
