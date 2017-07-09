@@ -30,8 +30,9 @@ public class GameScreen implements Screen {
     private Ball ball;
     private Array<Brick> bricks;
     private Brick brick;
-    private ParticleEffect explosionEffect = new ParticleEffect();
     private Explosion explosion;
+    private final Array<Explosion> explosions;
+    private final Pool<Explosion> explosionPool;
     private Coin coin;
     private final Array<Coin> coins;
     private final Pool<Coin> coinPool;
@@ -59,13 +60,22 @@ public class GameScreen implements Screen {
         // Initialize bricks array
         bricks = new Array<Brick>();
 
-        //Initialize coins
+        // Initialize coins
         maxCoinCount=30;
         coins = new Array<Coin>();
         coinPool = new Pool<Coin>() {
             @Override
             protected  Coin newObject() {
                 return new Coin();
+            }
+        };
+
+        // Initialize explosions
+        explosions = new Array<Explosion>();
+        explosionPool = new Pool<Explosion>() {
+            @Override
+            protected  Explosion newObject() {
+                return new Explosion();
             }
         };
 
@@ -81,11 +91,7 @@ public class GameScreen implements Screen {
                 stage.addActor(brick);
             }
         }
-    
-        // Load explosion particle
-        explosionEffect.load(Gdx.files.internal("explosion.p"), Gdx.files.internal(""));
-        explosion = new Explosion(explosionEffect);
-        stage.addActor(explosion);
+
     }
 
     @Override
@@ -106,6 +112,7 @@ public class GameScreen implements Screen {
         checkCollisions();
         handleInput();
         freeCoins();
+        freeExplosions();
     }
 
     private void checkCollisions() {
@@ -135,11 +142,13 @@ public class GameScreen implements Screen {
         for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
             Brick brick = iterator.next();
             if (brick.getBounds().overlaps(ball.getBounds())) {
-                // Display explosion
+                // Create explosion and add it to explosionPool
+                explosion = explosionPool.obtain();
                 explosion.setPosition(brick.getX(), brick.getY());
                 explosion.getEffect().setPosition(brick.getX(), brick.getY());
-                explosion.getEffect().reset();
-                explosion.getEffect().start();
+                explosion.init();
+                explosions.add(explosion);
+                stage.addActor(explosion);
 
                 randomNumber = MathUtils.random(0.0f, 100.0f);
                 if ((randomNumber > 10) & coinCount < maxCoinCount)  {
@@ -197,6 +206,17 @@ public class GameScreen implements Screen {
                 coin.remove(); // Remove coin from stage
                 coins.removeIndex(i); // Remove coin from coins array
                 coinPool.free(coin); // Remove coin from coinPool
+            }
+        }
+    }
+
+    private void freeExplosions() {
+        for (int i = explosions.size; --i >= 0;) {
+            explosion = explosions.get(i);
+            if (explosion.alive == false) {
+                explosion.remove(); // Remove coin from stage
+                explosions.removeIndex(i); // Remove coin from coins array
+                explosionPool.free(explosion); // Remove coin from coinPool
             }
         }
     }
