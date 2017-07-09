@@ -40,27 +40,27 @@ public class GameScreen implements Screen {
         paddle = new Paddle();
         stage.addActor(paddle);
 
-        // Add ball to stage
-        ball = new Ball();
+    // Add ball to stage
+    ball = new Ball();
         stage.addActor(ball);
 
-        // Initialize bricks array
-        bricks = new Array<Brick>();
+    // Initialize bricks array
+    bricks = new Array<Brick>();
 
-        // Spawn bricks
+    // Spawn bricks
         for (int i = 0; i <= 8; i++) {
-            for (int j = 0; j <= 3; j++) {
-                brick = new Brick();
-                brick.setX(40 + i * brick.getWidth() * brick.getScaleX());
-                brick.setY(500 + (j * (brick.getHeight() * brick.getScaleY() + 10)));
-                brick.setBounds(brick.getX(), brick.getY());
-                bricks.add(brick);
-                stage.addActor(brick);
-            }
-
+        for (int j = 0; j <= 3; j++) {
+            brick = new Brick();
+            brick.setX(40 + i * brick.getWidth() * brick.getScaleX());
+            brick.setY(500 + (j * (brick.getHeight() * brick.getScaleY() + 10)));
+            brick.setBounds(brick.getX(), brick.getY());
+            bricks.add(brick);
+            stage.addActor(brick);
         }
 
     }
+
+}
 
     @Override
     public void show() {
