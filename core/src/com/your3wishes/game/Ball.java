@@ -44,11 +44,14 @@ public class Ball extends Actor {
         this.setY(getY() + dy * delta);
 
         // Check for wall collisions
-        if (getX() > MyGame.SCREENWIDTH - getWidth() || getX() < 0)
+        if (getX() > MyGame.SCREENWIDTH - getWidth() && dx > 0) {
             dx *= -1;
-        if (getY() + getHeight() > MyGame.SCREENHEIGHT & dy > 0)
+        }
+        else if (getX() < 0 && dx < 0) {
+            dx *= -1;
+        }
+        if (getY() + getHeight() > MyGame.SCREENHEIGHT && dy > 0)
             dy *= -1;
-
         if (getY() < 0 )
             setY(MyGame.SCREENHEIGHT-getHeight());
 

@@ -2,10 +2,10 @@ Untitled
 - Delay -
 active: false
 - Duration - 
-lowMin: 250.0
-lowMax: 250.0
+lowMin: 100.0
+lowMax: 100.0
 - Count - 
-min: 0
+min: 100
 max: 200
 - Emission - 
 lowMin: 0.0
@@ -20,8 +20,8 @@ timeline0: 0.0
 - Life - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 500.0
-highMax: 1000.0
+highMin: 700.0
+highMax: 1300.0
 relative: false
 scalingCount: 3
 scaling0: 1.0
@@ -62,19 +62,23 @@ timeline0: 0.0
 - Scale - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 8.0
-highMax: 8.0
+highMin: 12.0
+highMax: 12.0
 relative: false
-scalingCount: 1
+scalingCount: 3
 scaling0: 1.0
-timelineCount: 1
+scaling1: 0.29411766
+scaling2: 0.019607844
+timelineCount: 3
 timeline0: 0.0
+timeline1: 0.5205479
+timeline2: 0.98630136
 - Velocity - 
 active: true
 lowMin: 30.0
 lowMax: 30.0
-highMin: 800.0
-highMax: 1200.0
+highMin: 400.0
+highMax: 600.0
 relative: false
 scalingCount: 2
 scaling0: 0.9607843
@@ -100,16 +104,7 @@ timeline2: 1.0
 - Rotation - 
 active: false
 - Wind - 
-active: true
-lowMin: 0.0
-lowMax: 0.0
-highMin: 0.0
-highMax: 0.0
-relative: false
-scalingCount: 1
-scaling0: 1.0
-timelineCount: 1
-timeline0: 0.0
+active: false
 - Gravity - 
 active: false
 - Tint - 
@@ -126,13 +121,13 @@ highMin: 1.0
 highMax: 1.0
 relative: false
 scalingCount: 4
-scaling0: 0.0
+scaling0: 0.6179775
 scaling1: 1.0
 scaling2: 0.5964912
 scaling3: 0.0
 timelineCount: 4
 timeline0: 0.0
-timeline1: 0.1849315
+timeline1: 0.2164751
 timeline2: 0.6849315
 timeline3: 1.0
 - Options - 
