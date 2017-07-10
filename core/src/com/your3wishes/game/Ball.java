@@ -17,7 +17,7 @@ public class Ball extends Actor {
     private Rectangle bounds;
     private float startDx = 90.0f; // Starting/standard x velocity
     private float dx = 90.0f; // Current x velocity
-    private float dy = 280.0f; // Current y velocity
+    private float dy = 330.0f; // Current y velocity
     private float maxDx = 150.0f; // Maximum x velocity
     public boolean brickHit;
 

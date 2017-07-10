@@ -39,6 +39,7 @@ public class GameScreen implements Screen {
     private int coinCount;
     private float randomNumber;
     private int maxCoinCount;
+    private float lastTouchX;
 
 
 
@@ -179,16 +180,25 @@ public class GameScreen implements Screen {
             Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             game.camera.unproject(touchPos);
-            if (paddle.touched) {
-                paddle.setX(touchPos.x - paddle.getWidth() / 2);
-                paddle.setBounds(paddle.getX(), paddle.getY());
-                if (paddle.getX() < 0) {
-                    paddle.setX(0);
-                }
-                else if (paddle.getX() > MyGame.SCREENWIDTH - paddle.getWidth()) {
-                    paddle.setX(MyGame.SCREENWIDTH - paddle.getWidth());
-                }
+            // If we were touching screen before, move the paddle
+            // based on the distance between this touch and last touch
+            if (lastTouchX > 0) {
+                paddle.setX(paddle.getX() + touchPos.x - lastTouchX);
             }
+            // Don't allow paddle to go off the sides of the screen
+            if (paddle.getX() < 0) {
+                paddle.setX(0);
+            }
+            else if (paddle.getX() > MyGame.SCREENWIDTH - paddle.getWidth()) {
+                paddle.setX(MyGame.SCREENWIDTH - paddle.getWidth());
+            }
+            // Update paddles bounding box based on new location
+            paddle.setBounds(paddle.getX(), paddle.getY());
+            // Set the last touch position as this current touch position
+            lastTouchX = touchPos.x;
+        }
+        else {
+            lastTouchX = -1; // Indicates we picked up finger
         }
 
         // Control ball for debugging
