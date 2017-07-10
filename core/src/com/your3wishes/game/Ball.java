@@ -17,7 +17,7 @@ public class Ball extends Actor {
     private Rectangle bounds;
     private float startDx = 90.0f; // Starting/standard x velocity
     private float dx = 90.0f; // Current x velocity
-    private float dy = 280.0f; // Current y velocity
+    private float dy = 330.0f; // Current y velocity
     private float maxDx = 150.0f; // Maximum x velocity
     public boolean brickHit;
 
@@ -44,10 +44,16 @@ public class Ball extends Actor {
         this.setY(getY() + dy * delta);
 
         // Check for wall collisions
-        if (getX() > MyGame.SCREENWIDTH - getWidth() || getX() < 0)
+        if (getX() > MyGame.SCREENWIDTH - getWidth() && dx > 0) {
             dx *= -1;
-        if (getY() + getHeight() > MyGame.SCREENHEIGHT)
+        }
+        else if (getX() < 0 && dx < 0) {
+            dx *= -1;
+        }
+        if (getY() + getHeight() > MyGame.SCREENHEIGHT && dy > 0)
             dy *= -1;
+        if (getY() < 0 )
+            setY(MyGame.SCREENHEIGHT-getHeight());
 
         // Update bounding box
         setBounds(getX(), getY());
