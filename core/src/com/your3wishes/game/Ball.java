@@ -50,7 +50,7 @@ public class Ball extends Actor {
         else if (getX() < 0 && dx < 0) {
             dx *= -1;
         }
-        if (getY() + getHeight() > MyGame.SCREENHEIGHT && dy > 0)
+        if (getY() + getHeight() > MyGame.SCREENHEIGHT-42 && dy > 0)
             dy *= -1;
         if (getY() < 0 )
             setY(MyGame.SCREENHEIGHT-getHeight());
