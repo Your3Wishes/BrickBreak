@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
  */
 
 public class Ball extends Actor {
+    final Assets assets;
     private Texture texture;
     private Rectangle bounds;
     private float startDx = 90.0f; // Starting/standard x velocity
@@ -21,8 +22,9 @@ public class Ball extends Actor {
     private float maxDx = 150.0f; // Maximum x velocity
     public boolean brickHit;
 
-    public Ball () {
-        texture = new Texture(Gdx.files.internal("ball.png"));
+    public Ball (Assets assets) {
+        this.assets = assets;
+        texture = assets.assetManager.get("ball.png", Texture.class);
         this.setScale(0.75f, 0.75f);
         setBounds(0,0,texture.getWidth() * getScaleX(),texture.getHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());

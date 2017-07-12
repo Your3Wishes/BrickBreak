@@ -13,14 +13,16 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
  */
 
 public class Paddle extends Actor {
+    final Assets assets;
     private Texture texture;
     private Rectangle bounds;
     private float dx = 0;
     public float lastX;
     public boolean touched;
 
-    public Paddle () {
-        texture = new Texture(Gdx.files.internal("paddle.png"));
+    public Paddle (Assets assets) {
+        this.assets = assets;
+        texture = assets.assetManager.get("paddle.png", Texture.class);
         setBounds(0,0,texture.getWidth(),texture.getHeight());
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
         this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), 20);

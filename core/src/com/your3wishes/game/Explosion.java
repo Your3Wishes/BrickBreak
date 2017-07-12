@@ -11,13 +11,19 @@ import com.badlogic.gdx.utils.Pool;
  */
 
 public class Explosion extends Actor implements Pool.Poolable{
+    final Assets assets;
     private ParticleEffect effect;
 
     public boolean alive;
 
-    public Explosion() {
+    public Explosion(Assets assets) {
+        this.assets = assets;
+//        ParticleEffectLoader.ParticleEffectParameter pep = new ParticleEffectLoader.ParticleEffectParameter();
+//        pep.imagesDir = Gdx.files.internal("");
+//        assetManager.load("explosion.p", ParticleEffect.class, pep);
         effect = new ParticleEffect();
-        effect.load(Gdx.files.internal("explosion.p"), Gdx.files.internal(""));
+        effect = assets.assetManager.get("explosion.p", ParticleEffect.class);
+        //effect.load(Gdx.files.internal("explosion.p"), Gdx.files.internal(""));
     }
 
     @Override

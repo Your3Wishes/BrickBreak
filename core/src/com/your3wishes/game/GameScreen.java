@@ -3,6 +3,7 @@ package com.your3wishes.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -31,6 +32,7 @@ import static java.lang.Math.abs;
 
 public class GameScreen implements Screen {
     final MyGame game;
+    final Assets assets;
 
     private Stage stage;
     private Paddle paddle;
@@ -59,8 +61,9 @@ public class GameScreen implements Screen {
 
 
 
-    public GameScreen(final MyGame game) {
+    public GameScreen(final MyGame game, final Assets assets) {
         this.game = game;
+        this.assets = assets;
 
         //added for hud
 
@@ -75,11 +78,11 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         // Add paddle to stage
-        paddle = new Paddle();
+        paddle = new Paddle(assets);
         stage.addActor(paddle);
 
         // Add ball to stage
-        ball = new Ball();
+        ball = new Ball(assets);
         stage.addActor(ball);
 
         // Initialize bricks array
@@ -91,7 +94,7 @@ public class GameScreen implements Screen {
         coinPool = new Pool<Coin>() {
             @Override
             protected  Coin newObject() {
-                return new Coin();
+                return new Coin(assets);
             }
         };
 
@@ -100,15 +103,14 @@ public class GameScreen implements Screen {
         explosionPool = new Pool<Explosion>() {
             @Override
             protected  Explosion newObject() {
-                return new Explosion();
+                return new Explosion(assets);
             }
         };
 
         // Spawn bricks
         for (int i = 0; i <= 10; i++) {
             for (int j = 0; j <= 3; j++) {
-                brick = new Brick();
-                coin = new Coin();
+                brick = new Brick(assets);
                 brick.setX(16 + i * brick.getWidth() * brick.getScaleX());
                 brick.setY(500 + (j * (brick.getHeight() * brick.getScaleY() + 10)));
                 brick.setBounds(brick.getX(), brick.getY());

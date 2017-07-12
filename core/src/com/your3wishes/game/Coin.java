@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Pool;
  */
 
 public class Coin extends Actor implements Pool.Poolable {
+    final Assets assets;
     private Texture texture;
     private Rectangle bounds;
     private float dx=0.0f;
@@ -22,8 +23,9 @@ public class Coin extends Actor implements Pool.Poolable {
 
 
 
-    public Coin() {
-        texture = new Texture(Gdx.files.internal("coin.png"));
+    public Coin(Assets assets) {
+        this.assets = assets;
+        texture = assets.assetManager.get("coin.png", Texture.class);
         this.setScale(0.8f, 0.8f);
         setBounds(0, 0, texture.getWidth() * getScaleX(), texture.getHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());

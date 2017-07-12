@@ -6,26 +6,25 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 /**
- * Created by guita on 7/2/2017.
+ * Created by Your3Wishes on 7/11/2017.
  */
 
-public class MainMenuScreen implements Screen {
+public class LoadingScreen implements Screen {
     final MyGame game;
     final Assets assets;
 
     OrthographicCamera camera;
 
-    public MainMenuScreen(final MyGame game, final Assets assets) {
+    public LoadingScreen(final MyGame game, Assets assets) {
         this.game = game;
         this.assets = assets;
-
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.SCREENWIDTH, game.SCREENWIDTH);
     }
 
     @Override
     public void show() {
-
+        assets.load();
     }
 
     @Override
@@ -36,13 +35,9 @@ public class MainMenuScreen implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
-        game.batch.begin();
-        game.font.draw(game.batch, "Welcome to Brick Break! ", 100, 150);
-        game.font.draw(game.batch, "Tap anywhere to begin!", 100, 100);
-        game.batch.end();
 
-        if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game, assets));
+        if (assets.assetManager.update()) {
+            game.setScreen(new MainMenuScreen(game, assets));
             dispose();
         }
     }

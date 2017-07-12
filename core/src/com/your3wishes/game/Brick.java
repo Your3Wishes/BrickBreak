@@ -11,11 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  */
 
 public class Brick extends Actor {
+    final Assets assets;
     private Texture texture;
     private Rectangle bounds;
 
-    public Brick () {
-        texture = new Texture(Gdx.files.internal("brick.png"));
+    public Brick (Assets assets) {
+        this.assets = assets;
+        texture = assets.assetManager.get("brick.png", Texture.class);
         this.setScale(0.8f, 0.8f);
         setBounds(0, 0, texture.getWidth() * getScaleX(), texture.getHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
