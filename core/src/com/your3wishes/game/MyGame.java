@@ -20,7 +20,7 @@ public class MyGame extends Game {
         assets = new Assets();
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		this.setScreen(new LoadingScreen(this, assets));
+		this.setScreen(new LoadingScreen(this));
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, SCREENWIDTH, SCREENHEIGHT);

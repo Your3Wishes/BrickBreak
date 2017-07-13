@@ -32,7 +32,6 @@ import static java.lang.Math.abs;
 
 public class GameScreen implements Screen {
     final MyGame game;
-    final Assets assets;
 
     private Stage stage;
     private Paddle paddle;
@@ -61,9 +60,8 @@ public class GameScreen implements Screen {
 
 
 
-    public GameScreen(final MyGame game, final Assets assets) {
+    public GameScreen(final MyGame game) {
         this.game = game;
-        this.assets = assets;
 
         //added for hud
 
@@ -78,11 +76,11 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         // Add paddle to stage
-        paddle = new Paddle(assets);
+        paddle = new Paddle(game.assets);
         stage.addActor(paddle);
 
         // Add ball to stage
-        ball = new Ball(assets);
+        ball = new Ball(game.assets);
         stage.addActor(ball);
 
         // Initialize bricks array
@@ -94,7 +92,7 @@ public class GameScreen implements Screen {
         coinPool = new Pool<Coin>() {
             @Override
             protected  Coin newObject() {
-                return new Coin(assets);
+                return new Coin(game.assets);
             }
         };
 
@@ -103,14 +101,14 @@ public class GameScreen implements Screen {
         explosionPool = new Pool<Explosion>() {
             @Override
             protected  Explosion newObject() {
-                return new Explosion(assets);
+                return new Explosion(game.assets);
             }
         };
 
         // Spawn bricks
         for (int i = 0; i <= 10; i++) {
             for (int j = 0; j <= 3; j++) {
-                brick = new Brick(assets);
+                brick = new Brick(game.assets);
                 brick.setX(16 + i * brick.getWidth() * brick.getScaleX());
                 brick.setY(500 + (j * (brick.getHeight() * brick.getScaleY() + 10)));
                 brick.setBounds(brick.getX(), brick.getY());
@@ -283,9 +281,9 @@ public class GameScreen implements Screen {
         for (int i = explosions.size; --i >= 0;) {
             explosion = explosions.get(i);
             if (explosion.alive == false) {
-                explosion.remove(); // Remove coin from stage
-                explosions.removeIndex(i); // Remove coin from coins array
-                explosionPool.free(explosion); // Remove coin from coinPool
+                explosion.remove(); // Remove explosion from stage
+                explosions.removeIndex(i); // Remove explosion from explosions array
+                explosionPool.free(explosion); // Remove explosion from explosionPool
             }
         }
     }

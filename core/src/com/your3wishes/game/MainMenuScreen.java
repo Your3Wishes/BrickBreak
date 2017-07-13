@@ -11,13 +11,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class MainMenuScreen implements Screen {
     final MyGame game;
-    final Assets assets;
 
     OrthographicCamera camera;
 
-    public MainMenuScreen(final MyGame game, final Assets assets) {
+    public MainMenuScreen(final MyGame game) {
         this.game = game;
-        this.assets = assets;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.SCREENWIDTH, game.SCREENWIDTH);
@@ -42,7 +40,7 @@ public class MainMenuScreen implements Screen {
         game.batch.end();
 
         if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game, assets));
+            game.setScreen(new GameScreen(game));
             dispose();
         }
     }

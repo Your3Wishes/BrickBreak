@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
  */
 
 public class Assets {
+
     public AssetManager assetManager = new AssetManager();
 
     public ParticleEffectLoader.ParticleEffectParameter pep = new ParticleEffectLoader.ParticleEffectParameter();

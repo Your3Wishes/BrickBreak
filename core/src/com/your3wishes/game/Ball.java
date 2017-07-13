@@ -1,19 +1,15 @@
 package com.your3wishes.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 /**
  * Created by guita on 7/2/2017.
  */
 
 public class Ball extends Actor {
-    final Assets assets;
     private Texture texture;
     private Rectangle bounds;
     private float startDx = 90.0f; // Starting/standard x velocity
@@ -23,7 +19,6 @@ public class Ball extends Actor {
     public boolean brickHit;
 
     public Ball (Assets assets) {
-        this.assets = assets;
         texture = assets.assetManager.get("ball.png", Texture.class);
         this.setScale(0.75f, 0.75f);
         setBounds(0,0,texture.getWidth() * getScaleX(),texture.getHeight() * getScaleY());

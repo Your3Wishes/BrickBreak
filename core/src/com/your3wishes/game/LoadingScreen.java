@@ -11,20 +11,18 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class LoadingScreen implements Screen {
     final MyGame game;
-    final Assets assets;
 
     OrthographicCamera camera;
 
-    public LoadingScreen(final MyGame game, Assets assets) {
+    public LoadingScreen(final MyGame game) {
         this.game = game;
-        this.assets = assets;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.SCREENWIDTH, game.SCREENWIDTH);
     }
 
     @Override
     public void show() {
-        assets.load();
+        game.assets.load();
     }
 
     @Override
@@ -36,8 +34,8 @@ public class LoadingScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
 
-        if (assets.assetManager.update()) {
-            game.setScreen(new MainMenuScreen(game, assets));
+        if (game.assets.assetManager.update()) {
+            game.setScreen(new MainMenuScreen(game));
             dispose();
         }
     }
