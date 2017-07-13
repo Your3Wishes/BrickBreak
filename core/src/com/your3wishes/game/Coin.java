@@ -1,6 +1,5 @@
 package com.your3wishes.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
@@ -22,8 +21,8 @@ public class Coin extends Actor implements Pool.Poolable {
 
 
 
-    public Coin() {
-        texture = new Texture(Gdx.files.internal("coin.png"));
+    public Coin(Assets assets) {
+        texture = assets.assetManager.get("coin.png", Texture.class);
         this.setScale(0.8f, 0.8f);
         setBounds(0, 0, texture.getWidth() * getScaleX(), texture.getHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());

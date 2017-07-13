@@ -1,6 +1,5 @@
 package com.your3wishes.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,8 +13,8 @@ public class Brick extends Actor {
     private Texture texture;
     private Rectangle bounds;
 
-    public Brick () {
-        texture = new Texture(Gdx.files.internal("brick.png"));
+    public Brick (Assets assets) {
+        texture = assets.assetManager.get("brick.png", Texture.class);
         this.setScale(0.8f, 0.8f);
         setBounds(0, 0, texture.getWidth() * getScaleX(), texture.getHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());

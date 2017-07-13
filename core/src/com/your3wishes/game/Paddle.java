@@ -1,6 +1,5 @@
 package com.your3wishes.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
@@ -19,11 +18,11 @@ public class Paddle extends Actor {
     public float lastX;
     public boolean touched;
 
-    public Paddle () {
-        texture = new Texture(Gdx.files.internal("paddle.png"));
+    public Paddle (Assets assets) {
+        texture = assets.assetManager.get("paddle.png", Texture.class);
         setBounds(0,0,texture.getWidth(),texture.getHeight());
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
-        this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), 80);
+        this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), 20);
 
         this.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

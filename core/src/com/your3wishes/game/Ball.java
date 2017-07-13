@@ -1,12 +1,9 @@
 package com.your3wishes.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 /**
  * Created by guita on 7/2/2017.
@@ -21,8 +18,8 @@ public class Ball extends Actor {
     private float maxDx = 150.0f; // Maximum x velocity
     public boolean brickHit;
 
-    public Ball () {
-        texture = new Texture(Gdx.files.internal("ball.png"));
+    public Ball (Assets assets) {
+        texture = assets.assetManager.get("ball.png", Texture.class);
         this.setScale(0.75f, 0.75f);
         setBounds(0,0,texture.getWidth() * getScaleX(),texture.getHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
@@ -50,7 +47,7 @@ public class Ball extends Actor {
         else if (getX() < 0 && dx < 0) {
             dx *= -1;
         }
-        if (getY() + getHeight() > MyGame.SCREENHEIGHT && dy > 0)
+        if (getY() + getHeight() > MyGame.SCREENHEIGHT-42 && dy > 0)
             dy *= -1;
         if (getY() < 0 )
             setY(MyGame.SCREENHEIGHT-getHeight());

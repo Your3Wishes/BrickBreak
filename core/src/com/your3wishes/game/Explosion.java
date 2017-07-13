@@ -15,9 +15,8 @@ public class Explosion extends Actor implements Pool.Poolable{
 
     public boolean alive;
 
-    public Explosion() {
-        effect = new ParticleEffect();
-        effect.load(Gdx.files.internal("explosion.p"), Gdx.files.internal(""));
+    public Explosion(Assets assets) {
+        effect = new ParticleEffect((ParticleEffect) assets.assetManager.get("explosion.p"));
     }
 
     @Override
@@ -44,7 +43,7 @@ public class Explosion extends Actor implements Pool.Poolable{
     public void reset() {
         effect.reset();
         effect.start();
-        alive = true;
+        alive = false;
     }
 
     public void init() {
