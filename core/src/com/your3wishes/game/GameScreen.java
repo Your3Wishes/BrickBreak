@@ -51,25 +51,19 @@ public class GameScreen implements Screen {
     private int maxCoinCount;
     private float lastTouchX;
     //added for hud
+    private Hud hud;
     private OrthographicCamera hudCam;
     private SpriteBatch hudSpriteBatch;
     private BitmapFont font;
-    //private TextureRegion hudLayoutTextureRegion;
-    //private TextureRegion progressIndicatorTextureRegion;
     private Texture texture;
 
 
 
     public GameScreen(final MyGame game) {
         this.game = game;
-
         //added for hud
-
-        texture = new Texture(Gdx.files.internal("images.png"));
-        hudCam = new OrthographicCamera(MyGame.SCREENWIDTH, MyGame.SCREENHEIGHT);
         hudSpriteBatch = new SpriteBatch();
-        font = new BitmapFont();
-        //hudLayoutTextureRegion = atlas.findRegion("hudLayout");
+        hud = new Hud(hudSpriteBatch);
 
         // Setup stage
         stage = new Stage(new StretchViewport(MyGame.SCREENWIDTH, MyGame.SCREENHEIGHT, game.camera));
@@ -130,30 +124,11 @@ public class GameScreen implements Screen {
         game.camera.update();
         update(delta);
         stage.draw();
-        
-        //added for hud
-        // camera focus: x-axis middle of level, y-axis middle of level, z-axis ignored
-        hudCam.position.set(MyGame.SCREENWIDTH/2, MyGame.SCREENHEIGHT/2, 0.0f);
-        // update camera
-        hudCam.update();
-        //hudCam.apply(Gdx.gl20);
-        // set the projection matrix
-        hudSpriteBatch.setProjectionMatrix(hudCam.combined);
-        // draw something
-        hudSpriteBatch.begin();
-        hudSpriteBatch.draw(texture, 0, MyGame.SCREENHEIGHT - 42, MyGame.SCREENWIDTH, 42);
-        font.setColor(WHITE);
-        font.draw(hudSpriteBatch, "Points: "+points, 0.0f, MyGame.SCREENHEIGHT - 20);
-        //TODO add points
-        font.draw(hudSpriteBatch, coinsCaught + " coins" , 100.0f, MyGame.SCREENHEIGHT - 20);
-        //TODO add coin count
-        font.draw(hudSpriteBatch, "Level 1", MyGame.SCREENWIDTH/2 - 16, MyGame.SCREENHEIGHT - 4);
-        //TODO added Level
-        // TODO Replace placeholder string with real best time once implemented
-        font.draw(hudSpriteBatch, "01:23:45", MyGame.SCREENWIDTH - 68, MyGame.SCREENHEIGHT - 16);
-        // TODO Replace placeholder x-position with value between 10 and 223 (based on progress percent)
 
-        hudSpriteBatch.end();
+        //added for hud
+        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
+        hud.update(delta);
     }
 
     private void update(float delta) {
@@ -183,7 +158,11 @@ public class GameScreen implements Screen {
             if (paddle.getBounds().overlaps(item.getBounds())) {
                 item.alive = false;
                 coinsCaught++;
+                hud.addCoin(coinsCaught);
+                coinsCaught=0;
                 points=points+5;
+                hud.addScore(points);
+                points=0;
             }
         }
 
@@ -214,6 +193,8 @@ public class GameScreen implements Screen {
                 brick.remove();
                 ball.brickHit = true;
                 points=points+2;
+                hud.addScore(points);
+                points=0;
             }
         }
 
