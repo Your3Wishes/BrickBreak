@@ -23,9 +23,9 @@ public class Hud implements Disposable {
 
     //score && time tracking variables
     private Integer worldTimer;
-    private static Integer coinCount;
+    private Integer coinCount;
     private float timeCount;
-    private static Integer score;
+    private Integer score;
     private boolean timeUp;
 
 
@@ -85,12 +85,12 @@ public class Hud implements Disposable {
         }
     }
 
-    public static void addScore(int value) {
+    public void addScore(int value) {
         score += value;
         scoreLabel.setText(String.format("%06d", score));
     }
 
-    public static void addCoin(int value) {
+    public void addCoin(int value) {
         coinCount += value;
         coinCountLabel.setText(String.format("%03d",coinCount));
     }
@@ -109,7 +109,7 @@ public class Hud implements Disposable {
         return scoreLabel;
     }
 
-    public static Integer getScore() {
+    public Integer getScore() {
         return score;
     }
 }

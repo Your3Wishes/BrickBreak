@@ -1,5 +1,6 @@
 package com.your3wishes.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
@@ -12,9 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class Brick extends Actor {
     private Texture texture;
     private Rectangle bounds;
+    private Assets assets;
+    private int health = 2;
+
+    public boolean alive = true;
 
     public Brick (Assets assets) {
-        texture = assets.assetManager.get("brick.png", Texture.class);
+        this.assets = assets;
+        texture = assets.assetManager.get("brick2.png", Texture.class);
         this.setScale(0.8f, 0.8f);
         setBounds(0, 0, texture.getWidth() * getScaleX(), texture.getHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
@@ -28,7 +34,6 @@ public class Brick extends Actor {
     }
 
 
-
     public Rectangle getBounds() {
         return bounds;
     }
@@ -36,6 +41,17 @@ public class Brick extends Actor {
     public void setBounds(float x, float y) {
         this.bounds.setX(x);
         this.bounds.setY(y);
+    }
+
+    public void hit() {
+        health--;
+        if (health <=0) alive = false;
+
+        switch(health) {
+            case 2: texture = assets.assetManager.get("brick2.png", Texture.class);
+                    break;
+            case 1: texture = assets.assetManager.get("brick.png", Texture.class);
+        }
     }
 
 

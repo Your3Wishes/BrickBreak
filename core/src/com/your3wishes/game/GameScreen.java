@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -50,12 +51,16 @@ public class GameScreen implements Screen {
     private float randomNumber;
     private int maxCoinCount;
     private float lastTouchX;
-    //added for hud
+    // Added for hud
     private Hud hud;
     private OrthographicCamera hudCam;
     private SpriteBatch hudSpriteBatch;
     private BitmapFont font;
     private Texture texture;
+
+
+    // For logging fps
+    FPSLogger fpsLogger = new FPSLogger();
 
 
 
@@ -129,6 +134,7 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         hud.update(delta);
+
     }
 
     private void update(float delta) {
@@ -137,6 +143,7 @@ public class GameScreen implements Screen {
         handleInput();
         freeCoins();
         freeExplosions();
+        fpsLogger.log();
     }
 
     private void checkCollisions() {
@@ -172,25 +179,31 @@ public class GameScreen implements Screen {
         for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
             Brick brick = iterator.next();
             if (brick.getBounds().overlaps(ball.getBounds())) {
-                // Create explosion and add it to explosionPool
-                explosion = explosionPool.obtain();
-                explosion.setPosition(brick.getX(), brick.getY());
-                explosion.getEffect().setPosition(brick.getX(), brick.getY());
-                explosion.init();
-                explosions.add(explosion);
-                stage.addActor(explosion);
+                // Damage brick
+                brick.hit();
+                if (!brick.alive) {
+                    // Remove current element from the iterator
+                    iterator.remove();
+                    brick.remove();
 
-                randomNumber = MathUtils.random(0.0f, 100.0f);
-                if ((randomNumber > 10) & coinCount < maxCoinCount)  {
-                    coin = coinPool.obtain();
-                    coin.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
-                    coins.add(coin);
-                    stage.addActor(coin);
-                    coinCount++;
+                    // Create explosion and add it to explosionPool
+                    explosion = explosionPool.obtain();
+                    explosion.setPosition(brick.getX(), brick.getY());
+                    explosion.getEffect().setPosition(brick.getX(), brick.getY());
+                    explosion.init();
+                    explosions.add(explosion);
+                    stage.addActor(explosion);
+
+                    // Spawn coin
+                    randomNumber = MathUtils.random(0.0f, 100.0f);
+                    if ((randomNumber > 10) & coinCount < maxCoinCount)  {
+                        coin = coinPool.obtain();
+                        coin.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
+                        coins.add(coin);
+                        stage.addActor(coin);
+                        coinCount++;
+                    }
                 }
-                // Remove the current element from the iterator and the list.
-                iterator.remove();
-                brick.remove();
                 ball.brickHit = true;
                 points=points+2;
                 hud.addScore(points);

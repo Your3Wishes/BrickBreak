@@ -24,6 +24,7 @@ public class Assets {
         assetManager.load("explosion.p", ParticleEffect.class, pep);
         assetManager.load("ball.png", Texture.class);
         assetManager.load("brick.png", Texture.class);
+        assetManager.load("brick2.png", Texture.class);
         assetManager.load("coin.png", Texture.class);
         assetManager.load("paddle.png", Texture.class);
 
