@@ -11,15 +11,7 @@ import com.badlogic.gdx.utils.Pool;
  * Created by Joecool321 on 7/9/2017.
  */
 
-public class Coin extends Actor implements Pool.Poolable {
-    private Texture texture;
-    private Rectangle bounds;
-    private float dx=0.0f;
-    private float dy=0.0f;
-
-    public boolean alive;
-
-
+public class Coin extends Drop {
 
     public Coin(Assets assets) {
         texture = assets.assetManager.get("coin.png", Texture.class);
@@ -40,35 +32,8 @@ public class Coin extends Actor implements Pool.Poolable {
 
     @Override
     public void act (float delta) {
-        dy -= MyGame.GRAVITY * delta;
-        // Move ball using velocities
-        this.setX(getX() + dx * delta);
-        this.setY(getY() + dy * delta);
-
-        // Check for wall collisions
-        if (getX() > MyGame.SCREENWIDTH - getWidth())
-            setX( MyGame.SCREENWIDTH - getWidth());
-        if (getX() < 0)
-            setX(0);
-
-        // Update bounding box
-        setBounds(getX(), getY());
+        super.act(delta);
     }
 
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(float x, float y) {
-        this.bounds.setX(x);
-        this.bounds.setY(y);
-    }
-
-    @Override
-    public void reset() {
-        dy = MathUtils.random(50.0f,250f);
-        dx = MathUtils.random(-30.0f,30.0f);
-        alive = true;
-    }
 
 }

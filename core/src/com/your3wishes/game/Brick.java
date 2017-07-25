@@ -14,13 +14,23 @@ public class Brick extends Actor {
     private Texture texture;
     private Rectangle bounds;
     private Assets assets;
-    private int health = 2;
+    private int health;
 
     public boolean alive = true;
 
     public Brick (Assets assets) {
         this.assets = assets;
-        texture = assets.assetManager.get("brick2.png", Texture.class);
+        health = 1;
+        setTexture();
+        this.setScale(0.8f, 0.8f);
+        setBounds(0, 0, texture.getWidth() * getScaleX(), texture.getHeight() * getScaleY());
+        bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
+    }
+
+    public Brick (Assets assets, int health) {
+        this.assets = assets;
+        this.health = health;
+        setTexture();
         this.setScale(0.8f, 0.8f);
         setBounds(0, 0, texture.getWidth() * getScaleX(), texture.getHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
@@ -47,12 +57,18 @@ public class Brick extends Actor {
         health--;
         if (health <=0) alive = false;
 
+        setTexture();
+    }
+
+    public void setTexture() {
         switch(health) {
             case 2: texture = assets.assetManager.get("brick2.png", Texture.class);
-                    break;
+                break;
             case 1: texture = assets.assetManager.get("brick.png", Texture.class);
         }
     }
+
+
 
 
 }

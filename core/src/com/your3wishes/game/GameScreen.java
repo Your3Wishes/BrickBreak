@@ -107,7 +107,10 @@ public class GameScreen implements Screen {
         // Spawn bricks
         for (int i = 0; i <= 10; i++) {
             for (int j = 0; j <= 3; j++) {
-                brick = new Brick(game.assets);
+                if (MathUtils.random(0.0f, 100.0f) < 30.0f)
+                    brick = new Brick(game.assets, 2);
+                else
+                    brick = new Brick(game.assets, 1);
                 brick.setX(16 + i * brick.getWidth() * brick.getScaleX());
                 brick.setY(500 + (j * (brick.getHeight() * brick.getScaleY() + 10)));
                 brick.setBounds(brick.getX(), brick.getY());
