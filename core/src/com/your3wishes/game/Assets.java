@@ -27,6 +27,7 @@ public class Assets {
         assetManager.load("brick2.png", Texture.class);
         assetManager.load("coin.png", Texture.class);
         assetManager.load("paddle.png", Texture.class);
+        assetManager.load("multiball.png", Texture.class);
 
     }
 

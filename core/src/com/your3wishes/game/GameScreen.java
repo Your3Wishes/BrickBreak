@@ -37,6 +37,8 @@ public class GameScreen implements Screen {
     private Stage stage;
     private Paddle paddle;
     private Ball ball;
+    private final Array<Ball> balls;
+    private final Pool<Ball> ballPool;
     private Array<Brick> bricks;
     private Brick brick;
     private Explosion explosion;
@@ -47,6 +49,9 @@ public class GameScreen implements Screen {
     private final Pool<Coin> coinPool;
     private int coinCount;
     private int coinsCaught;
+    private Powerup powerup;
+    private final Array<Powerup> powerups;
+    private final Pool<Powerup> powerupPool;
     private int points;
     private float randomNumber;
     private int maxCoinCount;
@@ -78,8 +83,19 @@ public class GameScreen implements Screen {
         paddle = new Paddle(game.assets);
         stage.addActor(paddle);
 
+
+        // Initialize balls
+        balls = new Array<Ball>();
+        ballPool = new Pool<Ball>() {
+            @Override
+            protected  Ball newObject() {
+                return new Ball(game.assets);
+            }
+        };
+
         // Add ball to stage
-        ball = new Ball(game.assets);
+        ball = ballPool.obtain();
+        balls.add(ball);
         stage.addActor(ball);
 
         // Initialize bricks array
@@ -94,6 +110,17 @@ public class GameScreen implements Screen {
                 return new Coin(game.assets);
             }
         };
+
+        // Initialize powerups
+        powerups = new Array<Powerup>();
+        powerupPool = new Pool<Powerup>() {
+            @Override
+            protected  Powerup newObject() {
+                return new Powerup(game.assets);
+            }
+        };
+
+
 
         // Initialize explosions
         explosions = new Array<Explosion>();
@@ -146,22 +173,26 @@ public class GameScreen implements Screen {
         handleInput();
         freeCoins();
         freeExplosions();
+        freePowerups();
         fpsLogger.log();
     }
 
     private void checkCollisions() {
         // Paddle and ball collision
-        if (paddle.getBounds().overlaps(ball.getBounds()) && ball.getDy() < 0) {
-            ball.setDy(ball.getDy() * -1);
+        for (Ball item : balls) {
+            if (paddle.getBounds().overlaps(item.getBounds()) && item.getDy() < 0) {
+                item.setDy(item.getDy() * -1);
 
-            // Add a slight random speed fluctuation of the x velocity
-            ball.setDx(ball.getDx() * MathUtils.random(0.4f, 2.5f));
-            // Don't allow the ball to go faster than it's maxDx
-            if (abs(ball.getDx()) > ball.getMaxDx()) {
-                if (ball.getDx() < 0) ball.setDx(-ball.getMaxDx());
-                else ball.setDx(ball.getMaxDx());
+                // Add a slight random speed fluctuation of the x velocity
+                item.setDx(item.getDx() * MathUtils.random(0.4f, 2.5f));
+                // Don't allow the ball to go faster than it's maxDx
+                if (abs(item.getDx()) > item.getMaxDx()) {
+                    if (item.getDx() < 0) item.setDx(-item.getMaxDx());
+                    else item.setDx(item.getMaxDx());
+                }
             }
         }
+
 
         // Paddle and coin collision. Coin collected
         for (Coin item : coins) {
@@ -176,48 +207,75 @@ public class GameScreen implements Screen {
             }
         }
 
-        // Check for collisions between ball and bricks
+        // Paddle and powerup collision.
+        for (Powerup item : powerups) {
+            if (paddle.getBounds().overlaps(item.getBounds())) {
+                item.alive = false;
+                // Spawn ball
+                ball = ballPool.obtain();
+                ball.setPosition((paddle.getX() + (paddle.getWidth() / 2)), paddle.getY());
+                // Force ball to move upwards
+                ball.setDy(abs(ball.getDy()));
+                balls.add(ball);
+                stage.addActor(ball);
+            }
+        }
+
+        // Check for collisions between balls and bricks
         // Using an iterator for safe removal of items while iterating
         ball.brickHit = false;
         for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
             Brick brick = iterator.next();
-            if (brick.getBounds().overlaps(ball.getBounds())) {
-                // Damage brick
-                brick.hit();
-                if (!brick.alive) {
-                    // Remove current element from the iterator
-                    iterator.remove();
-                    brick.remove();
+            for (Ball item : balls) {
+                if (brick.getBounds().overlaps(item.getBounds())) {
+                    // Damage brick
+                    brick.hit();
+                    if (!brick.alive) {
+                        // Remove current element from the iterator
+                        iterator.remove();
+                        brick.remove();
 
-                    // Create explosion and add it to explosionPool
-                    explosion = explosionPool.obtain();
-                    explosion.setPosition(brick.getX(), brick.getY());
-                    explosion.getEffect().setPosition(brick.getX(), brick.getY());
-                    explosion.init();
-                    explosions.add(explosion);
-                    stage.addActor(explosion);
+                        // Create explosion and add it to explosionPool
+                        explosion = explosionPool.obtain();
+                        explosion.setPosition(brick.getX(), brick.getY());
+                        explosion.getEffect().setPosition(brick.getX(), brick.getY());
+                        explosion.init();
+                        explosions.add(explosion);
+                        stage.addActor(explosion);
 
-                    // Spawn coin
-                    randomNumber = MathUtils.random(0.0f, 100.0f);
-                    if ((randomNumber > 10) & coinCount < maxCoinCount)  {
-                        coin = coinPool.obtain();
-                        coin.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
-                        coins.add(coin);
-                        stage.addActor(coin);
-                        coinCount++;
+                        // Spawn coin
+                        randomNumber = MathUtils.random(0.0f, 100.0f);
+                        if ((randomNumber < 90) & coinCount < maxCoinCount)  {
+                            coin = coinPool.obtain();
+                            coin.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
+                            coins.add(coin);
+                            stage.addActor(coin);
+                            coinCount++;
+                        }
+
+                        // Spawn powerup
+                        if (randomNumber < 50) {
+                            powerup = powerupPool.obtain();
+                            powerup.setType(Powerup.Type.MULTIBALL);
+                            powerup.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
+                            powerups.add(powerup);
+                            stage.addActor(powerup);
+                        }
                     }
+                    item.brickHit = true;
+                    points=points+2;
+                    hud.addScore(points);
+                    points=0;
                 }
-                ball.brickHit = true;
-                points=points+2;
-                hud.addScore(points);
-                points=0;
             }
         }
 
-
-        if (ball.brickHit) {
-            // Bounce ball
-            ball.setDy(ball.getDy() * -1);
+        // Bounce balls
+        for (Ball item: balls) {
+            if (item.brickHit) {
+                item.setDy(item.getDy() * -1);
+                item.brickHit = false;
+            }
         }
 
     }
@@ -270,6 +328,17 @@ public class GameScreen implements Screen {
                 coin.remove(); // Remove coin from stage
                 coins.removeIndex(i); // Remove coin from coins array
                 coinPool.free(coin); // Remove coin from coinPool
+            }
+        }
+    }
+
+    private void freePowerups() {
+        for (int i = powerups.size; --i >= 0;) {
+            powerup = powerups.get(i);
+            if (powerup.alive == false) {
+                powerup.remove(); // Remove powerup from stage
+                powerups.removeIndex(i); // Remove powerup from powerups array
+                powerupPool.free(powerup); // Remove powerup from powerupPool
             }
         }
     }
