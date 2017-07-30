@@ -192,8 +192,7 @@ public class GameScreen implements Screen {
                 }
             }
         }
-
-
+        
         // Paddle and coin collision. Coin collected
         for (Coin item : coins) {
             if (paddle.getBounds().overlaps(item.getBounds())) {
@@ -211,19 +210,25 @@ public class GameScreen implements Screen {
         for (Powerup item : powerups) {
             if (paddle.getBounds().overlaps(item.getBounds())) {
                 item.alive = false;
-                // Spawn ball
-                ball = ballPool.obtain();
-                ball.setPosition((paddle.getX() + (paddle.getWidth() / 2)), paddle.getY());
-                // Force ball to move upwards
-                ball.setDy(abs(ball.getDy()));
-                balls.add(ball);
-                stage.addActor(ball);
+                switch (item.getType()) {
+                    case MULTIBALL:
+                        // Spawn ball
+                        ball = ballPool.obtain();
+                        ball.setPosition((paddle.getX() + (paddle.getWidth() / 2)), paddle.getY() + paddle.getHeight());
+                        // Force ball to move upwards
+                        ball.setDy(abs(ball.getDy()));
+                        balls.add(ball);
+                        stage.addActor(ball);
+                        break;
+                    case FIREBALL:
+                        //// TODO: 7/30/2017  Fireball powerup logic goes here
+
+                }
             }
         }
 
         // Check for collisions between balls and bricks
         // Using an iterator for safe removal of items while iterating
-        ball.brickHit = false;
         for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
             Brick brick = iterator.next();
             for (Ball item : balls) {
@@ -266,6 +271,8 @@ public class GameScreen implements Screen {
                     points=points+2;
                     hud.addScore(points);
                     points=0;
+                    // Move to next brick. No use checking other balls against this brick if it is now destroyed.
+                    break;
                 }
             }
         }

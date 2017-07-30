@@ -43,4 +43,8 @@ public class Powerup extends Drop {
     public void setType(Type type) {
         this.type = type;
     }
+
+    public Type getType() {
+        return type;
+    }
 }
