@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MyGame extends Game {
-	public static final int SCREENWIDTH = 480;
-	public static final int SCREENHEIGHT = 800;
-	public static final float GRAVITY = 290.0f;
+	public static final int SCREENWIDTH = 1080;
+	public static final int SCREENHEIGHT = 1920;
+	public static final float GRAVITY = 590.0f;
 	public static final boolean DEBUG = false;
     public Assets assets;
 	public SpriteBatch batch;

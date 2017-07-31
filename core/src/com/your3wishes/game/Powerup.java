@@ -3,7 +3,6 @@ package com.your3wishes.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -19,12 +18,11 @@ public class Powerup extends Drop {
     private Type type;
 
     public Powerup(Assets assets) {
+        super();
         texture = assets.assetManager.get("multiball.png", Texture.class);
         this.setScale(0.8f, 0.8f);
         setBounds(0, 0, texture.getWidth() * getScaleX(), texture.getHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
-        dy = MathUtils.random(50.0f,250f);
-        dx = MathUtils.random(-30.0f,30.0f);
     }
 
     @Override

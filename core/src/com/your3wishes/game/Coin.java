@@ -12,12 +12,12 @@ import com.badlogic.gdx.math.Rectangle;
 public class Coin extends Drop {
 
     public Coin(Assets assets) {
+        super();
         texture = assets.assetManager.get("coin.png", Texture.class);
         this.setScale(0.8f, 0.8f);
         setBounds(0, 0, texture.getWidth() * getScaleX(), texture.getHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
-        dy = MathUtils.random(50.0f,250f);
-        dx = MathUtils.random(-30.0f,30.0f);
+
     }
 
     @Override

@@ -13,8 +13,8 @@ public class Ball extends Actor {
     private Texture texture;
     private Rectangle bounds;
     private float startDx = 90.0f; // Starting/standard x velocity
-    private float dx = 90.0f; // Current x velocity
-    private float dy = 330.0f; // Current y velocity
+    private float dx = 150.0f; // Current x velocity
+    private float dy = 870.0f; // Current y velocity
     private float maxDx = 150.0f; // Maximum x velocity
     public boolean brickHit;
 

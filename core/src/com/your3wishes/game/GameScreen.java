@@ -139,7 +139,7 @@ public class GameScreen implements Screen {
                 else
                     brick = new Brick(game.assets, 1);
                 brick.setX(16 + i * brick.getWidth() * brick.getScaleX());
-                brick.setY(500 + (j * (brick.getHeight() * brick.getScaleY() + 10)));
+                brick.setY(1500 + (j * (brick.getHeight() * brick.getScaleY() + 10)));
                 brick.setBounds(brick.getX(), brick.getY());
                 bricks.add(brick);
                 stage.addActor(brick);
@@ -192,7 +192,7 @@ public class GameScreen implements Screen {
                 }
             }
         }
-        
+
         // Paddle and coin collision. Coin collected
         for (Coin item : coins) {
             if (paddle.getBounds().overlaps(item.getBounds())) {

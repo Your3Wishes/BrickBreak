@@ -20,7 +20,10 @@ public class Drop extends Actor implements Pool.Poolable {
     public boolean alive;
 
 
-    public Drop() {}
+    public Drop() {
+        dy = MathUtils.random(50.0f,650f);
+        dx = MathUtils.random(-80.0f,80.0f);
+    }
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
