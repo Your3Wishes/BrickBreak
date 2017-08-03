@@ -261,7 +261,7 @@ public class GameScreen implements Screen {
                         // Spawn powerup
                         if (randomNumber < 50) {
                             powerup = powerupPool.obtain();
-                            powerup.setType(Powerup.Type.MULTIBALL);
+                            powerup.setType(Powerup.Type.FIREBALL);
                             powerup.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
                             powerups.add(powerup);
                             stage.addActor(powerup);

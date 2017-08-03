@@ -22,12 +22,14 @@ public class Assets {
 
     public void load() {
         assetManager.load("explosion.p", ParticleEffect.class, pep);
+        assetManager.load("fireball.p", ParticleEffect.class, pep);
         assetManager.load("ball.png", Texture.class);
         assetManager.load("brick.png", Texture.class);
         assetManager.load("brick2.png", Texture.class);
         assetManager.load("coin.png", Texture.class);
         assetManager.load("paddle.png", Texture.class);
         assetManager.load("multiball.png", Texture.class);
+        assetManager.load("fireballPowerup.png", Texture.class);
 
     }
 
