@@ -44,6 +44,10 @@ public class GameScreen implements Screen {
     private Explosion explosion;
     private final Array<Explosion> explosions;
     private final Pool<Explosion> explosionPool;
+    private FireBall fireball;
+    private final Array<FireBall> fireballs;
+    private final Pool<FireBall> fireballPool;
+    private boolean fireballActive = false;
     private Coin coin;
     private final Array<Coin> coins;
     private final Pool<Coin> coinPool;
@@ -120,14 +124,21 @@ public class GameScreen implements Screen {
             }
         };
 
-
-
         // Initialize explosions
         explosions = new Array<Explosion>();
         explosionPool = new Pool<Explosion>() {
             @Override
             protected  Explosion newObject() {
                 return new Explosion(game.assets);
+            }
+        };
+
+        // Initialize fireballs
+        fireballs = new Array<FireBall>();
+        fireballPool = new Pool<FireBall>() {
+            @Override
+            protected  FireBall newObject() {
+                return new FireBall(game.assets);
             }
         };
 
@@ -171,9 +182,9 @@ public class GameScreen implements Screen {
         stage.act(delta);
         checkCollisions();
         handleInput();
-        freeCoins();
+        freeDrops(coins, coinPool);
+        freeDrops(powerups, powerupPool);
         freeExplosions();
-        freePowerups();
         fpsLogger.log();
     }
 
@@ -219,9 +230,19 @@ public class GameScreen implements Screen {
                         ball.setDy(abs(ball.getDy()));
                         balls.add(ball);
                         stage.addActor(ball);
+                        if (fireballActive) {
+                            spawnFireball(ball);
+                        }
                         break;
                     case FIREBALL:
-                        //// TODO: 7/30/2017  Fireball powerup logic goes here
+                        // TODO: implment a timer for fireballs.
+                        // Add a fireball particle to all balls and set fireballActive to true
+                        if (!fireballActive){
+                            for (Ball element : balls) {
+                                spawnFireball(element);
+                            }
+                            fireballActive = true;
+                        }
 
                 }
             }
@@ -234,6 +255,7 @@ public class GameScreen implements Screen {
             for (Ball item : balls) {
                 if (brick.getBounds().overlaps(item.getBounds())) {
                     // Damage brick
+                    if (fireballActive) brick.setHealth(0);
                     brick.hit();
                     if (!brick.alive) {
                         // Remove current element from the iterator
@@ -261,13 +283,21 @@ public class GameScreen implements Screen {
                         // Spawn powerup
                         if (randomNumber < 50) {
                             powerup = powerupPool.obtain();
-                            powerup.setType(Powerup.Type.FIREBALL);
+                            // Spawn multiball
+                            if (randomNumber >= 1 && randomNumber <= 25) {
+                                powerup.setType(Powerup.Type.MULTIBALL);
+                            }
+                            // Spawn fireball
+                            if (randomNumber >= 26 && randomNumber <= 50) {
+                                powerup.setType(Powerup.Type.FIREBALL);
+                            }
                             powerup.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
                             powerups.add(powerup);
                             stage.addActor(powerup);
                         }
                     }
-                    item.brickHit = true;
+                    if (!fireballActive)
+                        item.brickHit = true;
                     points=points+2;
                     hud.addScore(points);
                     points=0;
@@ -325,31 +355,21 @@ public class GameScreen implements Screen {
                 ball.setBounds(ball.getX(), ball.getY());
             }
         }
-
     }
 
-    private void freeCoins() {
-        for (int i = coins.size; --i >= 0;) {
-            coin = coins.get(i);
-            if (coin.alive == false) {
-                coin.remove(); // Remove coin from stage
-                coins.removeIndex(i); // Remove coin from coins array
-                coinPool.free(coin); // Remove coin from coinPool
+    private <T extends Drop> void  freeDrops(Array<T> list, Pool<T> pool) {
+        T item;
+        for (int i = list.size; --i >=0;) {
+            item = list.get(i);
+            if (item.alive == false) {
+                item.remove();
+                list.removeIndex(i);
+                pool.free(item);
             }
         }
     }
 
-    private void freePowerups() {
-        for (int i = powerups.size; --i >= 0;) {
-            powerup = powerups.get(i);
-            if (powerup.alive == false) {
-                powerup.remove(); // Remove powerup from stage
-                powerups.removeIndex(i); // Remove powerup from powerups array
-                powerupPool.free(powerup); // Remove powerup from powerupPool
-            }
-        }
-    }
-
+    // TODO: Turn into generic method. Possibly merge all free methods together?
     private void freeExplosions() {
         for (int i = explosions.size; --i >= 0;) {
             explosion = explosions.get(i);
@@ -359,6 +379,15 @@ public class GameScreen implements Screen {
                 explosionPool.free(explosion); // Remove explosion from explosionPool
             }
         }
+    }
+
+    private void spawnFireball(Ball ball) {
+        fireball = fireballPool.obtain();
+        fireball.setBall(ball);
+        fireball.setPosition(ball.getX() + ball.getX()/2,ball.getY() + ball.getY()/2);
+        fireballs.add(fireball);
+        fireball.getEffect().start();
+        stage.addActor(fireball);
     }
 
     @Override

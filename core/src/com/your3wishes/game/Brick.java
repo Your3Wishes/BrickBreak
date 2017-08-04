@@ -60,6 +60,10 @@ public class Brick extends Actor {
         setTexture();
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
     public void setTexture() {
         switch(health) {
             case 2: texture = assets.assetManager.get("brick2.png", Texture.class);
