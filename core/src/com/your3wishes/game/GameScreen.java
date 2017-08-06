@@ -47,6 +47,8 @@ public class GameScreen implements Screen {
     private FireBall fireball;
     private final Array<FireBall> fireballs;
     private final Pool<FireBall> fireballPool;
+    private int fireBallDuration = 3000;
+    private long fireBallStartTime;
     private boolean fireballActive = false;
     private Coin coin;
     private final Array<Coin> coins;
@@ -180,11 +182,13 @@ public class GameScreen implements Screen {
 
     private void update(float delta) {
         stage.act(delta);
+        handleTimers();
         checkCollisions();
         handleInput();
         freeDrops(coins, coinPool);
         freeDrops(powerups, powerupPool);
         freeExplosions();
+        freeFireballs();
         fpsLogger.log();
     }
 
@@ -241,6 +245,7 @@ public class GameScreen implements Screen {
                             for (Ball element : balls) {
                                 spawnFireball(element);
                             }
+                            fireBallStartTime = System.currentTimeMillis();
                             fireballActive = true;
                         }
 
@@ -357,6 +362,17 @@ public class GameScreen implements Screen {
         }
     }
 
+    private void handleTimers() {
+        // Check fireball duration
+        if (fireballActive && System.currentTimeMillis() - fireBallDuration > fireBallStartTime) {
+            for (FireBall item : fireballs) {
+                item.alive = false;
+            }
+            fireballActive = false;
+        }
+
+    }
+
     private <T extends Drop> void  freeDrops(Array<T> list, Pool<T> pool) {
         T item;
         for (int i = list.size; --i >=0;) {
@@ -381,8 +397,20 @@ public class GameScreen implements Screen {
         }
     }
 
+    private void freeFireballs() {
+        for (int i = fireballs.size; --i >= 0;) {
+            fireball = fireballs.get(i);
+            if (fireball.alive == false) {
+                fireball.remove(); // Remove fireball from stage
+                fireballs.removeIndex(i); // Remove fireball from fireballs array
+                fireballPool.free(fireball); // Remove explosion from explosionPool
+            }
+        }
+    }
+
     private void spawnFireball(Ball ball) {
         fireball = fireballPool.obtain();
+        fireball.init();
         fireball.setBall(ball);
         fireball.setPosition(ball.getX() + ball.getX()/2,ball.getY() + ball.getY()/2);
         fireballs.add(fireball);
