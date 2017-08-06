@@ -1,7 +1,8 @@
 package com.your3wishes.game;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,15 +13,16 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
  */
 
 public class Paddle extends Actor {
-    private Texture texture;
+    private TextureRegion texture;
     private Rectangle bounds;
     private float dx = 0;
     public float lastX;
     public boolean touched;
 
     public Paddle (Assets assets) {
-        texture = assets.assetManager.get("paddle.png", Texture.class);
-        setBounds(0,0,texture.getWidth(),texture.getHeight());
+        TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
+        texture = atlas.findRegion("paddle");
+        setBounds(0,0,texture.getRegionWidth(),texture.getRegionHeight());
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
         this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), 20);
 
@@ -38,9 +40,8 @@ public class Paddle extends Actor {
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
-        batch.draw(texture,this.getX(),getY(),this.getOriginX(),this.getOriginY(),this.getWidth(),
-                this.getHeight(),this.getScaleX(), this.getScaleY(),this.getRotation(),0,0,
-                texture.getWidth(),texture.getHeight(),false,false);
+        batch.draw(texture, this.getX(), this.getY(),this.getOriginX(), this.getOriginY(),
+                this.getWidth(), this.getHeight(), this.getScaleX(), this.getScaleY(),this.getRotation());
     }
 
     @Override

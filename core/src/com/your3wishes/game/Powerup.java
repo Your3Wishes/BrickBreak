@@ -3,6 +3,7 @@ package com.your3wishes.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -10,9 +11,6 @@ import com.badlogic.gdx.math.Rectangle;
  */
 
 public class Powerup extends Drop {
-
-    private Assets assets;
-
 
     public enum Type {
         MULTIBALL, FIREBALL
@@ -22,19 +20,18 @@ public class Powerup extends Drop {
 
     public Powerup(Assets assets) {
         super();
-        this.assets = assets;
-       // setTexture();
-        texture = assets.assetManager.get("multiball.png", Texture.class);
+        atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
+        texture = atlas.findRegion("multiball");
+        setTexture();
         this.setScale(0.8f, 0.8f);
-        setBounds(0, 0, texture.getWidth() * getScaleX(), texture.getHeight() * getScaleY());
+        setBounds(0, 0, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
     }
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
         batch.draw(texture, this.getX(), getY(), this.getOriginX(), this.getOriginY(), this.getWidth(),
-                this.getHeight(), this.getScaleX(), this.getScaleY(), this.getRotation(), 0, 0,
-                texture.getWidth(), texture.getHeight(), false, false);
+                this.getHeight(), this.getScaleX(), this.getScaleY(), this.getRotation());
 
     }
 
@@ -56,14 +53,14 @@ public class Powerup extends Drop {
         try {
             switch(type) {
                 case MULTIBALL:
-                    texture = assets.assetManager.get("multiball.png", Texture.class);
+                    texture = atlas.findRegion("multiball");
                     break;
                 case FIREBALL:
-                    texture = assets.assetManager.get("fireballPowerup.png", Texture.class);
+                    texture = atlas.findRegion("fireballPowerup");
                     break;
             }
         } catch (Exception e){
-            texture = assets.assetManager.get("multiball.png", Texture.class);
+            texture = atlas.findRegion("multiball");
         }
 
     }

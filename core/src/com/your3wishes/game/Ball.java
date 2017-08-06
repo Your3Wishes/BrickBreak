@@ -1,7 +1,8 @@
 package com.your3wishes.game;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -10,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  */
 
 public class Ball extends Actor {
-    private Texture texture;
+    private TextureRegion texture;
     private Rectangle bounds;
     private float startDx = 90.0f; // Starting/standard x velocity
     private float dx = 150.0f; // Current x velocity
@@ -19,9 +20,10 @@ public class Ball extends Actor {
     public boolean brickHit;
 
     public Ball (Assets assets) {
-        texture = assets.assetManager.get("ball.png", Texture.class);
+        TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
+        texture = atlas.findRegion("ball");
         this.setScale(0.75f, 0.75f);
-        setBounds(0,0,texture.getWidth() * getScaleX(),texture.getHeight() * getScaleY());
+        setBounds(0,0,texture.getRegionWidth() * getScaleX(),texture.getRegionHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
 
         this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), 80);
@@ -30,8 +32,7 @@ public class Ball extends Actor {
     @Override
     public void draw (Batch batch, float parentAlpha) {
         batch.draw(texture,this.getX(),getY(),this.getOriginX(),this.getOriginY(),this.getWidth(),
-                this.getHeight(),this.getScaleX(), this.getScaleY(),this.getRotation(),0,0,
-                texture.getWidth(),texture.getHeight(),false,false);
+                this.getHeight(),this.getScaleX(), this.getScaleY(),this.getRotation());
     }
 
     @Override

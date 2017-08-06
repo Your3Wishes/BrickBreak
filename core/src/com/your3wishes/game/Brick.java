@@ -1,8 +1,8 @@
 package com.your3wishes.game;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -11,36 +11,36 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  */
 
 public class Brick extends Actor {
-    private Texture texture;
+    private TextureRegion texture;
     private Rectangle bounds;
-    private Assets assets;
     private int health;
+    private TextureAtlas atlas;
+
 
     public boolean alive = true;
 
     public Brick (Assets assets) {
-        this.assets = assets;
+        atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         health = 1;
         setTexture();
         this.setScale(0.8f, 0.8f);
-        setBounds(0, 0, texture.getWidth() * getScaleX(), texture.getHeight() * getScaleY());
+        setBounds(0, 0, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
     }
 
     public Brick (Assets assets, int health) {
-        this.assets = assets;
+        atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         this.health = health;
         setTexture();
         this.setScale(0.8f, 0.8f);
-        setBounds(0, 0, texture.getWidth() * getScaleX(), texture.getHeight() * getScaleY());
+        setBounds(0, 0, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
     }
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
         batch.draw(texture,this.getX(),getY(),this.getOriginX(),this.getOriginY(),this.getWidth(),
-                this.getHeight(),this.getScaleX(), this.getScaleY(),this.getRotation(),0,0,
-                texture.getWidth(),texture.getHeight(),false,false);
+                this.getHeight(),this.getScaleX(), this.getScaleY(),this.getRotation());
     }
 
 
@@ -66,9 +66,12 @@ public class Brick extends Actor {
 
     public void setTexture() {
         switch(health) {
-            case 2: texture = assets.assetManager.get("brick2.png", Texture.class);
+            case 2:
+                texture = atlas.findRegion("brick2");
                 break;
-            case 1: texture = assets.assetManager.get("brick.png", Texture.class);
+            case 1:
+                texture = atlas.findRegion("brick");
+                break;
         }
     }
 

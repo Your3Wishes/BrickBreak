@@ -47,7 +47,7 @@ public class GameScreen implements Screen {
     private FireBall fireball;
     private final Array<FireBall> fireballs;
     private final Pool<FireBall> fireballPool;
-    private int fireBallDuration = 3000;
+    private int fireBallDuration = 6000;
     private long fireBallStartTime;
     private boolean fireballActive = false;
     private Coin coin;
