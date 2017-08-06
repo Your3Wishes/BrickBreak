@@ -6,7 +6,7 @@ filter: Nearest,Nearest
 repeat: none
 ball
   rotate: false
-  xy: 586, 49
+  xy: 520, 49
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -34,9 +34,9 @@ coin
   index: -1
 fireParticle
   rotate: false
-  xy: 260, 15
-  size: 32, 32
-  orig: 32, 32
+  xy: 586, 49
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
 fireballPowerup
@@ -48,7 +48,7 @@ fireballPowerup
   index: -1
 multiball
   rotate: false
-  xy: 520, 49
+  xy: 784, 49
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -62,8 +62,8 @@ paddle
   index: -1
 particle2
   rotate: false
-  xy: 784, 97
-  size: 16, 16
-  orig: 16, 16
+  xy: 260, 15
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
   index: -1

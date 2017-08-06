@@ -5,8 +5,8 @@ active: false
 lowMin: 100.0
 lowMax: 100.0
 - Count - 
-min: 100
-max: 200
+min: 10
+max: 25
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
@@ -32,7 +32,16 @@ timeline0: 0.0
 timeline1: 0.43835616
 timeline2: 1.0
 - Life Offset - 
-active: false
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: 0.0
+highMax: 0.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
 - X Offset - 
 active: false
 - Y Offset - 
@@ -62,8 +71,8 @@ timeline0: 0.0
 - Scale - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 12.0
-highMax: 12.0
+highMin: 32.0
+highMax: 32.0
 relative: false
 scalingCount: 3
 scaling0: 1.0
