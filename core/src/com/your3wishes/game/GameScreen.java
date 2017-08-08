@@ -48,8 +48,11 @@ public class GameScreen implements Screen {
     private final Array<FireBall> fireballs;
     private final Pool<FireBall> fireballPool;
     private int fireBallDuration = 6000;
+    private int slowTimeDuration = 5000;
     private long fireBallStartTime;
+    private long slowTimeStartTime;
     private boolean fireballActive = false;
+    private boolean slowTimeActive = false;
     private Coin coin;
     private final Array<Coin> coins;
     private final Pool<Coin> coinPool;
@@ -167,6 +170,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render (float delta) {
+        if (slowTimeActive) delta /= 1.5;
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.camera.update();
@@ -248,6 +252,11 @@ public class GameScreen implements Screen {
                             fireBallStartTime = System.currentTimeMillis();
                             fireballActive = true;
                         }
+                        break;
+                    case SLOWTIME:
+                        slowTimeActive = true;
+                        slowTimeStartTime = System.currentTimeMillis();
+                        break;
 
                 }
             }
@@ -287,18 +296,7 @@ public class GameScreen implements Screen {
 
                         // Spawn powerup
                         if (randomNumber < 50) {
-                            powerup = powerupPool.obtain();
-                            // Spawn multiball
-                            if (randomNumber >= 1 && randomNumber <= 25) {
-                                powerup.setType(Powerup.Type.MULTIBALL);
-                            }
-                            // Spawn fireball
-                            if (randomNumber >= 26 && randomNumber <= 50) {
-                                powerup.setType(Powerup.Type.FIREBALL);
-                            }
-                            powerup.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
-                            powerups.add(powerup);
-                            stage.addActor(powerup);
+                            spawnPowerup(brick);
                         }
                     }
                     if (!fireballActive)
@@ -370,6 +368,9 @@ public class GameScreen implements Screen {
             }
             fireballActive = false;
         }
+        if (slowTimeActive && System.currentTimeMillis() - slowTimeDuration > slowTimeStartTime) {
+            slowTimeActive = false;
+        }
 
     }
 
@@ -416,6 +417,26 @@ public class GameScreen implements Screen {
         fireballs.add(fireball);
         fireball.getEffect().start();
         stage.addActor(fireball);
+    }
+
+    private void spawnPowerup(Brick brick) {
+        randomNumber = MathUtils.random(0.0f, 100.0f);
+        powerup = powerupPool.obtain();
+        // Spawn multiball
+        if (randomNumber < 33.0f) { // 33% chance
+            powerup.setType(Powerup.Type.MULTIBALL);
+        }
+        // Spawn fireball
+        else if (randomNumber <66.0f) { //33% chance
+            powerup.setType(Powerup.Type.FIREBALL);
+        }
+        // Spawn slowtime
+        else {
+            powerup.setType(Powerup.Type.SLOWTIME);
+        }
+        powerup.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
+        powerups.add(powerup);
+        stage.addActor(powerup);
     }
 
     @Override

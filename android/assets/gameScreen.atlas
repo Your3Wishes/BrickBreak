@@ -6,21 +6,21 @@ filter: Nearest,Nearest
 repeat: none
 ball
   rotate: false
-  xy: 520, 49
+  xy: 850, 49
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 brick
   rotate: false
-  xy: 260, 49
+  xy: 390, 49
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: -1
 brick2
   rotate: false
-  xy: 390, 49
+  xy: 260, 49
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
@@ -41,14 +41,14 @@ fireParticle
   index: -1
 fireballPowerup
   rotate: false
-  xy: 652, 49
+  xy: 520, 49
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 multiball
   rotate: false
-  xy: 784, 49
+  xy: 652, 49
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -65,5 +65,12 @@ particle2
   xy: 260, 15
   size: 32, 32
   orig: 32, 32
+  offset: 0, 0
+  index: -1
+timePowerup
+  rotate: false
+  xy: 784, 49
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
