@@ -16,7 +16,7 @@ public class Ball extends Actor {
     private float startDx = 90.0f; // Starting/standard x velocity
     private float dx = 50.0f; // Current x velocity
     private float dy = 870.0f; // Current y velocity
-    private float maxDx = 150.0f; // Maximum x velocity
+    private float maxDx = 250.0f; // Maximum x velocity
     public boolean brickHit;
 
     public Ball (Assets assets) {

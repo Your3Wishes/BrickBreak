@@ -205,7 +205,7 @@ public class GameScreen implements Screen {
                 item.setDy(item.getDy() * -1);
 
                 // Add a slight random speed fluctuation of the x velocity
-                item.setDx(item.getDx() * MathUtils.random(0.4f, 2.5f));
+                item.setDx(item.getDx() * MathUtils.random(0.7f, 2.5f));
                 // Don't allow the ball to go faster than it's maxDx
                 if (abs(item.getDx()) > item.getMaxDx()) {
                     if (item.getDx() < 0) item.setDx(-item.getMaxDx());
@@ -340,8 +340,8 @@ public class GameScreen implements Screen {
             if (paddle.getX() < 0) {
                 paddle.setX(0);
             }
-            else if (paddle.getX() > MyGame.SCREENWIDTH - paddle.getWidth()) {
-                paddle.setX(MyGame.SCREENWIDTH - paddle.getWidth());
+            else if (paddle.getX() > MyGame.SCREENWIDTH - (paddle.getWidth() * paddle.getScaleX())) {
+                paddle.setX(MyGame.SCREENWIDTH - (paddle.getWidth() * paddle.getScaleX()));
             }
             // Update paddles bounding box based on new location
             paddle.setBounds(paddle.getX(), paddle.getY());
@@ -431,21 +431,20 @@ public class GameScreen implements Screen {
         randomNumber = MathUtils.random(0.0f, 100.0f);
         powerup = powerupPool.obtain();
         // Spawn multiball
-//        if (randomNumber < 10.0f) {
-//            powerup.setType(Powerup.Type.MULTIBALL);
-//        }
-//        // Spawn fireball
-//        else if (randomNumber < 20.0f) {
-//            powerup.setType(Powerup.Type.FIREBALL);
-//        }
-//        // Spawn slowtime
-//        else if (randomNumber < 60.0f) {
-//            powerup.setType(Powerup.Type.SLOWTIME);
-//        }
-//        else {
-//            powerup.setType(Powerup.Type.PADDLEGROW);
-//        }
-        powerup.setType(Powerup.Type.PADDLEGROW);
+        if (randomNumber < 10.0f) {
+            powerup.setType(Powerup.Type.MULTIBALL);
+        }
+        // Spawn fireball
+        else if (randomNumber < 20.0f) {
+            powerup.setType(Powerup.Type.FIREBALL);
+        }
+        // Spawn slowtime
+        else if (randomNumber < 60.0f) {
+            powerup.setType(Powerup.Type.SLOWTIME);
+        }
+        else {
+            powerup.setType(Powerup.Type.PADDLEGROW);
+        }
         powerup.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
         powerups.add(powerup);
         stage.addActor(powerup);
