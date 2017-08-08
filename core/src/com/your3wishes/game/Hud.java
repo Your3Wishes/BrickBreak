@@ -76,7 +76,7 @@ public class Hud implements Disposable {
         table.add(scoreLabel).expandX().fillX();
         table.add(coinCountLabel).expandX().fillX();
         table.add(countdownLabel).expandX().fillX();
-        table.debug();
+        
 
         //add table to the stage
         stage.addActor(table);
