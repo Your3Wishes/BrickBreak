@@ -1,6 +1,7 @@
 package com.your3wishes.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,7 +20,7 @@ public class MyGame extends Game {
 	public void create () {
         assets = new Assets();
 		batch = new SpriteBatch();
-		font = new BitmapFont();
+		font = new BitmapFont(Gdx.files.internal("OCRstnd.fnt"));
 		this.setScreen(new LoadingScreen(this));
 
 		camera = new OrthographicCamera();
