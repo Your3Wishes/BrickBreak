@@ -2,6 +2,8 @@ package com.your3wishes.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -12,7 +14,8 @@ import com.badlogic.gdx.utils.Pool;
  */
 
 public class Drop extends Actor implements Pool.Poolable {
-    protected Texture texture;
+    protected TextureRegion texture;
+    protected TextureAtlas atlas;
     protected Rectangle bounds;
     protected float dx=0.0f;
     protected float dy=0.0f;
@@ -28,8 +31,7 @@ public class Drop extends Actor implements Pool.Poolable {
     @Override
     public void draw (Batch batch, float parentAlpha) {
         batch.draw(texture, this.getX(), getY(), this.getOriginX(), this.getOriginY(), this.getWidth(),
-                this.getHeight(), this.getScaleX(), this.getScaleY(), this.getRotation(), 0, 0,
-                texture.getWidth(), texture.getHeight(), false, false);
+                this.getHeight(), this.getScaleX(), this.getScaleY(), this.getRotation());
 
     }
 

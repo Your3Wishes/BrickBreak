@@ -36,6 +36,7 @@ public class MyGame extends Game {
 	public void dispose () {
 		batch.dispose();
 		font.dispose();
+		assets.dispose();
 		this.getScreen().dispose();
 	}
 }

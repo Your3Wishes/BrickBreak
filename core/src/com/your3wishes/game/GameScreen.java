@@ -47,7 +47,14 @@ public class GameScreen implements Screen {
     private FireBall fireball;
     private final Array<FireBall> fireballs;
     private final Pool<FireBall> fireballPool;
+    private int fireBallDuration = 6000;
+    private int slowTimeDuration = 5000;
+    private int paddleGrowDuration = 5000;
+    private long fireBallStartTime;
+    private long slowTimeStartTime;
+    private long paddleGrowStartTime;
     private boolean fireballActive = false;
+    private boolean slowTimeActive = false;
     private Coin coin;
     private final Array<Coin> coins;
     private final Pool<Coin> coinPool;
@@ -165,6 +172,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render (float delta) {
+        if (slowTimeActive) delta /= 1.5;
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.camera.update();
@@ -180,11 +188,13 @@ public class GameScreen implements Screen {
 
     private void update(float delta) {
         stage.act(delta);
+        handleTimers();
         checkCollisions();
         handleInput();
         freeDrops(coins, coinPool);
         freeDrops(powerups, powerupPool);
         freeExplosions();
+        freeFireballs();
         fpsLogger.log();
     }
 
@@ -195,7 +205,7 @@ public class GameScreen implements Screen {
                 item.setDy(item.getDy() * -1);
 
                 // Add a slight random speed fluctuation of the x velocity
-                item.setDx(item.getDx() * MathUtils.random(0.4f, 2.5f));
+                item.setDx(item.getDx() * MathUtils.random(0.7f, 2.5f));
                 // Don't allow the ball to go faster than it's maxDx
                 if (abs(item.getDx()) > item.getMaxDx()) {
                     if (item.getDx() < 0) item.setDx(-item.getMaxDx());
@@ -241,9 +251,18 @@ public class GameScreen implements Screen {
                             for (Ball element : balls) {
                                 spawnFireball(element);
                             }
+                            fireBallStartTime = System.currentTimeMillis();
                             fireballActive = true;
                         }
-
+                        break;
+                    case SLOWTIME:
+                        slowTimeActive = true;
+                        slowTimeStartTime = System.currentTimeMillis();
+                        break;
+                    case PADDLEGROW:
+                        paddle.growing = true;
+                        paddleGrowStartTime = System.currentTimeMillis();
+                        break;
                 }
             }
         }
@@ -282,18 +301,7 @@ public class GameScreen implements Screen {
 
                         // Spawn powerup
                         if (randomNumber < 50) {
-                            powerup = powerupPool.obtain();
-                            // Spawn multiball
-                            if (randomNumber >= 1 && randomNumber <= 25) {
-                                powerup.setType(Powerup.Type.MULTIBALL);
-                            }
-                            // Spawn fireball
-                            if (randomNumber >= 26 && randomNumber <= 50) {
-                                powerup.setType(Powerup.Type.FIREBALL);
-                            }
-                            powerup.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
-                            powerups.add(powerup);
-                            stage.addActor(powerup);
+                            spawnPowerup(brick);
                         }
                     }
                     if (!fireballActive)
@@ -332,8 +340,8 @@ public class GameScreen implements Screen {
             if (paddle.getX() < 0) {
                 paddle.setX(0);
             }
-            else if (paddle.getX() > MyGame.SCREENWIDTH - paddle.getWidth()) {
-                paddle.setX(MyGame.SCREENWIDTH - paddle.getWidth());
+            else if (paddle.getX() > MyGame.SCREENWIDTH - (paddle.getWidth() * paddle.getScaleX())) {
+                paddle.setX(MyGame.SCREENWIDTH - (paddle.getWidth() * paddle.getScaleX()));
             }
             // Update paddles bounding box based on new location
             paddle.setBounds(paddle.getX(), paddle.getY());
@@ -355,6 +363,23 @@ public class GameScreen implements Screen {
                 ball.setBounds(ball.getX(), ball.getY());
             }
         }
+    }
+
+    private void handleTimers() {
+        // Check fireball duration
+        if (fireballActive && System.currentTimeMillis() - fireBallDuration > fireBallStartTime) {
+            for (FireBall item : fireballs) {
+                item.alive = false;
+            }
+            fireballActive = false;
+        }
+        if (slowTimeActive && System.currentTimeMillis() - slowTimeDuration > slowTimeStartTime) {
+            slowTimeActive = false;
+        }
+        if (paddle.growing == true && System.currentTimeMillis() - paddleGrowDuration > paddleGrowStartTime) {
+            paddle.growing = false;
+        }
+
     }
 
     private <T extends Drop> void  freeDrops(Array<T> list, Pool<T> pool) {
@@ -381,13 +406,48 @@ public class GameScreen implements Screen {
         }
     }
 
+    private void freeFireballs() {
+        for (int i = fireballs.size; --i >= 0;) {
+            fireball = fireballs.get(i);
+            if (fireball.alive == false) {
+                fireball.remove(); // Remove fireball from stage
+                fireballs.removeIndex(i); // Remove fireball from fireballs array
+                fireballPool.free(fireball); // Remove explosion from explosionPool
+            }
+        }
+    }
+
     private void spawnFireball(Ball ball) {
         fireball = fireballPool.obtain();
+        fireball.init();
         fireball.setBall(ball);
         fireball.setPosition(ball.getX() + ball.getX()/2,ball.getY() + ball.getY()/2);
         fireballs.add(fireball);
         fireball.getEffect().start();
         stage.addActor(fireball);
+    }
+
+    private void spawnPowerup(Brick brick) {
+        randomNumber = MathUtils.random(0.0f, 100.0f);
+        powerup = powerupPool.obtain();
+        // Spawn multiball
+        if (randomNumber < 10.0f) {
+            powerup.setType(Powerup.Type.MULTIBALL);
+        }
+        // Spawn fireball
+        else if (randomNumber < 20.0f) {
+            powerup.setType(Powerup.Type.FIREBALL);
+        }
+        // Spawn slowtime
+        else if (randomNumber < 60.0f) {
+            powerup.setType(Powerup.Type.SLOWTIME);
+        }
+        else {
+            powerup.setType(Powerup.Type.PADDLEGROW);
+        }
+        powerup.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
+        powerups.add(powerup);
+        stage.addActor(powerup);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.your3wishes.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool;
 
@@ -19,8 +20,8 @@ public class FireBall extends Actor implements Pool.Poolable {
     public boolean alive;
 
     public FireBall(Assets assets) {
-        effect = new ParticleEffect((ParticleEffect) assets.assetManager.get("fireball.p"));
-        effect.start();
+        effect = new ParticleEffect();
+        effect.load(Gdx.files.internal("fireball.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
     }
 
     @Override

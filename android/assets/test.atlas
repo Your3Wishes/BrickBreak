@@ -1,0 +1,27 @@
+
+test.png
+size: 512,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ball
+  rotate: false
+  xy: 260, 49
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+paddle
+  rotate: false
+  xy: 2, 2
+  size: 256, 111
+  orig: 256, 111
+  offset: 0, 0
+  index: -1
+particle2
+  rotate: false
+  xy: 260, 31
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
