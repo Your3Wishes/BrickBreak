@@ -13,7 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class Powerup extends Drop {
 
     public enum Type {
-        MULTIBALL, FIREBALL, SLOWTIME
+        MULTIBALL, FIREBALL, SLOWTIME, PADDLEGROW
     }
 
     private Type type;
@@ -60,6 +60,9 @@ public class Powerup extends Drop {
                     break;
                 case SLOWTIME:
                     texture = atlas.findRegion("timePowerup");
+                    break;
+                case PADDLEGROW:
+                    texture = atlas.findRegion("paddleGrowPowerup");
                     break;
             }
         } catch (Exception e){

@@ -3,6 +3,7 @@ package com.your3wishes.game;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -18,6 +19,8 @@ public class Paddle extends Actor {
     private float dx = 0;
     public float lastX;
     public boolean touched;
+    public boolean growing;
+    private float growScale = 1.3f;
 
     public Paddle (Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
@@ -49,6 +52,22 @@ public class Paddle extends Actor {
         // Set x velocity to the distance between current X and last X multiplied by delta time and constant
         dx = (getX() - lastX) * delta * 3.0f;
         lastX = getX();
+
+        // Handle paddleGrow Powerup
+        if (growing) {
+            // Lerp paddles X Scale to growScale
+            setScaleX(MathUtils.lerp(getScaleX(), growScale, 0.8f * delta));
+            // Update paddle bounds
+            setBounds(getX(), getY(), texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
+            bounds.setWidth(getWidth() * getScaleX());
+        }
+        else {
+            // Lerp paddles X Scale to original
+            setScaleX(MathUtils.lerp(getScaleX(), 1.0f, 0.8f * delta));
+            // Update paddle bounds
+            setBounds(getX(), getY(), texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
+            bounds.setWidth(getWidth() * getScaleX());
+        }
     }
 
 
