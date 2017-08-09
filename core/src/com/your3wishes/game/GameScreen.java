@@ -36,6 +36,7 @@ public class GameScreen implements Screen {
 
     private Stage stage;
     private Paddle paddle;
+    private ScrollingBackground scrollingbackground;
     private Ball ball;
     private final Array<Ball> balls;
     private final Pool<Ball> ballPool;
@@ -89,6 +90,10 @@ public class GameScreen implements Screen {
         // Setup stage
         stage = new Stage(new StretchViewport(MyGame.SCREENWIDTH, MyGame.SCREENHEIGHT, game.camera));
         Gdx.input.setInputProcessor(stage);
+
+        //scrolling background
+        scrollingbackground = new ScrollingBackground();
+        stage.addActor(scrollingbackground);
 
         // Add paddle to stage
         paddle = new Paddle(game.assets);
@@ -183,6 +188,8 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         hud.update(delta);
+
+
 
     }
 
