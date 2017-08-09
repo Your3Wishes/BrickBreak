@@ -15,8 +15,8 @@ public class Ball extends Actor {
     private Rectangle bounds;
     private float startDx = 90.0f; // Starting/standard x velocity
     private float dx = 50.0f; // Current x velocity
-    private float dy = 870.0f; // Current y velocity
-    private float maxDx = 250.0f; // Maximum x velocity
+    private float dy = 1050.0f; // Current y velocity
+    private float maxDx = 350.0f; // Maximum x velocity
     public boolean brickHit;
     public boolean launched = true;
     private Paddle paddle; // Used to position ball on paddle when not launched yet
@@ -45,7 +45,9 @@ public class Ball extends Actor {
             this.setY(getY() + dy * delta);
         }
         else {
-           this.setPosition(paddle.getX() + (paddle.getWidth() * paddle.getScaleX()/2) - (this.getWidth() * this.getScaleX() / 2), paddle.getY() + paddle.getHeight());
+            // Keep Ball attached to paddle
+            this.setPosition(paddle.getX() + (paddle.getWidth() * paddle.getScaleX()/2) - (this.getWidth() * this.getScaleX() / 2),
+                    paddle.getY() + paddle.getHeight());
         }
 
 

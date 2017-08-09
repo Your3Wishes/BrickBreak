@@ -383,7 +383,7 @@ public class GameScreen implements Screen {
         if (slowTimeActive && System.currentTimeMillis() - slowTimeDuration > slowTimeStartTime) {
             slowTimeActive = false;
         }
-        if (paddle.growing == true && System.currentTimeMillis() - paddleGrowDuration > paddleGrowStartTime) {
+        if (paddle.growing && System.currentTimeMillis() - paddleGrowDuration > paddleGrowStartTime) {
             paddle.growing = false;
         }
 
@@ -435,24 +435,21 @@ public class GameScreen implements Screen {
     }
 
     private void spawnPowerup(Brick brick) {
-        randomNumber = MathUtils.random(0.0f, 100.0f);
         powerup = powerupPool.obtain();
-        // Spawn multiball
-        if (randomNumber < 10.0f) {
-            powerup.setType(Powerup.Type.MULTIBALL);
+        Array<Powerup.Type> powerupTypes = new Array<Powerup.Type>();
+        powerupTypes.add(Powerup.Type.MULTIBALL);
+        if (!fireballActive) powerupTypes.add(Powerup.Type.FIREBALL);
+        if (!slowTimeActive) powerupTypes.add(Powerup.Type.SLOWTIME);
+        if (!paddle.growing) powerupTypes.add(Powerup.Type.PADDLEGROW);
+
+        randomNumber = MathUtils.random(0.0f, 100.0f);
+        float ratio = 100.0f / powerupTypes.size;
+        for (int i = 0; i < powerupTypes.size; i++) {
+            if (randomNumber >= i * ratio && randomNumber <= (i+1) * ratio){
+                powerup.setType(powerupTypes.get(i));
+            }
         }
-        // Spawn fireball
-        else if (randomNumber < 20.0f) {
-            powerup.setType(Powerup.Type.FIREBALL);
-        }
-        // Spawn slowtime
-        else if (randomNumber < 60.0f) {
-            powerup.setType(Powerup.Type.SLOWTIME);
-        }
-        else {
-            powerup.setType(Powerup.Type.PADDLEGROW);
-        }
-        powerup.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
+        powerup.setPosition((brick.getX() + (brick.getWidth() * brick.getScaleX() / 2)), brick.getY());
         powerups.add(powerup);
         stage.addActor(powerup);
     }
