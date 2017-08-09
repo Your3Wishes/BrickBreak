@@ -104,8 +104,10 @@ public class GameScreen implements Screen {
             }
         };
 
-        // Add ball to stage
+        // Add ball to stage and set it to be initially not launched
         ball = ballPool.obtain();
+        ball.setPaddle(paddle);
+        ball.launched = false;
         balls.add(ball);
         stage.addActor(ball);
 
@@ -347,6 +349,11 @@ public class GameScreen implements Screen {
             paddle.setBounds(paddle.getX(), paddle.getY());
             // Set the last touch position as this current touch position
             lastTouchX = touchPos.x;
+
+            // Launch ball if touching top half of screen
+            if (touchPos.y >= MyGame.SCREENHEIGHT / 2) {
+                balls.get(0).launched = true;
+            }
         }
         else {
             lastTouchX = -1; // Indicates we picked up finger

@@ -18,6 +18,8 @@ public class Ball extends Actor {
     private float dy = 870.0f; // Current y velocity
     private float maxDx = 250.0f; // Maximum x velocity
     public boolean brickHit;
+    public boolean launched = true;
+    private Paddle paddle; // Used to position ball on paddle when not launched yet
 
     public Ball (Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
@@ -37,9 +39,15 @@ public class Ball extends Actor {
 
     @Override
     public void act (float delta) {
-        // Move ball using velocities
-        this.setX(getX() + dx * delta);
-        this.setY(getY() + dy * delta);
+        if (launched) {
+            // Move ball using velocities
+            this.setX(getX() + dx * delta);
+            this.setY(getY() + dy * delta);
+        }
+        else {
+           this.setPosition(paddle.getX() + (paddle.getWidth() * paddle.getScaleX()/2) - (this.getWidth() * this.getScaleX() / 2), paddle.getY() + paddle.getHeight());
+        }
+
 
         // Check for wall collisions
         if (getX() > MyGame.SCREENWIDTH - getWidth() && dx > 0) {
@@ -70,7 +78,6 @@ public class Ball extends Actor {
     public float getDy() {
         return dy;
     }
-
     public float getDx() { return dx; }
     public float getMaxDx() { return maxDx;}
 
@@ -82,6 +89,10 @@ public class Ball extends Actor {
     }
 
     public void setDx(float vel) { dx = vel; }
+
+    public void setPaddle(Paddle paddle) {
+        this.paddle = paddle;
+    }
 
 
 }
