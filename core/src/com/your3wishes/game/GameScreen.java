@@ -50,9 +50,11 @@ public class GameScreen implements Screen {
     private int fireBallDuration = 6000;
     private int slowTimeDuration = 5000;
     private int paddleGrowDuration = 5000;
+    private int ballGrowDuration = 5000;
     private long fireBallStartTime;
     private long slowTimeStartTime;
     private long paddleGrowStartTime;
+    private long ballGrowStartTime;
     private boolean fireballActive = false;
     private boolean slowTimeActive = false;
     private Coin coin;
@@ -247,7 +249,6 @@ public class GameScreen implements Screen {
                         }
                         break;
                     case FIREBALL:
-                        // TODO: implment a timer for fireballs.
                         // Add a fireball particle to all balls and set fireballActive to true
                         if (!fireballActive){
                             for (Ball element : balls) {
@@ -265,6 +266,11 @@ public class GameScreen implements Screen {
                         paddle.growing = true;
                         paddleGrowStartTime = System.currentTimeMillis();
                         break;
+                    case BIGBALL:
+                        for (Ball tempBall : balls) {
+                            tempBall.growing = true;
+                            ballGrowStartTime = System.currentTimeMillis();
+                        }
                 }
             }
         }
@@ -386,6 +392,11 @@ public class GameScreen implements Screen {
         if (paddle.growing && System.currentTimeMillis() - paddleGrowDuration > paddleGrowStartTime) {
             paddle.growing = false;
         }
+        if (System.currentTimeMillis() - ballGrowDuration > ballGrowStartTime) {
+            for (Ball item : balls) {
+                item.growing = false;
+            }
+        }
 
     }
 
@@ -441,6 +452,7 @@ public class GameScreen implements Screen {
         if (!fireballActive) powerupTypes.add(Powerup.Type.FIREBALL);
         if (!slowTimeActive) powerupTypes.add(Powerup.Type.SLOWTIME);
         if (!paddle.growing) powerupTypes.add(Powerup.Type.PADDLEGROW);
+        if (System.currentTimeMillis() - ballGrowDuration > ballGrowStartTime) powerupTypes.add(Powerup.Type.BIGBALL);
 
         randomNumber = MathUtils.random(0.0f, 100.0f);
         float ratio = 100.0f / powerupTypes.size;

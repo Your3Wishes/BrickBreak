@@ -28,7 +28,6 @@ public class FireBall extends Actor implements Pool.Poolable {
     public void act (float delta) {
         effect.setPosition(ball.getX() + (ball.getWidth()*ball.getScaleX()/2),(ball.getY() + ball.getHeight()*ball.getScaleY()/2));
         effect.update(delta);
-        Gdx.app.log("fireball", String.valueOf(ball.getX()));
     }
 
     @Override

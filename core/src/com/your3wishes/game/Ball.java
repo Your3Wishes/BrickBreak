@@ -3,6 +3,7 @@ package com.your3wishes.game;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -20,6 +21,8 @@ public class Ball extends Actor {
     public boolean brickHit;
     public boolean launched = true;
     private Paddle paddle; // Used to position ball on paddle when not launched yet
+    public boolean growing = false;
+    private float growScale = 1.0f;
 
     public Ball (Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
@@ -62,6 +65,22 @@ public class Ball extends Actor {
             dy *= -1;
         if (getY() < 0 )
             setY(MyGame.SCREENHEIGHT-getHeight());
+
+        // Handle paddleGrow Powerup
+        if (growing) {
+            // Lerp paddles X Scale to growScale
+            setScaleX(MathUtils.lerp(getScaleX(), growScale, 0.8f * delta));
+            setScaleY(MathUtils.lerp(getScaleY(), growScale, 0.8f * delta));
+        }
+        else {
+            // Lerp paddles X Scale to original
+            setScaleX(MathUtils.lerp(getScaleX(), 0.75f, 0.8f * delta));
+            setScaleY(MathUtils.lerp(getScaleY(), 0.75f, 0.8f * delta));
+        }
+        // Update ball bounds
+        setBounds(getX(), getY(), texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
+        bounds.setWidth(getWidth() * getScaleX());
+        bounds.setHeight(getHeight() * getScaleX());
 
         // Update bounding box
         setBounds(getX(), getY());
