@@ -439,7 +439,7 @@ public class GameScreen implements Screen {
         fireball = fireballPool.obtain();
         fireball.init();
         fireball.setBall(ball);
-        fireball.setPosition(ball.getX() + ball.getX()/2,ball.getY() + ball.getY()/2);
+        fireball.setPosition(ball.getX() + ball.getWidth()/2,ball.getY() + ball.getWidth()/2);
         fireballs.add(fireball);
         fireball.getEffect().start();
         stage.addActor(fireball);

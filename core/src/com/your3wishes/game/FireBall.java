@@ -46,6 +46,7 @@ public class FireBall extends Actor implements Pool.Poolable {
 
     public void init() {
         alive = true;
+        effect.reset();
     }
 
     public void setBall(Ball ball) {

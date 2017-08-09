@@ -23,7 +23,7 @@ public class Brick extends Actor {
         atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         health = 1;
         setTexture();
-        this.setScale(0.8f, 0.8f);
+        this.setScale(0.85f, 0.85f);
         setBounds(0, 0, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
     }
@@ -32,7 +32,7 @@ public class Brick extends Actor {
         atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         this.health = health;
         setTexture();
-        this.setScale(0.8f, 0.8f);
+        this.setScale(0.85f, 0.85f);
         setBounds(0, 0, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
     }
