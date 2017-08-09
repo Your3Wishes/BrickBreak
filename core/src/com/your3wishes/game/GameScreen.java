@@ -51,9 +51,11 @@ public class GameScreen implements Screen {
     private int fireBallDuration = 6000;
     private int slowTimeDuration = 5000;
     private int paddleGrowDuration = 5000;
+    private int ballGrowDuration = 5000;
     private long fireBallStartTime;
     private long slowTimeStartTime;
     private long paddleGrowStartTime;
+    private long ballGrowStartTime;
     private boolean fireballActive = false;
     private boolean slowTimeActive = false;
     private Coin coin;
@@ -109,8 +111,10 @@ public class GameScreen implements Screen {
             }
         };
 
-        // Add ball to stage
+        // Add ball to stage and set it to be initially not launched
         ball = ballPool.obtain();
+        ball.setPaddle(paddle);
+        ball.launched = false;
         balls.add(ball);
         stage.addActor(ball);
 
@@ -252,7 +256,6 @@ public class GameScreen implements Screen {
                         }
                         break;
                     case FIREBALL:
-                        // TODO: implment a timer for fireballs.
                         // Add a fireball particle to all balls and set fireballActive to true
                         if (!fireballActive){
                             for (Ball element : balls) {
@@ -270,6 +273,11 @@ public class GameScreen implements Screen {
                         paddle.growing = true;
                         paddleGrowStartTime = System.currentTimeMillis();
                         break;
+                    case BIGBALL:
+                        for (Ball tempBall : balls) {
+                            tempBall.growing = true;
+                            ballGrowStartTime = System.currentTimeMillis();
+                        }
                 }
             }
         }
@@ -354,6 +362,11 @@ public class GameScreen implements Screen {
             paddle.setBounds(paddle.getX(), paddle.getY());
             // Set the last touch position as this current touch position
             lastTouchX = touchPos.x;
+
+            // Launch ball if touching top half of screen
+            if (touchPos.y >= MyGame.SCREENHEIGHT / 2) {
+                balls.get(0).launched = true;
+            }
         }
         else {
             lastTouchX = -1; // Indicates we picked up finger
@@ -383,8 +396,13 @@ public class GameScreen implements Screen {
         if (slowTimeActive && System.currentTimeMillis() - slowTimeDuration > slowTimeStartTime) {
             slowTimeActive = false;
         }
-        if (paddle.growing == true && System.currentTimeMillis() - paddleGrowDuration > paddleGrowStartTime) {
+        if (paddle.growing && System.currentTimeMillis() - paddleGrowDuration > paddleGrowStartTime) {
             paddle.growing = false;
+        }
+        if (System.currentTimeMillis() - ballGrowDuration > ballGrowStartTime) {
+            for (Ball item : balls) {
+                item.growing = false;
+            }
         }
 
     }
@@ -428,31 +446,29 @@ public class GameScreen implements Screen {
         fireball = fireballPool.obtain();
         fireball.init();
         fireball.setBall(ball);
-        fireball.setPosition(ball.getX() + ball.getX()/2,ball.getY() + ball.getY()/2);
+        fireball.setPosition(ball.getX() + ball.getWidth()/2,ball.getY() + ball.getWidth()/2);
         fireballs.add(fireball);
         fireball.getEffect().start();
         stage.addActor(fireball);
     }
 
     private void spawnPowerup(Brick brick) {
-        randomNumber = MathUtils.random(0.0f, 100.0f);
         powerup = powerupPool.obtain();
-        // Spawn multiball
-        if (randomNumber < 10.0f) {
-            powerup.setType(Powerup.Type.MULTIBALL);
+        Array<Powerup.Type> powerupTypes = new Array<Powerup.Type>();
+        powerupTypes.add(Powerup.Type.MULTIBALL);
+        if (!fireballActive) powerupTypes.add(Powerup.Type.FIREBALL);
+        if (!slowTimeActive) powerupTypes.add(Powerup.Type.SLOWTIME);
+        if (!paddle.growing) powerupTypes.add(Powerup.Type.PADDLEGROW);
+        if (System.currentTimeMillis() - ballGrowDuration > ballGrowStartTime) powerupTypes.add(Powerup.Type.BIGBALL);
+
+        randomNumber = MathUtils.random(0.0f, 100.0f);
+        float ratio = 100.0f / powerupTypes.size;
+        for (int i = 0; i < powerupTypes.size; i++) {
+            if (randomNumber >= i * ratio && randomNumber <= (i+1) * ratio){
+                powerup.setType(powerupTypes.get(i));
+            }
         }
-        // Spawn fireball
-        else if (randomNumber < 20.0f) {
-            powerup.setType(Powerup.Type.FIREBALL);
-        }
-        // Spawn slowtime
-        else if (randomNumber < 60.0f) {
-            powerup.setType(Powerup.Type.SLOWTIME);
-        }
-        else {
-            powerup.setType(Powerup.Type.PADDLEGROW);
-        }
-        powerup.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
+        powerup.setPosition((brick.getX() + (brick.getWidth() * brick.getScaleX() / 2)), brick.getY());
         powerups.add(powerup);
         stage.addActor(powerup);
     }

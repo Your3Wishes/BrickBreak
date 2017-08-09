@@ -57,17 +57,14 @@ public class Paddle extends Actor {
         if (growing) {
             // Lerp paddles X Scale to growScale
             setScaleX(MathUtils.lerp(getScaleX(), growScale, 0.8f * delta));
-            // Update paddle bounds
-            setBounds(getX(), getY(), texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
-            bounds.setWidth(getWidth() * getScaleX());
         }
         else {
             // Lerp paddles X Scale to original
             setScaleX(MathUtils.lerp(getScaleX(), 1.0f, 0.8f * delta));
-            // Update paddle bounds
-            setBounds(getX(), getY(), texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
-            bounds.setWidth(getWidth() * getScaleX());
         }
+        // Update paddle bounds
+        setBounds(getX(), getY(), texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
+        bounds.setWidth(getWidth() * getScaleX());
     }
 
 
