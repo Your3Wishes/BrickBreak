@@ -212,7 +212,6 @@ public class GameScreen implements Screen {
     }
 
     private void update(float delta) {
-        delta /= 2;
         stage.act(delta);
         handleTimers();
         checkCollisions();
