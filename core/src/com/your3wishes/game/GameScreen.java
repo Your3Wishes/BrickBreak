@@ -176,7 +176,7 @@ public class GameScreen implements Screen {
                 randomNumber = MathUtils.random(0.0f, 100.0f);
                 if ( randomNumber < 30.0f)
                     brick = new Brick(game.assets, 2);
-                else if ( randomNumber < 60.0f)
+                else if ( randomNumber < 90.0f)
                     brick = new Brick(game.assets, 1);
                 else
                     brick = new ExplosiveBrick(game.assets);
@@ -212,6 +212,9 @@ public class GameScreen implements Screen {
     }
 
     private void update(float delta) {
+        if (MyGame.DEBUG) {
+            delta /= 16;
+        }
         stage.act(delta);
         handleTimers();
         checkCollisions();

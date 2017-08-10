@@ -84,10 +84,10 @@ timeline1: 0.5205479
 timeline2: 0.98630136
 - Velocity - 
 active: true
-lowMin: 300.0
-lowMax: 300.0
-highMin: 300.0
-highMax: 300.0
+lowMin: 150.0
+lowMax: 150.0
+highMin: 150.0
+highMax: 150.0
 relative: false
 scalingCount: 2
 scaling0: 0.9607843
