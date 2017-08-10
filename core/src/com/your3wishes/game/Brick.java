@@ -11,10 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  */
 
 public class Brick extends Actor {
-    private TextureRegion texture;
-    private Rectangle bounds;
-    private int health;
-    private TextureAtlas atlas;
+    protected TextureRegion texture;
+    protected Rectangle bounds;
+    protected int health;
+    protected TextureAtlas atlas;
 
 
     public boolean alive = true;
@@ -74,8 +74,4 @@ public class Brick extends Actor {
                 break;
         }
     }
-
-
-
-
 }
