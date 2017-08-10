@@ -213,6 +213,7 @@ public class GameScreen implements Screen {
     }
 
     private void update(float delta) {
+        delta /= 2;
         stage.act(delta);
         handleTimers();
         checkCollisions();
@@ -322,17 +323,20 @@ public class GameScreen implements Screen {
             }
 
         }
-//        for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
-////            int brickExplosionsSize = brickExplosions.size;
-////            for (int i = 0; i < brickExplosionsSize; i++) {
-////                if (brick.getBounds().overlaps(brickExplosions.get(i).getBounds())) {
-////                    brick.setHealth(0);
-////                    if (!brick.alive) {
-////                        removeBrick(iterator, brick);
-////                    }
-////                }
-////            }
-//        }
+       for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
+            Brick brick = iterator.next();
+           int brickExplosionsSize = brickExplosions.size;
+           for (int i = 0; i < brickExplosionsSize; i++) {
+               if (brick.getBounds().overlaps(brickExplosions.get(i).getBounds())) {
+                   brick.setHealth(0);
+                   brick.hit();
+                   if (!brick.alive) {
+                       removeBrick(iterator, brick);
+                   }
+                   break;
+               }
+           }
+       }
 
 
 
