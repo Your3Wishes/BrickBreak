@@ -4,16 +4,11 @@ package com.your3wishes.game;
  * Created by Joe on 8/9/2017.
  */
 
-import com.badlogic.gdx.Screen;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
-import com.badlogic.gdx.utils.Disposable;
-import com.sun.media.jfxmediaimpl.MediaDisposer;
+
 
 public class ScrollingBackground extends Actor{
 
@@ -38,31 +33,8 @@ public class ScrollingBackground extends Actor{
         imageScale = MyGame.SCREENWIDTH / image.getWidth();
         speedFixed = true;
     }
-
-    public void draw (SpriteBatch batch, float deltaTime) {
-        //Speed adjustment to reach goal
-        if (speed < goalSpeed) {
-            speed += GOAL_REACH_ACCELERATION * deltaTime;
-            if (speed > goalSpeed)
-                speed = goalSpeed;
-        } else if (speed > goalSpeed) {
-            speed -= GOAL_REACH_ACCELERATION * deltaTime;
-            if (speed < goalSpeed)
-                speed = goalSpeed;
-        }
-
-        if (!speedFixed)
-            speed += ACCELERATION * deltaTime;
-
-        y1 -= speed * deltaTime;
-        y2 -= speed * deltaTime;
-
-        //if image reached the bottom of screen and is not visible, put it back on top
-        if (y1 + image.getHeight() * imageScale <= 0)
-            y1 = y2 + image.getHeight() * imageScale;
-
-        if (y2 + image.getHeight() * imageScale <= 0)
-            y2 = y1 + image.getHeight() * imageScale;
+    @Override
+    public void draw (Batch batch, float deltaTime) {
 
         //Render
         batch.draw(image, 0, y1, MyGame.SCREENWIDTH, image.getHeight() * imageScale);
@@ -78,6 +50,29 @@ public class ScrollingBackground extends Actor{
     }
     @Override
     public void act (float delta) {
+        //Speed adjustment to reach goal
+        if (speed < goalSpeed) {
+            speed += GOAL_REACH_ACCELERATION * delta;
+            if (speed > goalSpeed)
+                speed = goalSpeed;
+        } else if (speed > goalSpeed) {
+            speed -= GOAL_REACH_ACCELERATION * delta;
+            if (speed < goalSpeed)
+                speed = goalSpeed;
+        }
+
+        if (!speedFixed)
+            speed += ACCELERATION * delta;
+
+        y1 -= speed * delta;
+        y2 -= speed * delta;
+
+        //if image reached the bottom of screen and is not visible, put it back on top
+        if (y1 + image.getHeight() * imageScale <= 0)
+            y1 = y2 + image.getHeight() * imageScale;
+
+        if (y2 + image.getHeight() * imageScale <= 0)
+            y2 = y1 + image.getHeight() * imageScale;
         setBounds(getX(), getY(), image.getWidth() * getScaleX(), image.getHeight() * getScaleY());
 
     }
