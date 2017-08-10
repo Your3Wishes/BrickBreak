@@ -4,9 +4,16 @@ package com.your3wishes.game;
  * Created by Joe on 8/9/2017.
  */
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
+import com.badlogic.gdx.utils.Disposable;
+import com.sun.media.jfxmediaimpl.MediaDisposer;
 
 public class ScrollingBackground extends Actor{
 
@@ -21,18 +28,18 @@ public class ScrollingBackground extends Actor{
     float imageScale;
     boolean speedFixed;
 
-    public ScrollingBackground () {
+    public ScrollingBackground (Assets assets) {
         image = new Texture("stars_background.png");
 
         y1 = 0;
         y2 = image.getHeight();
         speed = 0;
         goalSpeed = DEFAULT_SPEED;
-        imageScale = MyGame.SCREENWIDTH;
+        imageScale = MyGame.SCREENWIDTH / image.getWidth();
         speedFixed = true;
     }
 
-    public void updateAndRender (float deltaTime, SpriteBatch batch) {
+    public void draw (SpriteBatch batch, float deltaTime) {
         //Speed adjustment to reach goal
         if (speed < goalSpeed) {
             speed += GOAL_REACH_ACCELERATION * deltaTime;
@@ -69,5 +76,9 @@ public class ScrollingBackground extends Actor{
     public void setSpeedFixed (boolean speedFixed) {
         this.speedFixed = speedFixed;
     }
+    @Override
+    public void act (float delta) {
+        setBounds(getX(), getY(), image.getWidth() * getScaleX(), image.getHeight() * getScaleY());
 
+    }
 }
