@@ -97,7 +97,7 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         //scrolling background
-        scrollingbackground = new ScrollingBackground();
+        scrollingbackground = new ScrollingBackground(game.assets);
         stage.addActor(scrollingbackground);
 
         // Add paddle to stage
@@ -207,7 +207,6 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         hud.update(delta);
-
 
 
     }
