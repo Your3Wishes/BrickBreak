@@ -48,6 +48,9 @@ public class GameScreen implements Screen {
     private FireBall fireball;
     private final Array<FireBall> fireballs;
     private final Pool<FireBall> fireballPool;
+    private BrickExplosion brickExplosion;
+    private final Array<BrickExplosion> brickExplosions;
+    private final Pool<BrickExplosion> brickExplosionPool;
     private int fireBallDuration = 6000;
     private int slowTimeDuration = 5000;
     private int paddleGrowDuration = 5000;
@@ -149,6 +152,15 @@ public class GameScreen implements Screen {
             }
         };
 
+        // Initialize brickExplosions
+        brickExplosions = new Array<BrickExplosion>();
+        brickExplosionPool = new Pool<BrickExplosion>() {
+            @Override
+            protected  BrickExplosion newObject() {
+                return new BrickExplosion(game.assets);
+            }
+        };
+
         // Initialize fireballs
         fireballs = new Array<FireBall>();
         fireballPool = new Pool<FireBall>() {
@@ -161,10 +173,13 @@ public class GameScreen implements Screen {
         // Spawn bricks
         for (int i = 0; i <= 10; i++) {
             for (int j = 0; j <= 3; j++) {
-                if (MathUtils.random(0.0f, 100.0f) < 30.0f)
+                randomNumber = MathUtils.random(0.0f, 100.0f);
+                if ( randomNumber < 30.0f)
                     brick = new Brick(game.assets, 2);
-                else
+                else if ( randomNumber < 60.0f)
                     brick = new Brick(game.assets, 1);
+                else
+                    brick = new ExplosiveBrick(game.assets);
                 brick.setX(16 + i * brick.getWidth() * brick.getScaleX());
                 brick.setY(1500 + (j * (brick.getHeight() * brick.getScaleY() + 10)));
                 brick.setBounds(brick.getX(), brick.getY());
@@ -204,6 +219,7 @@ public class GameScreen implements Screen {
         freeDrops(coins, coinPool);
         freeDrops(powerups, powerupPool);
         freeExplosions();
+        freeBrickExplosions();
         freeFireballs();
         fpsLogger.log();
     }
@@ -282,6 +298,7 @@ public class GameScreen implements Screen {
         }
 
         // Check for collisions between balls and bricks
+        // Check for collisions between BrickExplosions and bricks
         // Using an iterator for safe removal of items while iterating
         for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
             Brick brick = iterator.next();
@@ -291,32 +308,7 @@ public class GameScreen implements Screen {
                     if (fireballActive) brick.setHealth(0);
                     brick.hit();
                     if (!brick.alive) {
-                        // Remove current element from the iterator
-                        iterator.remove();
-                        brick.remove();
-
-                        // Create explosion and add it to explosionPool
-                        explosion = explosionPool.obtain();
-                        explosion.setPosition(brick.getX(), brick.getY());
-                        explosion.getEffect().setPosition(brick.getX(), brick.getY());
-                        explosion.init();
-                        explosions.add(explosion);
-                        stage.addActor(explosion);
-
-                        // Spawn coin
-                        randomNumber = MathUtils.random(0.0f, 100.0f);
-                        if ((randomNumber < 90) & coinCount < maxCoinCount)  {
-                            coin = coinPool.obtain();
-                            coin.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
-                            coins.add(coin);
-                            stage.addActor(coin);
-                            coinCount++;
-                        }
-
-                        // Spawn powerup
-                        if (randomNumber < 50) {
-                            spawnPowerup(brick);
-                        }
+                        removeBrick(iterator, brick);
                     }
                     if (!fireballActive)
                         item.brickHit = true;
@@ -327,7 +319,22 @@ public class GameScreen implements Screen {
                     break;
                 }
             }
+
         }
+//        for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
+////            int brickExplosionsSize = brickExplosions.size;
+////            for (int i = 0; i < brickExplosionsSize; i++) {
+////                if (brick.getBounds().overlaps(brickExplosions.get(i).getBounds())) {
+////                    brick.setHealth(0);
+////                    if (!brick.alive) {
+////                        removeBrick(iterator, brick);
+////                    }
+////                }
+////            }
+//        }
+
+
+
 
         // Bounce balls
         for (Ball item: balls) {
@@ -406,6 +413,45 @@ public class GameScreen implements Screen {
 
     }
 
+    private void removeBrick(Iterator<Brick> iterator, Brick brick) {
+        // Remove current element from the iterator
+        iterator.remove();
+        brick.remove();
+
+        // Create explosion and add it to explosionPool
+        explosion = explosionPool.obtain();
+        explosion.setPosition(brick.getX(), brick.getY());
+        explosion.getEffect().setPosition(brick.getX(), brick.getY());
+        explosion.init();
+        explosions.add(explosion);
+        stage.addActor(explosion);
+
+        // Create brickExplosion and add it to brickExplosionPool
+        if (brick instanceof ExplosiveBrick) {
+            brickExplosion = brickExplosionPool.obtain();
+            brickExplosion.setPosition(brick.getX(), brick.getY());
+            brickExplosion.getEffect().setPosition(brick.getX(), brick.getY());
+            brickExplosion.init();
+            brickExplosions.add(brickExplosion);
+            stage.addActor(brickExplosion);
+        }
+
+        // Spawn coin
+        randomNumber = MathUtils.random(0.0f, 100.0f);
+        if ((randomNumber < 90) & coinCount < maxCoinCount)  {
+            coin = coinPool.obtain();
+            coin.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
+            coins.add(coin);
+            stage.addActor(coin);
+            coinCount++;
+        }
+
+        // Spawn powerup
+        if (randomNumber < 50) {
+            spawnPowerup(brick);
+        }
+    }
+
     private <T extends Drop> void  freeDrops(Array<T> list, Pool<T> pool) {
         T item;
         for (int i = list.size; --i >=0;) {
@@ -426,6 +472,17 @@ public class GameScreen implements Screen {
                 explosion.remove(); // Remove explosion from stage
                 explosions.removeIndex(i); // Remove explosion from explosions array
                 explosionPool.free(explosion); // Remove explosion from explosionPool
+            }
+        }
+    }
+
+    private void freeBrickExplosions() {
+        for (int i = brickExplosions.size; --i >= 0;) {
+            brickExplosion = brickExplosions.get(i);
+            if (brickExplosion.alive == false) {
+                brickExplosion.remove(); // Remove explosion from stage
+                brickExplosions.removeIndex(i); // Remove explosion from explosions array
+                brickExplosionPool.free(brickExplosion); // Remove explosion from explosionPool
             }
         }
     }
