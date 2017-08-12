@@ -17,7 +17,7 @@ public class Paddle extends Actor {
     private TextureRegion texture;
     private Rectangle bounds;
     private float dx = 0;
-    public float lastX;
+    private float midX;
     public boolean touched;
     public boolean growing;
     private float growScale = 1.3f;
@@ -49,10 +49,7 @@ public class Paddle extends Actor {
 
     @Override
     public void act (float delta) {
-        // Set x velocity to the distance between current X and last X multiplied by delta time and constant
-        dx = (getX() - lastX) * delta * 3.0f;
-        lastX = getX();
-
+        midX = getX() + (getWidth()*getScaleX()/2);
         // Handle paddleGrow Powerup
         if (growing) {
             // Lerp paddles X Scale to growScale
@@ -62,9 +59,20 @@ public class Paddle extends Actor {
             // Lerp paddles X Scale to original
             setScaleX(MathUtils.lerp(getScaleX(), 1.0f, 0.8f * delta));
         }
+        // Set new X position so that the midpoint of paddle stays in the same place on screen
+        setX(midX - (getWidth()*getScaleX()/2));
         // Update paddle bounds
         setBounds(getX(), getY(), texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds.setWidth(getWidth() * getScaleX());
+
+        // Don't allow paddle to go off the sides of the screen
+        if (getX() < 0) {
+            setX(0);
+        }
+        else if (getX() > MyGame.SCREENWIDTH - (getWidth() * getScaleX())) {
+            setX(MyGame.SCREENWIDTH - (getWidth() * getScaleX()));
+        }
+
     }
 
 
