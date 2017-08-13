@@ -27,14 +27,14 @@ public class GameOver implements Screen{
 
         @Override
         public void render(float delta) {
-            Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+            Gdx.gl.glClearColor(240/255f, 128/255f, 128/255f, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
             camera.update();
             game.batch.setProjectionMatrix(camera.combined);
 
             game.batch.begin();
-            game.font.draw(game.batch, "Game Over ", 250, 700);
+            game.font.draw(game.batch, "Game Over ", 500, 700);
             game.font.draw(game.batch, "Tap anywhere to Restart!", 260, 600);
             game.batch.end();
 
