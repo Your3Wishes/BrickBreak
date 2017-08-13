@@ -6,19 +6,22 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Pool;
 
 /**
  * Created by guita on 7/2/2017.
  */
 
-public class Ball extends Actor {
+public class Ball extends Actor implements Pool.Poolable{
     private TextureRegion texture;
     private Rectangle bounds;
+    private float initialScale = 0.75f;
     private float startDx = 90.0f; // Starting/standard x velocity
     private float dx = 50.0f; // Current x velocity
     private float dy = 1050.0f; // Current y velocity
     private float maxDx = 350.0f; // Maximum x velocity
     public boolean brickHit;
+    public boolean alive;
     public boolean launched = true;
     private Paddle paddle; // Used to position ball on paddle when not launched yet
     public boolean growing = false;
@@ -27,7 +30,7 @@ public class Ball extends Actor {
     public Ball (Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         texture = atlas.findRegion("ball");
-        this.setScale(0.75f, 0.75f);
+        this.setScale(initialScale, initialScale);
         setBounds(0,0,texture.getRegionWidth() * getScaleX(),texture.getRegionHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
 
@@ -64,7 +67,7 @@ public class Ball extends Actor {
         if (getY() + getHeight() > MyGame.SCREENHEIGHT-90 && dy > 0)
             dy *= -1;
         if (getY() < 0 )
-            setY(MyGame.SCREENHEIGHT-getHeight());
+            alive = false;
 
         // Handle paddleGrow Powerup
         if (growing) {
@@ -86,6 +89,20 @@ public class Ball extends Actor {
         setBounds(getX(), getY());
 
     }
+
+    @Override
+    public void reset() {
+        alive = false;
+    }
+
+    public void init() {
+        alive = true;
+        this.setScale(initialScale, initialScale);
+        setBounds(0,0,texture.getRegionWidth() * getScaleX(),texture.getRegionHeight() * getScaleY());
+        bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
+        growing = false;
+    }
+
 
     public Rectangle getBounds() {
         return bounds;

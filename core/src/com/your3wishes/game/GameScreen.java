@@ -73,6 +73,8 @@ public class GameScreen implements Screen {
     private float randomNumber;
     private int maxCoinCount;
     private float lastTouchX;
+    private int life = 100;
+    private int ballLifeReduction = 25;
     // Added for hud
     private Hud hud;
     private OrthographicCamera hudCam;
@@ -115,11 +117,7 @@ public class GameScreen implements Screen {
         };
 
         // Add ball to stage and set it to be initially not launched
-        ball = ballPool.obtain();
-        ball.setPaddle(paddle);
-        ball.launched = false;
-        balls.add(ball);
-        stage.addActor(ball);
+        spawnInitialBall();
 
         // Initialize bricks array
         bricks = new Array<Brick>();
@@ -222,9 +220,14 @@ public class GameScreen implements Screen {
         freeDrops(coins, coinPool);
         freeDrops(powerups, powerupPool);
         freeExplosions();
+        freeBalls();
         freeBrickExplosions();
         freeFireballs();
         fpsLogger.log();
+        if (balls.size <= 0) {
+            life -= 25;
+            spawnInitialBall();
+        }
     }
 
     private void checkCollisions() {
@@ -264,6 +267,7 @@ public class GameScreen implements Screen {
                     case MULTIBALL:
                         // Spawn ball
                         ball = ballPool.obtain();
+                        ball.init();
                         ball.setPosition((paddle.getX() + (paddle.getWidth() / 2)), paddle.getY() + paddle.getHeight());
                         // Force ball to move upwards
                         ball.setDy(abs(ball.getDy()));
@@ -482,6 +486,18 @@ public class GameScreen implements Screen {
         }
     }
 
+
+    private void freeBalls() {
+        for (int i = balls.size; --i >= 0;) {
+            ball = balls.get(i);
+            if (ball.alive == false) {
+                ball.remove(); // Remove explosion from stage
+                balls.removeIndex(i); // Remove explosion from explosions array
+                ballPool.free(ball); // Remove explosion from explosionPool
+            }
+        }
+    }
+
     private void freeBrickExplosions() {
         for (int i = brickExplosions.size; --i >= 0;) {
             brickExplosion = brickExplosions.get(i);
@@ -533,6 +549,19 @@ public class GameScreen implements Screen {
         powerup.setPosition((brick.getX() + (brick.getWidth() * brick.getScaleX() / 2)), brick.getY());
         powerups.add(powerup);
         stage.addActor(powerup);
+    }
+
+    private void spawnInitialBall() {
+        ball = ballPool.obtain();
+        ball.init();
+        ball.setPaddle(paddle);
+        ball.launched = false;
+        balls.add(ball);
+        stage.addActor(ball);
+    }
+
+    public int getLife() {
+        return life;
     }
 
     @Override
