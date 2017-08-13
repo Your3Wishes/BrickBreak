@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 
+
 public class Hud implements Disposable {
 
     public Stage stage;
@@ -35,11 +36,12 @@ public class Hud implements Disposable {
     private float timeCount;
     private Integer score;
     private boolean timeUp;
+    private Integer lifeCount;
 
 
     //Scene2D Widgets
-    private Label countdownLabel, timeLabel, linkLabel, coinLabel;
-    private static Label scoreLabel, coinCountLabel;
+    private Label countdownLabel, timeLabel, linkLabel, coinLabel, lifeLabel;
+    private static Label scoreLabel, coinCountLabel, lifeCountLabel;
 
     public Hud(SpriteBatch sb) {
         //define tracking variables
@@ -47,6 +49,7 @@ public class Hud implements Disposable {
         timeCount = 0;
         coinCount = 0;
         score = 0;
+        lifeCount = 100;
         Skin skin = new Skin(Gdx.files.internal("labelpic.json"));
 
         //setup the HUD viewport using a new camera seperate from gamecam
@@ -58,6 +61,8 @@ public class Hud implements Disposable {
         countdownLabel = new Label("      "+String.format("%03d", worldTimer), skin);
         scoreLabel = new Label("    "+String.format("%06d", score), skin);
         coinCountLabel = new Label("    "+String.format("%03d", coinCount), skin);
+        lifeCountLabel = new Label("    "+String.format("%03d",lifeCount)+"%", skin);
+        lifeLabel = new Label("     LIFE", skin);
         timeLabel = new Label("     TIMER", skin);
         linkLabel = new Label("    POINTS", skin);
         coinLabel = new Label("   COINS", skin);
@@ -72,10 +77,12 @@ public class Hud implements Disposable {
         table.add(linkLabel).expandX().fillX();
         table.add(coinLabel).expandX().fillX();
         table.add(timeLabel).expandX().fillX();
+        table.add(lifeLabel).expandX().fillX();
         table.row();
         table.add(scoreLabel).expandX().fillX();
         table.add(coinCountLabel).expandX().fillX();
         table.add(countdownLabel).expandX().fillX();
+        table.add(lifeCountLabel).expandX().fillX();
 
 
         //add table to the stage
@@ -105,6 +112,17 @@ public class Hud implements Disposable {
         coinCount += value;
         coinCountLabel.setText("    "+String.format("%03d",coinCount));
     }
+
+    public void subLife(int value){
+        lifeCount -= value;
+        lifeCountLabel.setText("    "+String.format("%03d",lifeCount)+"%");
+    }
+
+    public void addLife(int value){
+        lifeCount += value;
+        lifeCountLabel.setText("    "+String.format("%03d",lifeCount)+"%");
+    }
+
 
     @Override
     public void dispose() {
