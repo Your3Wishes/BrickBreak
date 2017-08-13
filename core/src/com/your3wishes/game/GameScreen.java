@@ -62,14 +62,14 @@ public class GameScreen implements Screen {
     private boolean fireballActive = false;
     private boolean slowTimeActive = false;
     private Coin coin;
+    private int score;
+    private int coinsCollected;
     private final Array<Coin> coins;
     private final Pool<Coin> coinPool;
     private int coinCount;
-    private int coinsCaught;
     private Powerup powerup;
     private final Array<Powerup> powerups;
     private final Pool<Powerup> powerupPool;
-    private int points;
     private float randomNumber;
     private int maxCoinCount;
     private float lastTouchX;
@@ -77,10 +77,8 @@ public class GameScreen implements Screen {
     private int ballLifeReduction = 25;
     // Added for hud
     private Hud hud;
-    private OrthographicCamera hudCam;
     private SpriteBatch hudSpriteBatch;
-    private BitmapFont font;
-    private Texture texture;
+
 
 
     // For logging fps
@@ -92,7 +90,7 @@ public class GameScreen implements Screen {
         this.game = game;
         //added for hud
         hudSpriteBatch = new SpriteBatch();
-        hud = new Hud(hudSpriteBatch);
+        hud = new Hud(hudSpriteBatch, this);
 
         // Setup stage
         stage = new Stage(new StretchViewport(MyGame.SCREENWIDTH, MyGame.SCREENHEIGHT, game.camera));
@@ -225,7 +223,7 @@ public class GameScreen implements Screen {
         freeFireballs();
         fpsLogger.log();
         if (balls.size <= 0) {
-            life -= 25;
+            life -= ballLifeReduction;
             spawnInitialBall();
         }
     }
@@ -250,12 +248,8 @@ public class GameScreen implements Screen {
         for (Coin item : coins) {
             if (paddle.getBounds().overlaps(item.getBounds())) {
                 item.alive = false;
-                coinsCaught++;
-                hud.addCoin(coinsCaught);
-                coinsCaught=0;
-                points=points+5;
-                hud.addScore(points);
-                points=0;
+                coinsCollected++;
+                score+=5;
             }
         }
 
@@ -319,9 +313,8 @@ public class GameScreen implements Screen {
                     }
                     if (!fireballActive)
                         item.brickHit = true;
-                    points=points+2;
-                    hud.addScore(points);
-                    points=0;
+                    score+=2;
+
                     // Move to next brick. No use checking other balls against this brick if it is now destroyed.
                     break;
                 }
@@ -562,6 +555,14 @@ public class GameScreen implements Screen {
 
     public int getLife() {
         return life;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getCoinsCollected(){
+        return coinsCollected;
     }
 
     @Override

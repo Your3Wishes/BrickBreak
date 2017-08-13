@@ -29,27 +29,27 @@ public class Hud implements Disposable {
     public Stage stage;
     private Viewport viewport;
     private BitmapFont font;
+    private GameScreen game;
 
     //score && time tracking variables
     private Integer worldTimer;
-    private Integer coinCount;
+
     private float timeCount;
-    private Integer score;
+
     private boolean timeUp;
-    private Integer lifeCount;
+
 
 
     //Scene2D Widgets
     private Label countdownLabel, timeLabel, linkLabel, coinLabel, lifeLabel;
     private static Label scoreLabel, coinCountLabel, lifeCountLabel;
 
-    public Hud(SpriteBatch sb) {
+    public Hud(SpriteBatch sb, GameScreen game) {
         //define tracking variables
+        this.game = game;
         worldTimer = 0;
         timeCount = 0;
-        coinCount = 0;
-        score = 0;
-        lifeCount = 100;
+
         Skin skin = new Skin(Gdx.files.internal("labelpic.json"));
 
         //setup the HUD viewport using a new camera seperate from gamecam
@@ -59,9 +59,9 @@ public class Hud implements Disposable {
 
         //define labels using the String, and skin using json
         countdownLabel = new Label("      "+String.format("%03d", worldTimer), skin);
-        scoreLabel = new Label("    "+String.format("%06d", score), skin);
-        coinCountLabel = new Label("    "+String.format("%03d", coinCount), skin);
-        lifeCountLabel = new Label("    "+String.format("%03d",lifeCount)+"%", skin);
+        scoreLabel = new Label("    "+String.format("%06d", game.getScore()), skin);
+        coinCountLabel = new Label("    "+String.format("%03d", game.getCoinsCollected()), skin);
+        lifeCountLabel = new Label("    "+String.format("%03d",game.getLife())+"%", skin);
         lifeLabel = new Label("     LIFE", skin);
         timeLabel = new Label("     TIMER", skin);
         linkLabel = new Label("    POINTS", skin);
@@ -100,29 +100,11 @@ public class Hud implements Disposable {
             }
             countdownLabel.setText("      "+String.format("%03d", worldTimer));
             timeCount = 0;
+            lifeCountLabel.setText("    "+String.format("%03d",game.getLife())+"%");
+            scoreLabel.setText("    "+String.format("%06d", game.getScore()));
+            coinCountLabel.setText("    "+String.format("%03d",game.getCoinsCollected()));
         }
     }
-
-    public void addScore(int value) {
-        score += value;
-        scoreLabel.setText("    "+String.format("%06d", score));
-    }
-
-    public void addCoin(int value) {
-        coinCount += value;
-        coinCountLabel.setText("    "+String.format("%03d",coinCount));
-    }
-
-    public void subLife(int value){
-        lifeCount -= value;
-        lifeCountLabel.setText("    "+String.format("%03d",lifeCount)+"%");
-    }
-
-    public void addLife(int value){
-        lifeCount += value;
-        lifeCountLabel.setText("    "+String.format("%03d",lifeCount)+"%");
-    }
-
 
     @Override
     public void dispose() {
@@ -131,14 +113,5 @@ public class Hud implements Disposable {
 
     public boolean isTimeUp() {
         return timeUp;
-    }
-
-
-    public static Label getScoreLabel() {
-        return scoreLabel;
-    }
-
-    public Integer getScore() {
-        return score;
     }
 }
