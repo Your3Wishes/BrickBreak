@@ -78,6 +78,8 @@ public class GameScreen implements Screen {
     // Added for hud
     private Hud hud;
     private SpriteBatch hudSpriteBatch;
+    private boolean gameOver=false;
+
 
 
 
@@ -203,7 +205,10 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         hud.update(delta);
-
+        if (gameOver == true) {
+            game.setScreen(new GameOver(game));
+            dispose();
+        }
 
     }
 
@@ -226,6 +231,8 @@ public class GameScreen implements Screen {
             life -= ballLifeReduction;
             spawnInitialBall();
         }
+        if (life <= 0 )
+            gameOver=true;
     }
 
     private void checkCollisions() {
