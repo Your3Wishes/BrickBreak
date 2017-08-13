@@ -98,7 +98,7 @@ public class Ball extends Actor implements Pool.Poolable{
     public void init() {
         alive = true;
         this.setScale(initialScale, initialScale);
-        setBounds(0,0,texture.getRegionWidth() * getScaleX(),texture.getRegionHeight() * getScaleY());
+        setBounds(getX(), getY(), texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
         growing = false;
     }
