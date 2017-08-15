@@ -13,7 +13,7 @@ import java.util.logging.ConsoleHandler;
  * Created by guita on 8/2/2017.
  */
 
-public class FireBall extends Actor implements Pool.Poolable {
+public class FireBall extends Actor implements Pool.Poolable, Freeable {
     private ParticleEffect effect;
     private Ball ball; // Pointer to ball that fireball is attached to
 
@@ -50,6 +50,14 @@ public class FireBall extends Actor implements Pool.Poolable {
     public void init() {
         alive = true;
         effect.reset();
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void removeFromStage() {
+        this.remove();
     }
 
     public void setBall(Ball ball) {

@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Pool;
  * Created by guita on 7/2/2017.
  */
 
-public class Ball extends Actor implements Pool.Poolable{
+public class Ball extends Actor implements Pool.Poolable, Freeable {
     private TextureRegion texture;
     private Rectangle bounds;
     private float initialScale = 0.75f;
@@ -130,6 +130,14 @@ public class Ball extends Actor implements Pool.Poolable{
 
     public void setPaddle(Paddle paddle) {
         this.paddle = paddle;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void removeFromStage() {
+        this.remove();
     }
 
 

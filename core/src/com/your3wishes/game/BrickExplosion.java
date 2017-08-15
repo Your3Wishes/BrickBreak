@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Pool;
  * Created by Your3Wishes on 8/9/2017.
  */
 
-public class BrickExplosion extends Actor implements Pool.Poolable{
+public class BrickExplosion extends Actor implements Pool.Poolable, Freeable {
     private ParticleEffect effect;
     private Rectangle bounds;
     private ShapeRenderer shapeRenderer; // For debugging bounding box
@@ -86,5 +86,13 @@ public class BrickExplosion extends Actor implements Pool.Poolable{
 
     public Rectangle getBounds() {
         return bounds;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void removeFromStage() {
+        this.remove();
     }
 }

@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Pool;
  * Created by guita on 7/9/2017.
  */
 
-public class Explosion extends Actor implements Pool.Poolable{
+public class Explosion extends Actor implements Pool.Poolable, Freeable{
     private ParticleEffect effect;
 
     public boolean alive;
@@ -46,6 +46,14 @@ public class Explosion extends Actor implements Pool.Poolable{
         effect.reset();
         effect.start();
         alive = false;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void removeFromStage() {
+        this.remove();
     }
 
     public void init() {

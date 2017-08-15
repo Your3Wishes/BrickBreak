@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Pool;
  * Created by Your3Wishes on 7/25/2017.
  */
 
-public class Drop extends Actor implements Pool.Poolable {
+public class Drop extends Actor implements Pool.Poolable, Freeable {
     protected TextureRegion texture;
     protected TextureAtlas atlas;
     protected Rectangle bounds;
@@ -66,6 +66,14 @@ public class Drop extends Actor implements Pool.Poolable {
         dy = MathUtils.random(50.0f,250f);
         dx = MathUtils.random(-30.0f,30.0f);
         alive = true;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void removeFromStage() {
+        this.remove();
     }
 
 }

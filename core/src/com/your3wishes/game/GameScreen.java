@@ -220,12 +220,12 @@ public class GameScreen implements Screen {
         handleTimers();
         checkCollisions();
         handleInput();
-        freeDrops(coins, coinPool);
-        freeDrops(powerups, powerupPool);
-        freeExplosions();
-        freeBalls();
-        freeBrickExplosions();
-        freeFireballs();
+        freeItems(coins, coinPool);
+        freeItems(powerups, powerupPool);
+        freeItems(explosions, explosionPool);
+        freeItems(balls, ballPool);
+        freeItems(brickExplosions, brickExplosionPool);
+        freeItems(fireballs, fireballPool);
         fpsLogger.log();
         if (balls.size <= 0) {
             life -= ballLifeReduction;
@@ -462,60 +462,16 @@ public class GameScreen implements Screen {
         }
     }
 
-    private <T extends Drop> void  freeDrops(Array<T> list, Pool<T> pool) {
+
+    // Generic method for freeing all items that implement poolable and freeable
+    private <T extends Freeable> void freeItems(Array<T> list, Pool<T> pool) {
         T item;
         for (int i = list.size; --i >=0;) {
             item = list.get(i);
-            if (item.alive == false) {
-                item.remove();
+            if (item.isAlive() == false) {
+                item.removeFromStage();
                 list.removeIndex(i);
                 pool.free(item);
-            }
-        }
-    }
-
-    // TODO: Turn into generic method. Possibly merge all free methods together?
-    private void freeExplosions() {
-        for (int i = explosions.size; --i >= 0;) {
-            explosion = explosions.get(i);
-            if (explosion.alive == false) {
-                explosion.remove(); // Remove explosion from stage
-                explosions.removeIndex(i); // Remove explosion from explosions array
-                explosionPool.free(explosion); // Remove explosion from explosionPool
-            }
-        }
-    }
-
-
-    private void freeBalls() {
-        for (int i = balls.size; --i >= 0;) {
-            ball = balls.get(i);
-            if (ball.alive == false) {
-                ball.remove(); // Remove explosion from stage
-                balls.removeIndex(i); // Remove explosion from explosions array
-                ballPool.free(ball); // Remove explosion from explosionPool
-            }
-        }
-    }
-
-    private void freeBrickExplosions() {
-        for (int i = brickExplosions.size; --i >= 0;) {
-            brickExplosion = brickExplosions.get(i);
-            if (brickExplosion.alive == false) {
-                brickExplosion.remove(); // Remove explosion from stage
-                brickExplosions.removeIndex(i); // Remove explosion from explosions array
-                brickExplosionPool.free(brickExplosion); // Remove explosion from explosionPool
-            }
-        }
-    }
-
-    private void freeFireballs() {
-        for (int i = fireballs.size; --i >= 0;) {
-            fireball = fireballs.get(i);
-            if (fireball.alive == false) {
-                fireball.remove(); // Remove fireball from stage
-                fireballs.removeIndex(i); // Remove fireball from fireballs array
-                fireballPool.free(fireball); // Remove explosion from explosionPool
             }
         }
     }
