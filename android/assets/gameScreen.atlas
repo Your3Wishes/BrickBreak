@@ -6,42 +6,42 @@ filter: Nearest,Nearest
 repeat: none
 ball
   rotate: false
-  xy: 330, 115
+  xy: 264, 115
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 bigBallPowerup
   rotate: false
-  xy: 330, 49
+  xy: 264, 49
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 brick
   rotate: false
-  xy: 260, 181
+  xy: 2, 68
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: -1
 brick2
   rotate: false
-  xy: 2, 68
+  xy: 260, 181
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: -1
 brickExplosionParticle
   rotate: false
-  xy: 264, 49
+  xy: 198, 2
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 coin
   rotate: false
-  xy: 198, 2
+  xy: 132, 2
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -55,14 +55,14 @@ explosiveBrick
   index: -1
 fireParticle
   rotate: false
-  xy: 390, 181
+  xy: 132, 68
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 fireballPowerup
   rotate: false
-  xy: 132, 68
+  xy: 396, 115
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -83,21 +83,35 @@ paddle
   index: -1
 paddleGrowPowerup
   rotate: false
-  xy: 132, 2
+  xy: 390, 181
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 particle2
   rotate: false
-  xy: 456, 213
+  xy: 476, 213
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+shipBullet
+  rotate: false
+  xy: 456, 181
+  size: 18, 64
+  orig: 18, 64
+  offset: 0, 0
+  index: -1
+sideGun
+  rotate: false
+  xy: 330, 49
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 timePowerup
   rotate: false
-  xy: 264, 115
+  xy: 330, 115
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

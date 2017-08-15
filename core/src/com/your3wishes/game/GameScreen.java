@@ -40,6 +40,9 @@ public class GameScreen implements Screen {
     private Ball ball;
     private final Array<Ball> balls;
     private final Pool<Ball> ballPool;
+    private ShipBullet shipBullet;
+    private final Array<ShipBullet> shipBullets;
+    private final Pool<ShipBullet> shipBulletPool;
     private Array<Brick> bricks;
     private Brick brick;
     private Explosion explosion;
@@ -51,10 +54,14 @@ public class GameScreen implements Screen {
     private BrickExplosion brickExplosion;
     private final Array<BrickExplosion> brickExplosions;
     private final Pool<BrickExplosion> brickExplosionPool;
+    private SideGun sideGun;
+    private final Array<SideGun> sideGuns;
     private int fireBallDuration = 6000;
     private int slowTimeDuration = 5000;
     private int paddleGrowDuration = 5000;
     private int ballGrowDuration = 5000;
+    private int shipBulletDuration = 500;
+    private long shipBulletStartTime;
     private long fireBallStartTime;
     private long slowTimeStartTime;
     private long paddleGrowStartTime;
@@ -106,6 +113,21 @@ public class GameScreen implements Screen {
         paddle = new Paddle(game.assets);
         stage.addActor(paddle);
 
+        // Add sideGuns to paddle and stage
+        sideGuns = new Array<SideGun>();
+        sideGuns.add(new SideGun(game.assets, paddle, -1));
+        sideGuns.add(new SideGun(game.assets, paddle, 1));
+        stage.addActor(sideGuns.get(0));
+        stage.addActor(sideGuns.get(1));
+
+        // Initialize ship bullets
+        shipBullets = new Array<ShipBullet>();
+        shipBulletPool = new Pool<ShipBullet>() {
+            @Override
+            protected  ShipBullet newObject() {
+                return new ShipBullet(game.assets);
+            }
+        };
 
         // Initialize balls
         balls = new Array<Ball>();
@@ -219,13 +241,9 @@ public class GameScreen implements Screen {
         stage.act(delta);
         handleTimers();
         checkCollisions();
+        tryToShoot();
         handleInput();
-        freeItems(coins, coinPool);
-        freeItems(powerups, powerupPool);
-        freeItems(explosions, explosionPool);
-        freeItems(balls, ballPool);
-        freeItems(brickExplosions, brickExplosionPool);
-        freeItems(fireballs, fireballPool);
+        freeItems();
         fpsLogger.log();
         if (balls.size <= 0) {
             life -= ballLifeReduction;
@@ -306,7 +324,6 @@ public class GameScreen implements Screen {
         }
 
         // Check for collisions between balls and bricks
-        // Check for collisions between BrickExplosions and bricks
         // Using an iterator for safe removal of items while iterating
         for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
             Brick brick = iterator.next();
@@ -314,7 +331,7 @@ public class GameScreen implements Screen {
                 if (brick.getBounds().overlaps(item.getBounds())) {
                     // Damage brick
                     if (fireballActive) brick.setHealth(0);
-                    brick.hit();
+                    brick.ballHit();
                     if (!brick.alive) {
                         removeBrick(iterator, brick);
                     }
@@ -328,23 +345,40 @@ public class GameScreen implements Screen {
             }
 
         }
-       for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
+
+        // Check for collisions between BrickExplosions and bricks
+        for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
             Brick brick = iterator.next();
-           int brickExplosionsSize = brickExplosions.size;
-           for (int i = 0; i < brickExplosionsSize; i++) {
-               if (brick.getBounds().overlaps(brickExplosions.get(i).getBounds())) {
-                   brick.setHealth(0);
-                   brick.hit();
-                   if (!brick.alive) {
-                       removeBrick(iterator, brick);
-                   }
-                   break;
-               }
-           }
-       }
+            for (ShipBullet item : shipBullets) {
+                if (brick.getBounds().overlaps(item.getBounds())) {
+                    item.alive = false;
+                    // Damage brick
+                    brick.bulletHit(item.getDamage());
+                    if (!brick.alive) {
+                        removeBrick(iterator, brick);
+                    }
+                    score+=2;
+                    // Move to next brick. No use checking other bullets against this brick if it is now destroyed.
+                    break;
+                }
+            }
+        }
 
-
-
+        // Check for collisions between bullets and bricks
+        for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
+            Brick brick = iterator.next();
+            int brickExplosionsSize = brickExplosions.size;
+            for (int i = 0; i < brickExplosionsSize; i++) {
+                if (brick.getBounds().overlaps(brickExplosions.get(i).getBounds())) {
+                    brick.setHealth(0);
+                    brick.ballHit();
+                    if (!brick.alive) {
+                        removeBrick(iterator, brick);
+                    }
+                    break;
+                }
+            }
+        }
 
         // Bounce balls
         for (Ball item: balls) {
@@ -386,6 +420,10 @@ public class GameScreen implements Screen {
         }
         else {
             lastTouchX = -1; // Indicates we picked up finger
+        }
+
+        if (Gdx.input.justTouched()) {
+            //tryToShoot();
         }
 
         // Control ball for debugging
@@ -486,6 +524,18 @@ public class GameScreen implements Screen {
         stage.addActor(fireball);
     }
 
+    private void spawnShipBullets() {
+        for (int i = 0; i < sideGuns.size; i++) {
+            shipBullet = shipBulletPool.obtain();
+            shipBullet.init();
+            sideGun = sideGuns.get(i);
+            shipBullet.setPosition(sideGun.getX() + (sideGun.getWidth() * sideGun.getScaleX() /2) - (shipBullet.getWidth() * shipBullet.getScaleX()) /2,
+                    sideGun.getY() + (sideGun.getHeight() * sideGun.getScaleY()));
+            shipBullets.add(shipBullet);
+            stage.addActor(shipBullet);
+        }
+    }
+
     private void spawnPowerup(Brick brick) {
         powerup = powerupPool.obtain();
         Array<Powerup.Type> powerupTypes = new Array<Powerup.Type>();
@@ -526,6 +576,24 @@ public class GameScreen implements Screen {
 
     public int getCoinsCollected(){
         return coinsCollected;
+    }
+
+    private void freeItems() {
+        freeItems(coins, coinPool);
+        freeItems(powerups, powerupPool);
+        freeItems(explosions, explosionPool);
+        freeItems(balls, ballPool);
+        freeItems(brickExplosions, brickExplosionPool);
+        freeItems(fireballs, fireballPool);
+        freeItems(shipBullets, shipBulletPool);
+    }
+
+    private void tryToShoot() {
+        if (System.currentTimeMillis() - shipBulletDuration > shipBulletStartTime) {
+            spawnShipBullets();
+            shipBulletStartTime = System.currentTimeMillis();
+        }
+
     }
 
     @Override

@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class Brick extends Actor {
     protected TextureRegion texture;
     protected Rectangle bounds;
+    protected int bulletHealth = 100; // Health pool for when bullets hit brick
+    protected int currBulletHealth = bulletHealth;
     protected int health;
     protected TextureAtlas atlas;
 
@@ -53,11 +55,20 @@ public class Brick extends Actor {
         this.bounds.setY(y);
     }
 
-    public void hit() {
+    public void ballHit() {
         health--;
         if (health <=0) alive = false;
-
         setTexture();
+    }
+
+    public void bulletHit(int damage) {
+        currBulletHealth -= damage;
+        if (currBulletHealth <= 0) {
+            health--;
+            if (health <=0) alive = false;
+            setTexture();
+            currBulletHealth = bulletHealth;
+        }
     }
 
     public void setHealth(int health) {

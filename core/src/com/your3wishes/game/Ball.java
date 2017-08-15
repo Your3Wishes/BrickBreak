@@ -32,7 +32,7 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
         texture = atlas.findRegion("ball");
         this.setScale(initialScale, initialScale);
         setBounds(0,0,texture.getRegionWidth() * getScaleX(),texture.getRegionHeight() * getScaleY());
-        bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
+        bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
 
         this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), 80);
     }
@@ -83,7 +83,7 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
         // Update ball bounds
         setBounds(getX(), getY(), texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds.setWidth(getWidth() * getScaleX());
-        bounds.setHeight(getHeight() * getScaleX());
+        bounds.setHeight(getHeight() * getScaleY());
 
         // Update bounding box
         setBounds(getX(), getY());

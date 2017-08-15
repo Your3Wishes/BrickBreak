@@ -31,7 +31,7 @@ limitMemory=true
 useIndexes=true
 
 scaleFactors=[{suffix:"",factor:1}]
-inputFiles=[{path:ball.png,type:Input,regionName:null},{path:brick.png,type:Input,regionName:null},{path:brick2.png,type:Input,regionName:null},{path:coin.png,type:Input,regionName:null},{path:fireballPowerup.png,type:Input,regionName:null},{path:fireParticle.png,type:Input,regionName:null},{path:multiball.png,type:Input,regionName:null},{path:paddle.png,type:Input,regionName:null},{path:particle2.png,type:Input,regionName:null},{path:timePowerup.png,type:Input,regionName:null},{path:paddleGrowPowerup.png,type:Input,regionName:null},{path:bigBallPowerup.png,type:Input,regionName:null},{path:explosiveBrick.png,type:Input,regionName:null}]
+inputFiles=[{path:ball.png,type:Input,regionName:null},{path:brick.png,type:Input,regionName:null},{path:brick2.png,type:Input,regionName:null},{path:coin.png,type:Input,regionName:null},{path:fireballPowerup.png,type:Input,regionName:null},{path:fireParticle.png,type:Input,regionName:null},{path:multiball.png,type:Input,regionName:null},{path:paddle.png,type:Input,regionName:null},{path:particle2.png,type:Input,regionName:null},{path:timePowerup.png,type:Input,regionName:null},{path:paddleGrowPowerup.png,type:Input,regionName:null},{path:bigBallPowerup.png,type:Input,regionName:null},{path:explosiveBrick.png,type:Input,regionName:null},{path:sideGun.png,type:Input,regionName:null},{path:brickExplosionParticle.png,type:Input,regionName:null},{path:shipBullet.png,type:Input,regionName:null}]
 
 
 -PROJ-
