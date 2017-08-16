@@ -75,6 +75,7 @@ public class Brick extends Actor {
 
     public void setHealth(int health) {
         this.health = health;
+        if (health <=0) alive = false;
     }
 
     public void setTexture() {

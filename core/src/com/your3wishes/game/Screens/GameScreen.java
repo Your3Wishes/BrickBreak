@@ -50,6 +50,7 @@ public class GameScreen implements Screen {
     private final Array<ShipBullet> shipBullets;
     private final Pool<ShipBullet> shipBulletPool;
     private Array<Brick> bricks;
+    private Array<FallingBrick> fallingBricks;
     private Brick brick;
     private Explosion explosion;
     private final Array<Explosion> explosions;
@@ -88,6 +89,7 @@ public class GameScreen implements Screen {
     private float lastTouchX;
     private int life = 100;
     private int ballLifeReduction = 25;
+    private int fallingBrickLifeReduction = 10;
     // Added for hud
     private Hud hud;
     private SpriteBatch hudSpriteBatch;
@@ -149,6 +151,7 @@ public class GameScreen implements Screen {
 
         // Initialize bricks array
         bricks = new Array<Brick>();
+        fallingBricks = new Array<FallingBrick>();
 
         // Initialize coins
         maxCoinCount=30;
@@ -209,8 +212,11 @@ public class GameScreen implements Screen {
                     brick = new Brick(game.assets, 1);
                 else if ( randomNumber < 70.0f)
                     brick = new ExplosiveBrick(game.assets);
-                else
+                else {
                     brick = new FallingBrick(game.assets, x, y);
+                    //fallingBricks.add((FallingBrick)brick);
+                }
+
                 brick.setX(x);
                 brick.setY(y);
                 brick.setBounds(brick.getX(), brick.getY());
@@ -246,9 +252,8 @@ public class GameScreen implements Screen {
     }
 
     private void update(float delta) {
-        if (MyGame.DEBUG) {
-            delta /= 16;
-        }
+       // if (MyGame.DEBUG) delta /= 16;
+
         stage.act(delta);
         handleTimers();
         checkCollisions();
@@ -338,6 +343,14 @@ public class GameScreen implements Screen {
         // Using an iterator for safe removal of items while iterating
         for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
             Brick brick = iterator.next();
+            if (paddle.getBounds().overlaps(brick.getBounds())) {
+                brick.setHealth(0);
+                if (!brick.alive) {
+                    removeBrick(iterator, brick);
+                    life -= fallingBrickLifeReduction;
+                }
+                continue;
+            }
             for (Ball item : balls) {
                 if (brick.getBounds().overlaps(item.getBounds())) {
                     // Damage brick
@@ -390,6 +403,7 @@ public class GameScreen implements Screen {
                 }
             }
         }
+
 
         // Bounce balls
         for (Ball item: balls) {

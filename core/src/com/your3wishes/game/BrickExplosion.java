@@ -21,8 +21,6 @@ public class BrickExplosion extends Actor implements Pool.Poolable, Freeable {
     private Rectangle bounds;
     private ShapeRenderer shapeRenderer; // For debugging bounding box
     static private boolean projectionMatrixSet = false; // For debugging bounding box
-    private Vector2 vec;
-
     public boolean alive;
 
     public BrickExplosion(Assets assets) {
@@ -30,7 +28,6 @@ public class BrickExplosion extends Actor implements Pool.Poolable, Freeable {
         effect.load(Gdx.files.internal("Particles/brickExplosion.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
         bounds = new Rectangle();
         shapeRenderer = new ShapeRenderer();
-        vec = new Vector2();
     }
 
     @Override
