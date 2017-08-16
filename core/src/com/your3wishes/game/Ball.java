@@ -1,10 +1,14 @@
 package com.your3wishes.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool;
 
@@ -27,6 +31,11 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
     public boolean growing = false;
     private float growScale = 1.0f;
 
+    private ShapeRenderer shapeRenderer; // For debugging launch line
+    static private boolean projectionMatrixSet = false; // For debugging launch line
+    Vector2 start = new Vector2();
+    Vector2 end = new Vector2();
+
     public Ball (Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         texture = atlas.findRegion("ball");
@@ -35,12 +44,29 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
 
         this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), 80);
+        shapeRenderer = new ShapeRenderer();
     }
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
         batch.draw(texture,this.getX(),getY(),this.getOriginX(),this.getOriginY(),this.getWidth(),
                 this.getHeight(),this.getScaleX(), this.getScaleY(),this.getRotation());
+
+        // Draw line of ball launch
+        if (MyGame.DEBUG) {
+            batch.end();
+            if(!projectionMatrixSet){
+                shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+            }
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.line(start, end);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+            shapeRenderer.end();
+            Gdx.gl.glLineWidth(1);
+            batch.begin();
+        }
     }
 
     @Override
@@ -54,6 +80,7 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
             // Keep Ball attached to paddle
             this.setPosition(paddle.getX() + (paddle.getWidth() * paddle.getScaleX()/2) - (this.getWidth() * this.getScaleX() / 2),
                     paddle.getY() + paddle.getHeight());
+
         }
 
 
@@ -103,6 +130,26 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
         growing = false;
     }
 
+    public void launch(float touchX, float touchY) {
+        if (launched == false) {
+            // Calculate xVelocity to make ball travel to point that was touched
+            // Slope = (y2 - y1) / (x2 - x1)
+            // x1, y1 = current ball position
+            // x2, y2 = touched position
+
+            start.set(getX() + (getWidth() * getScaleX() / 2) , getY() + (getHeight() * getScaleY() / 2));
+            end.set(touchX, touchY);
+
+            float slope =(touchY - (getY() + (getHeight() * getScaleY() / 2))) / (touchX - (getX() + (getWidth() * getScaleX() / 2)));
+            dx = Math.abs(dy / slope);
+            if (touchX < getX()) {
+                dx *= -1;
+            }
+
+
+        }
+        launched = true;
+    }
 
     public Rectangle getBounds() {
         return bounds;

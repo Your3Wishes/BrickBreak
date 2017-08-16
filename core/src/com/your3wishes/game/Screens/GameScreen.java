@@ -438,30 +438,33 @@ public class GameScreen implements Screen {
             // Set the last touch position as this current touch position
             lastTouchX = touchPos.x;
 
-            // Launch ball if touching top half of screen
-            if (touchPos.y >= MyGame.SCREENHEIGHT / 2) {
-                balls.get(0).launched = true;
-            }
         }
         else {
             lastTouchX = -1; // Indicates we picked up finger
         }
 
         if (Gdx.input.justTouched()) {
-            //tryToShoot();
+            // Note: justTouched() input cooridinates are Y down
+            Vector3 touchPos = new Vector3();
+            touchPos.set(Gdx.input.getX(), MyGame.SCREENHEIGHT - Gdx.input.getY(), 0);
+
+            // Launch ball if touching top half of screen
+            if (touchPos.y >= MyGame.SCREENHEIGHT / 2) {
+                balls.get(0).launch(touchPos.x, touchPos.y);
+            }
         }
 
         // Control ball for debugging
-        if (MyGame.DEBUG) {
-            if (Gdx.input.isTouched()) {
-                Vector3 touchPos = new Vector3();
-                touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-                game.camera.unproject(touchPos);
-                ball.setX(touchPos.x - ball.getWidth() / 2);
-                ball.setY(touchPos.y - ball.getHeight() / 2);
-                ball.setBounds(ball.getX(), ball.getY());
-            }
-        }
+//        if (MyGame.DEBUG) {
+//            if (Gdx.input.isTouched()) {
+//                Vector3 touchPos = new Vector3();
+//                touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+//                game.camera.unproject(touchPos);
+//                ball.setX(touchPos.x - ball.getWidth() / 2);
+//                ball.setY(touchPos.y - ball.getHeight() / 2);
+//                ball.setBounds(ball.getX(), ball.getY());
+//            }
+//        }
     }
 
     private void handleTimers() {
