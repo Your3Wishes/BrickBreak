@@ -1,20 +1,21 @@
-package com.your3wishes.game;
+package com.your3wishes.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.your3wishes.game.MyGame;
 
 /**
  * Created by Joe on 8/13/2017.
  */
 
-public class GameOver implements Screen{
+public class GameOverScreen implements Screen{
         final MyGame game;
 
         OrthographicCamera camera;
 
-        public GameOver(final MyGame game) {
+        public GameOverScreen(final MyGame game) {
             this.game = game;
             camera = new OrthographicCamera();
             camera.setToOrtho(false, game.SCREENWIDTH, game.SCREENWIDTH);
@@ -39,7 +40,7 @@ public class GameOver implements Screen{
             game.batch.end();
 
             if (Gdx.input.isTouched()) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new com.your3wishes.game.Screens.GameScreen(game));
                 dispose();
             }
         }

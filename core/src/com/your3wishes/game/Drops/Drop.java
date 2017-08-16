@@ -1,4 +1,4 @@
-package com.your3wishes.game;
+package com.your3wishes.game.Drops;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool;
+import com.your3wishes.game.Freeable;
+import com.your3wishes.game.MyGame;
 
 /**
  * Created by Your3Wishes on 7/25/2017.

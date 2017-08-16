@@ -1,10 +1,11 @@
-package com.your3wishes.game;
+package com.your3wishes.game.Bricks;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.your3wishes.game.Assets;
 
 /**
  * Created by Your3Wishes on 7/2/2017.
@@ -16,6 +17,7 @@ public class Brick extends Actor {
     protected int bulletHealth = 100; // Health pool for when bullets hit brick
     protected int currBulletHealth = bulletHealth;
     protected int health;
+    protected float scaleFactor = 1.0f;
     protected TextureAtlas atlas;
 
 
@@ -25,7 +27,7 @@ public class Brick extends Actor {
         atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         health = 1;
         setTexture();
-        this.setScale(0.85f, 0.85f);
+        this.setScale(scaleFactor, scaleFactor);
         setBounds(0, 0, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
     }
@@ -34,7 +36,7 @@ public class Brick extends Actor {
         atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         this.health = health;
         setTexture();
-        this.setScale(0.85f, 0.85f);
+        this.setScale(scaleFactor, scaleFactor);
         setBounds(0, 0, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
     }

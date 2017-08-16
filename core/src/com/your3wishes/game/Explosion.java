@@ -18,7 +18,7 @@ public class Explosion extends Actor implements Pool.Poolable, Freeable{
 
     public Explosion(Assets assets) {
         effect = new ParticleEffect();
-        effect.load(Gdx.files.internal("explosion.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
+        effect.load(Gdx.files.internal("Particles/explosion.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
     }
 
     @Override

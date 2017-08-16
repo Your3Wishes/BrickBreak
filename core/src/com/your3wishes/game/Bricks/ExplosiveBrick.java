@@ -1,5 +1,7 @@
-package com.your3wishes.game;
+package com.your3wishes.game.Bricks;
 
+
+import com.your3wishes.game.Assets;
 
 /**
  * Created by Your3Wishes on 8/9/2017.
@@ -7,7 +9,7 @@ package com.your3wishes.game;
 
 public class ExplosiveBrick extends Brick {
 
-    ExplosiveBrick(Assets assets) {
+    public ExplosiveBrick(Assets assets) {
         super(assets);
     }
 

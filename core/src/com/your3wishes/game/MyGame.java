@@ -21,7 +21,7 @@ public class MyGame extends Game {
         assets = new Assets();
 		batch = new SpriteBatch();
 		font = new BitmapFont(Gdx.files.internal("OCRstnd.fnt"));
-		this.setScreen(new LoadingScreen(this));
+		this.setScreen(new com.your3wishes.game.Screens.LoadingScreen(this));
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, SCREENWIDTH, SCREENHEIGHT);

@@ -1,117 +1,124 @@
 
 gameScreen.png
-size: 512,256
+size: 1024,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 ball
   rotate: false
-  xy: 264, 115
+  xy: 788, 54
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 bigBallPowerup
   rotate: false
-  xy: 264, 49
+  xy: 854, 54
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 brick
   rotate: false
-  xy: 2, 68
-  size: 128, 64
-  orig: 128, 64
+  xy: 362, 2
+  size: 100, 50
+  orig: 100, 50
   offset: 0, 0
   index: -1
 brick2
   rotate: false
-  xy: 260, 181
-  size: 128, 64
-  orig: 128, 64
+  xy: 260, 2
+  size: 100, 50
+  orig: 100, 50
   offset: 0, 0
   index: -1
 brickExplosionParticle
   rotate: false
-  xy: 198, 2
+  xy: 722, 54
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 coin
   rotate: false
-  xy: 132, 2
+  xy: 590, 54
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 explosiveBrick
   rotate: false
-  xy: 2, 2
-  size: 128, 64
-  orig: 128, 64
+  xy: 464, 2
+  size: 100, 50
+  orig: 100, 50
+  offset: 0, 0
+  index: -1
+fallingBrick
+  rotate: false
+  xy: 566, 2
+  size: 100, 50
+  orig: 100, 50
   offset: 0, 0
   index: -1
 fireParticle
   rotate: false
-  xy: 132, 68
+  xy: 326, 54
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 fireballPowerup
   rotate: false
-  xy: 396, 115
+  xy: 524, 54
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 multiball
   rotate: false
-  xy: 198, 68
+  xy: 656, 54
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 paddle
   rotate: false
-  xy: 2, 134
+  xy: 2, 7
   size: 256, 111
   orig: 256, 111
   offset: 0, 0
   index: -1
 paddleGrowPowerup
   rotate: false
-  xy: 390, 181
+  xy: 260, 54
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 particle2
   rotate: false
-  xy: 476, 213
+  xy: 668, 20
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 shipBullet
   rotate: false
-  xy: 456, 181
+  xy: 920, 54
   size: 18, 64
   orig: 18, 64
   offset: 0, 0
   index: -1
 sideGun
   rotate: false
-  xy: 330, 49
+  xy: 458, 54
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 timePowerup
   rotate: false
-  xy: 330, 115
+  xy: 392, 54
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

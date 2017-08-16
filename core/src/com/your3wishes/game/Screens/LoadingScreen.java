@@ -1,30 +1,29 @@
-package com.your3wishes.game;
+package com.your3wishes.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.your3wishes.game.MyGame;
 
 /**
- * Created by guita on 7/2/2017.
+ * Created by Your3Wishes on 7/11/2017.
  */
 
-public class MainMenuScreen implements Screen {
+public class LoadingScreen implements Screen {
     final MyGame game;
 
     OrthographicCamera camera;
 
-    public MainMenuScreen(final MyGame game) {
+    public LoadingScreen(final MyGame game) {
         this.game = game;
-
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.SCREENWIDTH, game.SCREENWIDTH);
     }
 
     @Override
     public void show() {
-        //test
-
+        game.assets.load();
     }
 
     @Override
@@ -35,13 +34,9 @@ public class MainMenuScreen implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
-        game.batch.begin();
-        game.font.draw(game.batch, "Welcome to Brick Break! ", 250, 700);
-        game.font.draw(game.batch, "Tap anywhere to begin!", 260, 600);
-        game.batch.end();
 
-        if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
+        if (game.assets.assetManager.update()) {
+            game.setScreen(new com.your3wishes.game.Screens.MainMenuScreen(game));
             dispose();
         }
     }

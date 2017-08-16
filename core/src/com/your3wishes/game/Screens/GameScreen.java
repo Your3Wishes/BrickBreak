@@ -1,30 +1,36 @@
-package com.your3wishes.game;
+package com.your3wishes.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.your3wishes.game.Ball;
+import com.your3wishes.game.BrickExplosion;
+import com.your3wishes.game.Bricks.Brick;
+import com.your3wishes.game.Bricks.FallingBrick;
+import com.your3wishes.game.Drops.Coin;
+import com.your3wishes.game.Explosion;
+import com.your3wishes.game.Bricks.ExplosiveBrick;
+import com.your3wishes.game.FireBall;
+import com.your3wishes.game.Freeable;
+import com.your3wishes.game.Hud;
+import com.your3wishes.game.MyGame;
+import com.your3wishes.game.Paddle;
+import com.your3wishes.game.Drops.Powerup;
+import com.your3wishes.game.ScrollingBackground;
+import com.your3wishes.game.ShipBullet;
+import com.your3wishes.game.SideGun;
+
 
 import java.util.Iterator;
-import java.util.Random;
 
-import static com.badlogic.gdx.graphics.Color.WHITE;
 import static java.lang.Math.abs;
 
 /**
@@ -149,7 +155,7 @@ public class GameScreen implements Screen {
         coins = new Array<Coin>();
         coinPool = new Pool<Coin>() {
             @Override
-            protected  Coin newObject() {
+            protected Coin newObject() {
                 return new Coin(game.assets);
             }
         };
@@ -158,7 +164,7 @@ public class GameScreen implements Screen {
         powerups = new Array<Powerup>();
         powerupPool = new Pool<Powerup>() {
             @Override
-            protected  Powerup newObject() {
+            protected Powerup newObject() {
                 return new Powerup(game.assets);
             }
         };
@@ -193,15 +199,20 @@ public class GameScreen implements Screen {
         // Spawn bricks
         for (int i = 0; i <= 10; i++) {
             for (int j = 0; j <= 3; j++) {
+                brick = new Brick(game.assets, 2);
+                float x = 16 + i * brick.getWidth() * brick.getScaleX();
+                float y = 1500 + (j * (brick.getHeight() * brick.getScaleY() + 10));
                 randomNumber = MathUtils.random(0.0f, 100.0f);
                 if ( randomNumber < 30.0f)
                     brick = new Brick(game.assets, 2);
-                else if ( randomNumber < 90.0f)
+                else if ( randomNumber < 60.0f)
                     brick = new Brick(game.assets, 1);
-                else
+                else if ( randomNumber < 70.0f)
                     brick = new ExplosiveBrick(game.assets);
-                brick.setX(16 + i * brick.getWidth() * brick.getScaleX());
-                brick.setY(1500 + (j * (brick.getHeight() * brick.getScaleY() + 10)));
+                else
+                    brick = new FallingBrick(game.assets, x, y);
+                brick.setX(x);
+                brick.setY(y);
                 brick.setBounds(brick.getX(), brick.getY());
                 bricks.add(brick);
                 stage.addActor(brick);
@@ -228,7 +239,7 @@ public class GameScreen implements Screen {
         hud.stage.draw();
         hud.update(delta);
         if (gameOver == true) {
-            game.setScreen(new GameOver(game));
+            game.setScreen(new GameOverScreen(game));
             dispose();
         }
 

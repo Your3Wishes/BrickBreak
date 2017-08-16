@@ -72,7 +72,6 @@ public class Paddle extends Actor {
         else if (getX() > MyGame.SCREENWIDTH - (getWidth() * getScaleX())) {
             setX(MyGame.SCREENWIDTH - (getWidth() * getScaleX()));
         }
-
     }
 
 

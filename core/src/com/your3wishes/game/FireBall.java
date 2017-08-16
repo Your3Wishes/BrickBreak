@@ -21,7 +21,7 @@ public class FireBall extends Actor implements Pool.Poolable, Freeable {
 
     public FireBall(Assets assets) {
         effect = new ParticleEffect();
-        effect.load(Gdx.files.internal("fireball.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
+        effect.load(Gdx.files.internal("Particles/fireball.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
     }
 
     @Override

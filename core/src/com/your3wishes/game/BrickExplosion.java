@@ -27,7 +27,7 @@ public class BrickExplosion extends Actor implements Pool.Poolable, Freeable {
 
     public BrickExplosion(Assets assets) {
         effect = new ParticleEffect();
-        effect.load(Gdx.files.internal("brickExplosion.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
+        effect.load(Gdx.files.internal("Particles/brickExplosion.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
         bounds = new Rectangle();
         shapeRenderer = new ShapeRenderer();
         vec = new Vector2();
