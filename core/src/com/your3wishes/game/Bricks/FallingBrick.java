@@ -82,7 +82,6 @@ public class FallingBrick extends Brick {
                 if (getRotation() <= -wiggleDegrees + 1.0f) wiggleRight = true;
             }
 
-            Gdx.app.log("Falling brick rotation: ", String.valueOf(getRotation()));
         }
         else if (state == State.FALLING) {
             // Check if brick has fallen below screen

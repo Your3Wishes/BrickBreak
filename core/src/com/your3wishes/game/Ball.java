@@ -115,6 +115,8 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
         // Update bounding box
         setBounds(getX(), getY());
 
+        Gdx.app.log("ball bounds x position: ", String.valueOf(bounds.getX()));
+
     }
 
     @Override
@@ -145,6 +147,9 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
             if (touchX < getX()) {
                 dx *= -1;
             }
+
+            // Force y velocity to be positive so the ball launched upwards
+            dy = Math.abs(dy);
 
 
         }
