@@ -25,7 +25,8 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
     private float dx = 50.0f; // Current x velocity
     private float dy = 1050.0f; // Current y velocity
     private float maxDx = 350.0f; // Maximum x velocity
-    public boolean brickHit;
+    public boolean brickBounceY = false; // Flag to indicate change in y direction due to bouncing
+    public boolean brickBounceX = false; // Flag to indicate change in x directino due to boucning
     public boolean alive;
     public boolean launched = true;
     private Paddle paddle; // Used to position ball on paddle when not launched yet

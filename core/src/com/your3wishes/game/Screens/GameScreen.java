@@ -637,8 +637,28 @@ public class GameScreen implements Screen {
                     if (!brick.alive) {
                         removeBrick(iterator, brick);
                     }
-                    if (!fireballActive)
-                        item.brickHit = true;
+                    if (!fireballActive) {
+                        Rectangle brickRect = brick.getBounds();
+                        Rectangle ballRect = ball.getBounds();
+                        // Check which side of brick the ball hit to reflect dx, or dy accordingly
+                        if (ballRect.x < brickRect.x) {
+                            //ball.setDx(-Math.abs(ball.getDx()));
+                            item.brickBounceX = true;
+                        }
+                        else if (ballRect.x + ballRect.getWidth() > brickRect.x + brickRect.getWidth()) {
+                            //ball.setDx(Math.abs(ball.getDx()));
+                            item.brickBounceX = true;
+                        }
+                        if (ballRect.y < brickRect.y) {
+                            //ball.setDy(-Math.abs(ball.getDy()));
+                            item.brickBounceY = true;
+                        }
+                        else if (ballRect.y + ballRect.getHeight() > brickRect.y + brickRect.getHeight()) {
+                            //ball.setDy(Math.abs(ball.getDy()));
+                            item.brickBounceY = true;
+                        }
+                        //item.brickHit = true;
+                    }
                     score+=2;
 
                     // Move to next brick. No use checking other balls against this brick if it is now destroyed.
@@ -741,9 +761,13 @@ public class GameScreen implements Screen {
 
         // Bounce balls
         for (Ball item: balls) {
-            if (item.brickHit) {
+            if (item.brickBounceY) {
                 item.setDy(item.getDy() * -1);
-                item.brickHit = false;
+                item.brickBounceY = false;
+            }
+            if (item.brickBounceX) {
+                item.setDx(item.getDx() * -1);
+                item.brickBounceX = false;
             }
         }
 
