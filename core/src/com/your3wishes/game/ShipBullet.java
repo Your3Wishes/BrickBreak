@@ -13,11 +13,13 @@ import com.badlogic.gdx.utils.Pool;
 
 public class ShipBullet extends Actor implements Pool.Poolable, Freeable {
 
-    private TextureRegion texture;
-    private Rectangle bounds;
+    protected TextureRegion texture;
+    protected Rectangle bounds;
     public boolean alive = true;
-    private float dy = 1500.0f;
-    private int damage = 25;
+    protected float dy = 1500.0f;
+    protected int damage = 25;
+
+    public ShipBullet() {}
 
     public ShipBullet (Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
@@ -36,7 +38,7 @@ public class ShipBullet extends Actor implements Pool.Poolable, Freeable {
     public void act (float delta) {
         setY(getY() + (dy * delta));
 
-        if (getY() > MyGame.SCREENHEIGHT) {
+        if (getY() > MyGame.SCREENHEIGHT || getY() < 0) {
             alive = false;
         }
 

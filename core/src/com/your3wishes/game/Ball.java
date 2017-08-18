@@ -20,6 +20,7 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
     private TextureRegion texture;
     private Rectangle bounds;
     private float initialScale = 0.75f;
+    private int damage = 50; // Amount of damage dealt to enemy ships
     private float startDx = 90.0f; // Starting/standard x velocity
     private float dx = 50.0f; // Current x velocity
     private float dy = 1050.0f; // Current y velocity
@@ -150,8 +151,6 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
 
             // Force y velocity to be positive so the ball launched upwards
             dy = Math.abs(dy);
-
-
         }
         launched = true;
     }
@@ -168,6 +167,7 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
     public float getDy() {
         return dy;
     }
+
     public float getDx() { return dx; }
     public float getMaxDx() { return maxDx;}
 
@@ -186,6 +186,10 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
 
     public boolean isAlive() {
         return alive;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 
     public void removeFromStage() {
