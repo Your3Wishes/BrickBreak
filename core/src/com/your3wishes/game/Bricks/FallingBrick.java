@@ -3,8 +3,10 @@ package com.your3wishes.game.Bricks;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.your3wishes.game.Assets;
 import com.your3wishes.game.MyGame;
 
@@ -31,10 +33,16 @@ public class FallingBrick extends Brick {
 
     private State state = State.WAITING;
 
-    public FallingBrick(Assets assets, float startX, float startY) {
-        super(assets);
-        this.startX = startX;
-        this.startY = startY;
+    public FallingBrick(Assets assets, float x, float y) {
+        atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
+        health = 1;
+        setTexture();
+        this.setScale(scaleFactor, scaleFactor);
+        setPosition(x, y);
+        this.startX = x;
+        this.startY = y;
+        setBounds(x, y, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
+        bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
         setOrigin(getWidth() * getScaleX() / 2, getHeight() * getScaleY() /2);
         startTime = System.currentTimeMillis();
         shapeRenderer = new ShapeRenderer();

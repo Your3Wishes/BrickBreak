@@ -116,9 +116,6 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
 
         // Update bounding box
         setBounds(getX(), getY());
-
-        Gdx.app.log("ball bounds x position: ", String.valueOf(bounds.getX()));
-
     }
 
     @Override

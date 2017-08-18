@@ -23,21 +23,33 @@ public class Brick extends Actor {
 
     public boolean alive = true;
 
-    public Brick (Assets assets) {
-        atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
-        health = 1;
-        setTexture();
-        this.setScale(scaleFactor, scaleFactor);
-        setBounds(0, 0, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
-        bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
-    }
+//    public Brick (Assets assets) {
+//        atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
+//        health = 1;
+//        setTexture();
+//        this.setScale(scaleFactor, scaleFactor);
+//        setBounds(0, 0, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
+//        bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
+//    }
 
-    public Brick (Assets assets, int health) {
+//    public Brick (Assets assets, int health) {
+//        atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
+//        this.health = health;
+//        setTexture();
+//        this.setScale(scaleFactor, scaleFactor);
+//        setBounds(0, 0, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
+//        bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
+//    }
+
+    public Brick () {}
+
+    public Brick (Assets assets, float x, float y, int health) {
         atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         this.health = health;
         setTexture();
         this.setScale(scaleFactor, scaleFactor);
-        setBounds(0, 0, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
+        setPosition(x, y);
+        setBounds(x, y, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
     }
 

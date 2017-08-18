@@ -5,9 +5,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
@@ -30,6 +35,8 @@ import com.your3wishes.game.Drops.Powerup;
 import com.your3wishes.game.ScrollingBackground;
 import com.your3wishes.game.ShipBullet;
 import com.your3wishes.game.SideGun;
+import com.your3wishes.game.Utilities.LevelLoader;
+
 import java.util.Iterator;
 import static java.lang.Math.abs;
 
@@ -72,7 +79,7 @@ public class GameScreen implements Screen {
     private int slowTimeDuration = 5000;
     private int paddleGrowDuration = 5000;
     private int ballGrowDuration = 5000;
-    private int shipBulletDuration = 500;
+    private int shipBulletDuration = 800;
     private long shipBulletStartTime;
     private long fireBallStartTime;
     private long slowTimeStartTime;
@@ -96,11 +103,14 @@ public class GameScreen implements Screen {
     private int life = 100;
     private int ballLifeReduction = 25;
     private int fallingBrickLifeReduction = 10;
-    // Added for hud
+
+    // Hud Variables
     private Hud hud;
     private SpriteBatch hudSpriteBatch;
     private boolean gameOver=false;
 
+    // Level loading
+    LevelLoader levelLoader;
 
 
 
@@ -223,31 +233,40 @@ public class GameScreen implements Screen {
             }
         };
 
-        // Spawn bricks
-        for (int i = 0; i <= 10; i++) {
-            for (int j = 0; j <= 3; j++) {
-                brick = new Brick(game.assets, 2);
-                float x = 16 + i * brick.getWidth() * brick.getScaleX();
-                float y = 1500 + (j * (brick.getHeight() * brick.getScaleY() + 10));
-                randomNumber = MathUtils.random(0.0f, 100.0f);
-                if ( randomNumber < 30.0f)
-                    brick = new Brick(game.assets, 2);
-                else if ( randomNumber < 60.0f)
-                    brick = new Brick(game.assets, 1);
-                else if ( randomNumber < 70.0f)
-                    brick = new ExplosiveBrick(game.assets);
-                else {
-                    brick = new FallingBrick(game.assets, x, y);
-                    //fallingBricks.add((FallingBrick)brick);
-                }
 
-                brick.setX(x);
-                brick.setY(y);
-                brick.setBounds(brick.getX(), brick.getY());
-                bricks.add(brick);
-                stage.addActor(brick);
-            }
-        }
+        // Load level
+        levelLoader = new LevelLoader(this);
+        levelLoader.loadLevel();
+
+//        //Spawn bricks
+//        for (int i = 0; i <= 10; i++) {
+//            for (int j = 0; j <= 3; j++) {
+//                brick = new Brick(game.assets, 2);
+//                float x = 16 + i * brick.getWidth() * brick.getScaleX();
+//                float y = 1500 + (j * (brick.getHeight() * brick.getScaleY() + 10));
+//                randomNumber = MathUtils.random(0.0f, 100.0f);
+//                if ( randomNumber < 30.0f)
+//                    brick = new Brick(game.assets, 2);
+////                else if ( randomNumber < 60.0f)
+////                    brick = new Brick(game.assets, 1);
+////                else if ( randomNumber < 70.0f)
+////                    brick = new ExplosiveBrick(game.assets);
+////                else {
+////                    brick = new FallingBrick(game.assets, x, y);
+////                    //fallingBricks.add((FallingBrick)brick);
+////                }
+//
+//                brick.setX(x);
+//                brick.setY(y);
+//                brick.setBounds(brick.getX(), brick.getY());
+//                bricks.add(brick);
+//                stage.addActor(brick);
+//            }
+//        }
+
+
+
+
 
     }
 
@@ -423,7 +442,7 @@ public class GameScreen implements Screen {
         randomNumber = MathUtils.random(0.0f, 100.0f);
         if ((randomNumber < 90) & coinCount < maxCoinCount)  {
             coin = coinPool.obtain();
-            coin.setPosition((brick.getX() + (brick.getWidth() / 4)), brick.getY());
+            coin.setPosition((enemyShip.getX() + (enemyShip.getWidth() / 4)), enemyShip.getY());
             coins.add(coin);
             stage.addActor(coin);
             coinCount++;
@@ -431,7 +450,7 @@ public class GameScreen implements Screen {
 
         // Spawn powerup
         if (randomNumber < 50) {
-            spawnPowerup(brick);
+            spawnPowerup(enemyShip);
         }
     }
 
@@ -458,7 +477,7 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void spawnPowerup(Brick brick) {
+    private void spawnPowerup(Actor entity) {
         powerup = powerupPool.obtain();
         Array<Powerup.Type> powerupTypes = new Array<Powerup.Type>();
         powerupTypes.add(Powerup.Type.MULTIBALL);
@@ -474,7 +493,7 @@ public class GameScreen implements Screen {
                 powerup.setType(powerupTypes.get(i));
             }
         }
-        powerup.setPosition((brick.getX() + (brick.getWidth() * brick.getScaleX() / 2)), brick.getY());
+        powerup.setPosition((entity.getX() + (entity.getWidth() * entity.getScaleX() / 2)), entity.getY());
         powerups.add(powerup);
         stage.addActor(powerup);
     }
@@ -638,26 +657,7 @@ public class GameScreen implements Screen {
                         removeBrick(iterator, brick);
                     }
                     if (!fireballActive) {
-                        Rectangle brickRect = brick.getBounds();
-                        Rectangle ballRect = ball.getBounds();
-                        // Check which side of brick the ball hit to reflect dx, or dy accordingly
-                        if (ballRect.x < brickRect.x) {
-                            //ball.setDx(-Math.abs(ball.getDx()));
-                            item.brickBounceX = true;
-                        }
-                        else if (ballRect.x + ballRect.getWidth() > brickRect.x + brickRect.getWidth()) {
-                            //ball.setDx(Math.abs(ball.getDx()));
-                            item.brickBounceX = true;
-                        }
-                        if (ballRect.y < brickRect.y) {
-                            //ball.setDy(-Math.abs(ball.getDy()));
-                            item.brickBounceY = true;
-                        }
-                        else if (ballRect.y + ballRect.getHeight() > brickRect.y + brickRect.getHeight()) {
-                            //ball.setDy(Math.abs(ball.getDy()));
-                            item.brickBounceY = true;
-                        }
-                        //item.brickHit = true;
+                        item.brickBounceY = true;
                     }
                     score+=2;
 
@@ -797,6 +797,18 @@ public class GameScreen implements Screen {
     @Override
     public void hide() {
 
+    }
+
+    public Array<Brick> getBricks() {
+        return bricks;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public MyGame getGame() {
+        return game;
     }
 
 }
