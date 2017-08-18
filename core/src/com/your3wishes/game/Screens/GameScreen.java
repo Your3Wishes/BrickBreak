@@ -145,7 +145,7 @@ public class GameScreen implements Screen {
 
         // Initialize enemy ships
         enemyShips = new Array<EnemyShip>();
-        enemyShip = new EnemyShip(game.assets, 200, 1000);
+        enemyShip = new EnemyShip(game.assets, 200, 1250);
         enemyShips.add(enemyShip);
         stage.addActor(enemyShip);
         enemyShip = new EnemyShip(game.assets, 900, 1000);

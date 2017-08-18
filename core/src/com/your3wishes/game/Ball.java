@@ -20,7 +20,7 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
     private TextureRegion texture;
     private Rectangle bounds;
     private float initialScale = 0.75f;
-    private int damage = 50; // Amount of damage dealt to enemy ships
+    private int damage = 25; // Amount of damage dealt to enemy ships
     private float startDx = 90.0f; // Starting/standard x velocity
     private float dx = 50.0f; // Current x velocity
     private float dy = 1050.0f; // Current y velocity

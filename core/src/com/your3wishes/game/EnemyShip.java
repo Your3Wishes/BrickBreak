@@ -5,9 +5,15 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 
 /**
  * Created by Your3Wishes on 8/16/2017.
@@ -18,8 +24,12 @@ public class EnemyShip extends Actor {
     private TextureRegion texture;
     private Rectangle bounds;
     private int health = 100;
-    private float dx = 0;
+    private float dx = 300;
     private float dy = 0;
+    private float startX;
+    private float startY;
+    private float xDest;
+    private float yDest;
     private float wiggleAmount = 25.0f;
     private float wiggleLerpFactor = 2.5f;
     private float yLerpDestUp;
@@ -29,12 +39,13 @@ public class EnemyShip extends Actor {
     public boolean fireBullet = false;
     private int bulletDuration = 1000;
     private long bulletStartTime;
+    private float randomNumber;
     private ShapeRenderer shapeRenderer; // For debugging bounding box
     static private boolean projectionMatrixSet = false; // For debugging bounding box
     public enum State {
-        IDLE, SWEEPING, STRAFING;
+        IDLE, SWEEPINGDOWN, SWEEPINGUP, STRAFING, WAITINGDOWN, WAITINGUP;
     }
-    private State state = State.IDLE;
+    private State state = State.SWEEPINGDOWN;
 
     public EnemyShip (Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
@@ -78,6 +89,7 @@ public class EnemyShip extends Actor {
 
     @Override
     public void act (float delta) {
+        super.act(delta);
         if (state == State.IDLE) {
             if (wiggleUp) {
                 setY(MathUtils.lerp(getY(), yLerpDestUp, wiggleLerpFactor * delta));
@@ -91,7 +103,49 @@ public class EnemyShip extends Actor {
                     wiggleUp = true;
                 }
             }
+
+            randomNumber = MathUtils.random(0.0f, 200.0f);
+            if (randomNumber < 1 && randomNumber > 0.5f) state = State.STRAFING;
+            if (randomNumber < 0.5f) state = State.SWEEPINGDOWN;
         }
+        else if (state == State.STRAFING) {
+            setX(getX() + (dx) * delta);
+
+            randomNumber = MathUtils.random(0.0f, 200.0f);
+            if (randomNumber < 1) state = State.IDLE;
+        }
+        else if (state == State.SWEEPINGDOWN) {
+            startX = getX();
+            startY = getY();
+            float xDist = MyGame.SCREENWIDTH/2 - getX(); // x Distance from getX() and center of screen
+            xDest = getX() + (xDist / 2);
+            yDest = MyGame.SCREENHEIGHT / 3;
+            this.addAction(moveTo(xDest, yDest, 3.0f, Interpolation.swing));
+            state = State.WAITINGDOWN;
+        }
+        else if (state == State.SWEEPINGUP) {
+            this.addAction(moveTo(startX, startY, 3.0f, Interpolation.swing));
+            state = State.WAITINGUP;
+        }
+        else if (state == State.WAITINGDOWN) {
+            if (getX() == xDest && getY() == yDest) {
+                state = State.SWEEPINGUP;
+            }
+        }
+        else if (state == State.WAITINGUP) {
+            if (getX() == startX && getY() == startY) {
+                state = State.IDLE;
+            }
+        }
+
+
+        if (getX() + (getWidth() * getScaleX()) > MyGame.SCREENWIDTH || getX() < 0) {
+            dx *= -1;
+        }
+
+        // Update bounds
+        setBounds(getX(), getY());
+
 
         tryToShoot();
     }
