@@ -4,7 +4,7 @@ package com.your3wishes.game.Drops;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
-import com.your3wishes.game.Assets;
+import com.your3wishes.game.Utilities.Assets;
 
 /**
  * Created by Your3Wishes on 7/29/2017.

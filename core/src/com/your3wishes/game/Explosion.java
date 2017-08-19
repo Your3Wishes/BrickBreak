@@ -16,7 +16,7 @@ public class Explosion extends Actor implements Pool.Poolable, Freeable{
 
     public boolean alive;
 
-    public Explosion(Assets assets) {
+    public Explosion(com.your3wishes.game.Utilities.Assets assets) {
         effect = new ParticleEffect();
         effect.load(Gdx.files.internal("Particles/explosion.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
     }

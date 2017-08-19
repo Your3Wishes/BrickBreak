@@ -23,7 +23,7 @@ public class ScrollingBackground extends Actor{
     float imageScale;
     boolean speedFixed;
 
-    public ScrollingBackground (Assets assets) {
+    public ScrollingBackground (com.your3wishes.game.Utilities.Assets assets) {
         image = new Texture("stars_background.png");
 
         y1 = 0;

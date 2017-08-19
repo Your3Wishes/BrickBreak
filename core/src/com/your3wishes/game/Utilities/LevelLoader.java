@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.your3wishes.game.Bricks.Brick;
 import com.your3wishes.game.Bricks.ExplosiveBrick;
 import com.your3wishes.game.Bricks.FallingBrick;
+import com.your3wishes.game.EnemyShip;
 import com.your3wishes.game.MyGame;
 import com.your3wishes.game.Screens.GameScreen;
 
@@ -26,9 +27,11 @@ public class LevelLoader {
         mapLoader = new TmxMapLoader();
     }
 
-    public void loadLevel() {
-        map = mapLoader.load("Levels/level1.tmx");
+    public void loadLevel(String levelName) {
+        // Todo: pass in dynamic level name
+        map = mapLoader.load("Levels/" + levelName + ".tmx");
         loadBricks();
+        loadEnemies();
     }
 
     public void loadBricks() {
@@ -59,5 +62,17 @@ public class LevelLoader {
                 gameScreen.getBricks().add(temp);
                 gameScreen.getStage().addActor(temp);
             }
+    }
+
+    public void loadEnemies() {
+        // EnemyShip
+        if (map.getLayers().get("EnemyShips") != null)
+            for (MapObject object : map.getLayers().get("EnemyShips").getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                EnemyShip temp = new EnemyShip(gameScreen.getGame().assets, rect.getX(), rect.getY());
+                gameScreen.getEnemyShips().add(temp);
+                gameScreen.getStage().addActor(temp);
+            }
+
     }
 }

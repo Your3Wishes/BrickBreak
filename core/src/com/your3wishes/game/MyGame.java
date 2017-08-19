@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.your3wishes.game.Screens.LoadingScreen;
+import com.your3wishes.game.Utilities.Assets;
 
 public class MyGame extends Game {
 	public static final int SCREENWIDTH = 1080;
@@ -21,7 +23,7 @@ public class MyGame extends Game {
         assets = new Assets();
 		batch = new SpriteBatch();
 		font = new BitmapFont(Gdx.files.internal("OCRstnd.fnt"));
-		this.setScreen(new com.your3wishes.game.Screens.LoadingScreen(this));
+		this.setScreen(new LoadingScreen(this));
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, SCREENWIDTH, SCREENHEIGHT);

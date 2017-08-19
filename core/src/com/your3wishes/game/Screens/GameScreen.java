@@ -5,10 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -155,12 +151,12 @@ public class GameScreen implements Screen {
 
         // Initialize enemy ships
         enemyShips = new Array<EnemyShip>();
-        enemyShip = new EnemyShip(game.assets, 200, 1250);
-        enemyShips.add(enemyShip);
-        stage.addActor(enemyShip);
-        enemyShip = new EnemyShip(game.assets, 900, 1000);
-        enemyShips.add(enemyShip);
-        stage.addActor(enemyShip);
+//        enemyShip = new EnemyShip(game.assets, 200, 1250);
+//        enemyShips.add(enemyShip);
+//        stage.addActor(enemyShip);
+//        enemyShip = new EnemyShip(game.assets, 900, 1000);
+//        enemyShips.add(enemyShip);
+//        stage.addActor(enemyShip);
 
         // Initialize enemy ship bullets
         enemyBullets = new Array<EnemyBullet>();
@@ -236,7 +232,7 @@ public class GameScreen implements Screen {
 
         // Load level
         levelLoader = new LevelLoader(this);
-        levelLoader.loadLevel();
+        levelLoader.loadLevel("level1");
 
 //        //Spawn bricks
 //        for (int i = 0; i <= 10; i++) {
@@ -801,6 +797,10 @@ public class GameScreen implements Screen {
 
     public Array<Brick> getBricks() {
         return bricks;
+    }
+
+    public Array<EnemyShip> getEnemyShips() {
+        return enemyShips;
     }
 
     public Stage getStage() {

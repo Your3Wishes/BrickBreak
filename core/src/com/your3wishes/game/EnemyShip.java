@@ -9,10 +9,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
+import com.your3wishes.game.Utilities.Assets;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 
 /**

@@ -16,7 +16,7 @@ public class SideGun extends Actor {
     private int sideOfShip;
 
     // sideOfShip: -1 = left, 1 = right
-    public SideGun (Assets assets, Paddle paddle, int sideOfShip) {
+    public SideGun (com.your3wishes.game.Utilities.Assets assets, Paddle paddle, int sideOfShip) {
         this.paddle = paddle;
         this.sideOfShip = sideOfShip;
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);

@@ -1,4 +1,4 @@
-package com.your3wishes.game;
+package com.your3wishes.game.Utilities;
 
 
 import com.badlogic.gdx.assets.AssetManager;

@@ -1,153 +1,169 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="18" height="60" tilewidth="60" tileheight="32" nextobjectid="35">
- <layer name="Tile Layer 1" width="18" height="60">
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="20" height="60" tilewidth="54" tileheight="32" nextobjectid="40">
+ <layer name="Tile Layer 1" width="20" height="60">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup color="#0000ff" name="Bricks">
-  <object id="1" type="Brick" x="60" y="544" width="120" height="64">
+ <objectgroup color="#000000" name="ExplosiveBricks">
+  <object id="38" type="ExplosiveBrick" x="648" y="544" width="108" height="64">
    <properties>
     <property name="Health" type="int" value="1"/>
    </properties>
   </object>
-  <object id="2" type="Brick" x="180" y="544" width="120" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="3" type="Brick" x="300" y="480" width="120" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="7" type="Brick" x="120" y="160" width="120" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="8" type="Brick" x="240" y="160" width="120" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="18" type="Brick" x="300" y="416" width="120" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="20" type="Brick" x="660" y="416" width="120" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="21" type="Brick" x="660" y="480" width="120" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="22" type="Brick" x="900" y="544" width="120" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="23" type="Brick" x="780" y="544" width="120" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="24" type="Brick" x="360" y="160" width="120" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="25" type="Brick" x="480" y="160" width="120" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="26" type="Brick" x="600" y="160" width="120" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="27" type="Brick" x="720" y="160" width="120" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="28" type="Brick" x="840" y="160" width="120" height="64">
+  <object id="39" type="ExplosiveBrick" x="270" y="544" width="108" height="64">
    <properties>
     <property name="Health" type="int" value="1"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup color="#ff00ff" name="FallingBricks">
-  <object id="16" type="FallingBrick" x="300" y="544" width="120" height="64">
+ <objectgroup color="#0000ff" name="Bricks">
+  <object id="1" type="Brick" x="54" y="544" width="108" height="64">
    <properties>
     <property name="Health" type="int" value="1"/>
    </properties>
   </object>
-  <object id="17" type="FallingBrick" x="660" y="544" width="120" height="64">
+  <object id="2" type="Brick" x="162" y="544" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="3" type="Brick" x="270" y="480" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="7" type="Brick" x="108" y="160" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="8" type="Brick" x="216" y="160" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="18" type="Brick" x="270" y="416" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="20" type="Brick" x="648" y="416" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="21" type="Brick" x="648" y="480" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="22" type="Brick" x="864" y="544" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="23" type="Brick" x="756" y="544" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="24" type="Brick" x="324" y="160" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="25" type="Brick" x="432" y="160" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="26" type="Brick" x="540" y="160" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="27" type="Brick" x="648" y="160" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="28" type="Brick" x="756" y="160" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ff0000" name="EnemyShips">
+  <object id="35" type="EnemyShip" x="54" y="672" width="128" height="128"/>
+  <object id="37" type="EnemyShip" x="898" y="672" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup color="#ff00ff" name="FallingBricks">
+  <object id="16" type="FallingBrick" x="270" y="608" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="17" type="FallingBrick" x="648" y="608" width="108" height="64">
    <properties>
     <property name="Health" type="int" value="1"/>
    </properties>

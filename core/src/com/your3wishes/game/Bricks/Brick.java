@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.your3wishes.game.Assets;
+import com.your3wishes.game.Utilities.Assets;
 
 /**
  * Created by Your3Wishes on 7/2/2017.

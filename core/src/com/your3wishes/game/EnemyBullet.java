@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class EnemyBullet extends ShipBullet {
 
-    public EnemyBullet (Assets assets) {
+    public EnemyBullet (com.your3wishes.game.Utilities.Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         texture = new TextureRegion(atlas.findRegion("enemyBullet"));
         setBounds(0,0,texture.getRegionWidth(),texture.getRegionHeight());

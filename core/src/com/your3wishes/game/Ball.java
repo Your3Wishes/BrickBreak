@@ -38,7 +38,7 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
     Vector2 start = new Vector2();
     Vector2 end = new Vector2();
 
-    public Ball (Assets assets) {
+    public Ball (com.your3wishes.game.Utilities.Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         texture = atlas.findRegion("ball");
         this.setScale(initialScale, initialScale);

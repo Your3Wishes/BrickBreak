@@ -26,7 +26,7 @@ public class Paddle extends Actor {
     private ShapeRenderer shapeRenderer; // For debugging bounding box
     static private boolean projectionMatrixSet = false; // For debugging bounding box
 
-    public Paddle (Assets assets) {
+    public Paddle (com.your3wishes.game.Utilities.Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         texture = atlas.findRegion("paddle");
         setBounds(0,0,texture.getRegionWidth() * getScaleX() ,texture.getRegionHeight() * getScaleY());

@@ -21,7 +21,7 @@ public class ShipBullet extends Actor implements Pool.Poolable, Freeable {
 
     public ShipBullet() {}
 
-    public ShipBullet (Assets assets) {
+    public ShipBullet (com.your3wishes.game.Utilities.Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         texture = new TextureRegion(atlas.findRegion("shipBullet"));
         setBounds(0,0,texture.getRegionWidth(),texture.getRegionHeight());

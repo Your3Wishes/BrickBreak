@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool;
 
-import java.util.logging.ConsoleHandler;
-
 /**
  * Created by guita on 8/2/2017.
  */
@@ -19,7 +17,7 @@ public class FireBall extends Actor implements Pool.Poolable, Freeable {
 
     public boolean alive;
 
-    public FireBall(Assets assets) {
+    public FireBall(com.your3wishes.game.Utilities.Assets assets) {
         effect = new ParticleEffect();
         effect.load(Gdx.files.internal("Particles/fireball.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
     }

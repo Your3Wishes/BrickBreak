@@ -1,13 +1,12 @@
 package com.your3wishes.game.Bricks;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.your3wishes.game.Assets;
+import com.your3wishes.game.Utilities.Assets;
 import com.your3wishes.game.MyGame;
 
 /**

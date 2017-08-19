@@ -6,14 +6,14 @@ filter: Nearest,Nearest
 repeat: none
 ball
   rotate: false
-  xy: 260, 115
+  xy: 326, 115
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 bigBallPowerup
   rotate: false
-  xy: 326, 115
+  xy: 392, 115
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -21,34 +21,34 @@ bigBallPowerup
 brick
   rotate: false
   xy: 132, 68
-  size: 120, 64
-  orig: 120, 64
+  size: 108, 64
+  orig: 108, 64
   offset: 0, 0
   index: -1
 brick2
   rotate: false
   xy: 260, 181
-  size: 120, 64
-  orig: 120, 64
+  size: 108, 64
+  orig: 108, 64
   offset: 0, 0
   index: -1
 brickExplosionParticle
   rotate: false
-  xy: 198, 2
+  xy: 260, 115
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 coin
   rotate: false
-  xy: 956, 181
+  xy: 920, 181
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 enemyBullet
   rotate: false
-  xy: 392, 115
+  xy: 986, 181
   size: 18, 64
   orig: 18, 64
   offset: 0, 0
@@ -62,28 +62,28 @@ enemyShip
   index: -1
 explosiveBrick
   rotate: false
-  xy: 382, 181
-  size: 120, 64
-  orig: 120, 64
+  xy: 370, 181
+  size: 108, 64
+  orig: 108, 64
   offset: 0, 0
   index: -1
 fallingBrick
   rotate: false
-  xy: 504, 181
-  size: 120, 64
-  orig: 120, 64
+  xy: 480, 181
+  size: 108, 64
+  orig: 108, 64
   offset: 0, 0
   index: -1
 fireParticle
   rotate: false
-  xy: 692, 181
+  xy: 656, 181
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 fireballPowerup
   rotate: false
-  xy: 890, 181
+  xy: 854, 181
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -104,35 +104,35 @@ paddle
   index: -1
 paddleGrowPowerup
   rotate: false
-  xy: 626, 181
+  xy: 590, 181
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 particle2
   rotate: false
-  xy: 432, 147
+  xy: 458, 147
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 shipBullet
   rotate: false
-  xy: 412, 115
+  xy: 198, 2
   size: 18, 64
   orig: 18, 64
   offset: 0, 0
   index: -1
 sideGun
   rotate: false
-  xy: 824, 181
+  xy: 788, 181
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 timePowerup
   rotate: false
-  xy: 758, 181
+  xy: 722, 181
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
