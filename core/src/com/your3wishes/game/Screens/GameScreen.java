@@ -20,9 +20,10 @@ import com.your3wishes.game.Bricks.FallingBrick;
 import com.your3wishes.game.Drops.Coin;
 import com.your3wishes.game.EnemyBullet;
 import com.your3wishes.game.EnemyShip;
-import com.your3wishes.game.Explosion;
+import com.your3wishes.game.ParticleEffects.EnemyHit;
+import com.your3wishes.game.ParticleEffects.Explosion;
 import com.your3wishes.game.Bricks.ExplosiveBrick;
-import com.your3wishes.game.FireBall;
+import com.your3wishes.game.ParticleEffects.FireBall;
 import com.your3wishes.game.Freeable;
 import com.your3wishes.game.Hud;
 import com.your3wishes.game.MyGame;
@@ -58,11 +59,13 @@ public class GameScreen implements Screen {
     private EnemyShip enemyShip;
     private final Array<EnemyShip> enemyShips;
     private Array<Brick> bricks;
-    private Array<FallingBrick> fallingBricks;
     private Brick brick;
     private Explosion explosion;
     private final Array<Explosion> explosions;
     private final Pool<Explosion> explosionPool;
+    private EnemyHit enemyHit;
+    private final Array<EnemyHit> enemyHits;
+    private final Pool<EnemyHit> enemyHitPool;
     private FireBall fireball;
     private final Array<FireBall> fireballs;
     private final Pool<FireBall> fireballPool;
@@ -151,12 +154,6 @@ public class GameScreen implements Screen {
 
         // Initialize enemy ships
         enemyShips = new Array<EnemyShip>();
-//        enemyShip = new EnemyShip(game.assets, 200, 1250);
-//        enemyShips.add(enemyShip);
-//        stage.addActor(enemyShip);
-//        enemyShip = new EnemyShip(game.assets, 900, 1000);
-//        enemyShips.add(enemyShip);
-//        stage.addActor(enemyShip);
 
         // Initialize enemy ship bullets
         enemyBullets = new Array<EnemyBullet>();
@@ -181,7 +178,6 @@ public class GameScreen implements Screen {
 
         // Initialize bricks array
         bricks = new Array<Brick>();
-        fallingBricks = new Array<FallingBrick>();
 
         // Initialize coins
         maxCoinCount=30;
@@ -211,6 +207,15 @@ public class GameScreen implements Screen {
             }
         };
 
+        // Initialize enemy hit particle effects
+        enemyHits = new Array<EnemyHit>();
+        enemyHitPool = new Pool<EnemyHit>() {
+            @Override
+            protected  EnemyHit newObject() {
+                return new EnemyHit(game.assets);
+            }
+        };
+
         // Initialize brickExplosions
         brickExplosions = new Array<BrickExplosion>();
         brickExplosionPool = new Pool<BrickExplosion>() {
@@ -233,36 +238,6 @@ public class GameScreen implements Screen {
         // Load level
         levelLoader = new LevelLoader(this);
         levelLoader.loadLevel("level1");
-
-//        //Spawn bricks
-//        for (int i = 0; i <= 10; i++) {
-//            for (int j = 0; j <= 3; j++) {
-//                brick = new Brick(game.assets, 2);
-//                float x = 16 + i * brick.getWidth() * brick.getScaleX();
-//                float y = 1500 + (j * (brick.getHeight() * brick.getScaleY() + 10));
-//                randomNumber = MathUtils.random(0.0f, 100.0f);
-//                if ( randomNumber < 30.0f)
-//                    brick = new Brick(game.assets, 2);
-////                else if ( randomNumber < 60.0f)
-////                    brick = new Brick(game.assets, 1);
-////                else if ( randomNumber < 70.0f)
-////                    brick = new ExplosiveBrick(game.assets);
-////                else {
-////                    brick = new FallingBrick(game.assets, x, y);
-////                    //fallingBricks.add((FallingBrick)brick);
-////                }
-//
-//                brick.setX(x);
-//                brick.setY(y);
-//                brick.setBounds(brick.getX(), brick.getY());
-//                bricks.add(brick);
-//                stage.addActor(brick);
-//            }
-//        }
-
-
-
-
 
     }
 
@@ -494,6 +469,16 @@ public class GameScreen implements Screen {
         stage.addActor(powerup);
     }
 
+    public void spawnEnemyHitParticle(float x, float y) {
+        // Create explosion and add it to explosionPool
+        enemyHit = enemyHitPool.obtain();
+        enemyHit.setPosition(x, y);
+        enemyHit.getEffect().setPosition(x, y);
+        enemyHit.init();
+        enemyHits.add(enemyHit);
+        stage.addActor(enemyHit);
+    }
+
     private void spawnInitialBall() {
         ball = ballPool.obtain();
         ball.init();
@@ -533,6 +518,7 @@ public class GameScreen implements Screen {
         freeItems(coins, coinPool);
         freeItems(powerups, powerupPool);
         freeItems(explosions, explosionPool);
+        freeItems(enemyHits, enemyHitPool);
         freeItems(balls, ballPool);
         freeItems(brickExplosions, brickExplosionPool);
         freeItems(fireballs, fireballPool);
@@ -721,6 +707,7 @@ public class GameScreen implements Screen {
                     }
 
                     enemyShip.damage(ball.getDamage());
+                    spawnEnemyHitParticle(ball.getX() + (ball.getWidth() * ball.getScaleX() / 2), ball.getY() + (ball.getHeight() * ball.getScaleY()));
                     if (enemyShip.alive == false) {
                         removeEnemyShip(iterator, enemyShip);
                     }
@@ -747,6 +734,7 @@ public class GameScreen implements Screen {
                     item.alive = false;
                     // Damage enemy
                     enemyShip.damage(item.getDamage());
+                    spawnEnemyHitParticle(item.getX() + (item.getWidth() * item.getScaleX() / 2), item.getY() + (item.getHeight() * item.getScaleY()));
                     if (enemyShip.alive == false) {
                         removeEnemyShip(iterator, enemyShip);
                     }
@@ -794,6 +782,7 @@ public class GameScreen implements Screen {
     public void hide() {
 
     }
+
 
     public Array<Brick> getBricks() {
         return bricks;

@@ -53,6 +53,13 @@ enemyBullet
   orig: 18, 64
   offset: 0, 0
   index: -1
+enemyHitParticle
+  rotate: false
+  xy: 458, 147
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 enemyShip
   rotate: false
   xy: 2, 4
@@ -111,7 +118,7 @@ paddleGrowPowerup
   index: -1
 particle2
   rotate: false
-  xy: 458, 147
+  xy: 492, 147
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

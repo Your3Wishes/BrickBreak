@@ -9,7 +9,6 @@ import com.your3wishes.game.Bricks.Brick;
 import com.your3wishes.game.Bricks.ExplosiveBrick;
 import com.your3wishes.game.Bricks.FallingBrick;
 import com.your3wishes.game.EnemyShip;
-import com.your3wishes.game.MyGame;
 import com.your3wishes.game.Screens.GameScreen;
 
 /**

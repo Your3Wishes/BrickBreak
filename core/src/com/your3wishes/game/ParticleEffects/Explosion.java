@@ -1,4 +1,4 @@
-package com.your3wishes.game;
+package com.your3wishes.game.ParticleEffects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -6,27 +6,32 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool;
+import com.your3wishes.game.Freeable;
+import com.your3wishes.game.Utilities.Assets;
 
 /**
- * Created by guita on 8/2/2017.
+ * Created by guita on 7/9/2017.
  */
 
-public class FireBall extends Actor implements Pool.Poolable, Freeable {
-    private ParticleEffect effect;
-    private Ball ball; // Pointer to ball that fireball is attached to
+public class Explosion extends Actor implements Pool.Poolable, Freeable {
+    protected ParticleEffect effect;
 
     public boolean alive;
 
-    public FireBall(com.your3wishes.game.Utilities.Assets assets) {
+    public Explosion() {}
+
+    public Explosion(Assets assets) {
         effect = new ParticleEffect();
-        effect.load(Gdx.files.internal("Particles/fireball.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
+        effect.load(Gdx.files.internal("Particles/explosion.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
     }
 
     @Override
     public void act (float delta) {
-        effect.setPosition(ball.getX() + (ball.getWidth()*ball.getScaleX()/2),(ball.getY() + ball.getHeight()*ball.getScaleY()/2));
         effect.update(delta);
-        if (!ball.alive) {
+
+        // If the effect is completed, set alive to false
+        // so we can free this explosion from the pool
+        if (effect.isComplete()) {
             alive = false;
         }
     }
@@ -42,12 +47,9 @@ public class FireBall extends Actor implements Pool.Poolable, Freeable {
 
     @Override
     public void reset() {
-        alive = false;
-    }
-
-    public void init() {
-        alive = true;
         effect.reset();
+        effect.start();
+        alive = false;
     }
 
     public boolean isAlive() {
@@ -58,13 +60,10 @@ public class FireBall extends Actor implements Pool.Poolable, Freeable {
         this.remove();
     }
 
-    public void setBall(Ball ball) {
-        this.ball = ball;
+    public void init() {
+        alive = true;
+        effect.reset();
+        effect.start();
     }
-
-    public void setPosition(float x, float y) {
-        effect.setPosition(x, y);
-    }
-
 
 }

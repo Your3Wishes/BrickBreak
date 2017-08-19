@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.your3wishes.game.Utilities.Assets;
 
 /**
  * Created by guita on 7/2/2017.
@@ -26,7 +27,7 @@ public class Paddle extends Actor {
     private ShapeRenderer shapeRenderer; // For debugging bounding box
     static private boolean projectionMatrixSet = false; // For debugging bounding box
 
-    public Paddle (com.your3wishes.game.Utilities.Assets assets) {
+    public Paddle (Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         texture = atlas.findRegion("paddle");
         setBounds(0,0,texture.getRegionWidth() * getScaleX() ,texture.getRegionHeight() * getScaleY());

@@ -11,7 +11,7 @@ import com.your3wishes.game.Utilities.Assets;
 public class MyGame extends Game {
 	public static final int SCREENWIDTH = 1080;
 	public static final int SCREENHEIGHT = 1920;
-	public static final float GRAVITY = 590.0f;
+	public static final float GRAVITY = 690.0f;
 	public static final boolean DEBUG = false;
     public Assets assets;
 	public SpriteBatch batch;

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool;
+import com.your3wishes.game.Utilities.Assets;
 
 /**
  * Created by Your3Wishes on 8/14/2017.
@@ -21,7 +22,7 @@ public class ShipBullet extends Actor implements Pool.Poolable, Freeable {
 
     public ShipBullet() {}
 
-    public ShipBullet (com.your3wishes.game.Utilities.Assets assets) {
+    public ShipBullet (Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         texture = new TextureRegion(atlas.findRegion("shipBullet"));
         setBounds(0,0,texture.getRegionWidth(),texture.getRegionHeight());

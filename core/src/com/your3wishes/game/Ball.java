@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool;
+import com.your3wishes.game.Utilities.Assets;
 
 /**
  * Created by guita on 7/2/2017.
@@ -38,7 +39,7 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
     Vector2 start = new Vector2();
     Vector2 end = new Vector2();
 
-    public Ball (com.your3wishes.game.Utilities.Assets assets) {
+    public Ball (Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         texture = atlas.findRegion("ball");
         this.setScale(initialScale, initialScale);

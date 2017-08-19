@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool;
+import com.your3wishes.game.Utilities.Assets;
 
 
 /**
@@ -22,7 +23,7 @@ public class BrickExplosion extends Actor implements Pool.Poolable, Freeable {
     static private boolean projectionMatrixSet = false; // For debugging bounding box
     public boolean alive;
 
-    public BrickExplosion(com.your3wishes.game.Utilities.Assets assets) {
+    public BrickExplosion(Assets assets) {
         effect = new ParticleEffect();
         effect.load(Gdx.files.internal("Particles/brickExplosion.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
         bounds = new Rectangle();

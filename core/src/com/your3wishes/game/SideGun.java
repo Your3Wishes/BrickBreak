@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.your3wishes.game.Utilities.Assets;
 
 /**
  * Created by Your3Wishes on 8/14/2017.
@@ -16,7 +17,7 @@ public class SideGun extends Actor {
     private int sideOfShip;
 
     // sideOfShip: -1 = left, 1 = right
-    public SideGun (com.your3wishes.game.Utilities.Assets assets, Paddle paddle, int sideOfShip) {
+    public SideGun (Assets assets, Paddle paddle, int sideOfShip) {
         this.paddle = paddle;
         this.sideOfShip = sideOfShip;
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
