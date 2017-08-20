@@ -48,14 +48,14 @@ coin
   index: -1
 enemyBullet
   rotate: false
-  xy: 986, 181
+  xy: 458, 115
   size: 18, 64
   orig: 18, 64
   offset: 0, 0
   index: -1
 enemyHitParticle
   rotate: false
-  xy: 458, 147
+  xy: 478, 147
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -95,6 +95,13 @@ fireballPowerup
   orig: 64, 64
   offset: 0, 0
   index: -1
+missile
+  rotate: false
+  xy: 198, 2
+  size: 18, 64
+  orig: 18, 64
+  offset: 0, 0
+  index: -1
 multiball
   rotate: false
   xy: 132, 2
@@ -118,14 +125,14 @@ paddleGrowPowerup
   index: -1
 particle2
   rotate: false
-  xy: 492, 147
+  xy: 512, 147
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 shipBullet
   rotate: false
-  xy: 198, 2
+  xy: 986, 181
   size: 18, 64
   orig: 18, 64
   offset: 0, 0
