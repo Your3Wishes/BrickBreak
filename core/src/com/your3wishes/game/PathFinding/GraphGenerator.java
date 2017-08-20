@@ -9,11 +9,15 @@ import com.your3wishes.game.Utilities.LevelLoader;
 
 public class GraphGenerator {
 
+
+
     public static GraphImp generateGraph() {
         Array<Node> nodes = new Array<Node>();
 
         int tileWidth = LevelLoader.lvlTileWidth;
         int tileHeight = LevelLoader.lvlTileHeight;
+        float leftRightCost = 1.2f;
+        float downCost = 1.4f;
 
         // Loop over all tiles in map, starting from
         // bottom left corner iteration left to right, then
@@ -45,35 +49,35 @@ public class GraphGenerator {
                     Node currentNode = nodes.get(tileWidth * y + x);
                     if (y != 0 && (down == null || down == false)) {
                         Node downNode = nodes.get(tileWidth * (y-1) + x);
-                        currentNode.createConnection(downNode, 1);
+                        currentNode.createConnection(downNode, downCost);
                     }
                     if (x != 0 && (left == null || left == false)) {
                         Node leftNode = nodes.get(tileWidth * y + (x-1));
-                        currentNode.createConnection(leftNode, 1);
+                        currentNode.createConnection(leftNode, leftRightCost);
                     }
                     if (x != tileWidth - 1 && (right == null || right == false)) {
                         Node rightNode = nodes.get(tileWidth * y + (x+1));
-                        currentNode.createConnection(rightNode, 1);
+                        currentNode.createConnection(rightNode, leftRightCost);
                     }
                     if (y != tileHeight - 1 && (up == null || up == false)) {
                         Node upNode = nodes.get(tileWidth * (y+1) + x);
-                        currentNode.createConnection(upNode, 1);
+                        currentNode.createConnection(upNode, 0.5f);
                     }
                     if (x != 0 && y != tileHeight - 1 && (upLeft == null || upLeft == false)) {
                         Node upLeftNode = nodes.get(tileWidth * (y+1) + (x-1));
-                        currentNode.createConnection(upLeftNode, 1);
+                        currentNode.createConnection(upLeftNode, 1.2f);
                     }
                     if (x != tileWidth - 1 && y != tileHeight - 1 && (upRight == null || upRight == false)) {
                         Node upRightNode = nodes.get(tileWidth * (y+1) + (x+1));
-                        currentNode.createConnection(upRightNode, 1);
+                        currentNode.createConnection(upRightNode, 1.2f);
                     }
                     if (x != 0 && y != 0 && (downLeft == null || downLeft == false)) {
                         Node downLeftNode = nodes.get(tileWidth * (y-1) + (x-1));
-                        currentNode.createConnection(downLeftNode, 1);
+                        currentNode.createConnection(downLeftNode, downCost);
                     }
                     if (x != tileWidth - 1 && y != 0 && (downRight == null || downRight == false)) {
                         Node downRightNode = nodes.get(tileWidth * (y-1) + (x+1));
-                        currentNode.createConnection(downRightNode, 1);
+                        currentNode.createConnection(downRightNode, downCost);
                     }
                 }
             }

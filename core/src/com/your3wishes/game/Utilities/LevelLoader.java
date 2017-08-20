@@ -53,7 +53,7 @@ public class LevelLoader {
 
         // Get level properties
         MapProperties properties = map.getProperties();
-        lvlTileWidth = properties.get("width", Integer.class);
+        lvlTileWidth = properties.get("width", Integer.class) ;
         lvlTileHeight = properties.get("height", Integer.class);
         tilePixelWidth = properties.get("tilewidth", Integer.class);
         tilePixelHeight = properties.get("tileheight", Integer.class);

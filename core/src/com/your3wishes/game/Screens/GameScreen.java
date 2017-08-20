@@ -247,14 +247,13 @@ public class GameScreen implements Screen {
         pathFinder = new IndexedAStarPathFinder<Node>(LevelLoader.graph, false);
 
         // Initialize missles
-//        int startX = (int) (paddle.getX() + (paddle.getWidth() * paddle.getScaleX() / 2));
-//        int startY = (int) (paddle.getY() + (paddle.getHeight() * paddle.getScaleY()));
-//        int endX = 108;
-//        int endY = 1506;
-//        Node startNode = LevelLoader.graph.getNodeByXY(startX, startY);
-//        Node endNode = LevelLoader.graph.getNodeByXY(endX, endY);
-//        pathFinder.searchNodePath(startNode, endNode, new HeuristicImp(), resultPath);
-//        missile = new Missile(game.assets, resultPath, startX, startY);
+        int startX = (int) (paddle.getX() + (paddle.getWidth() * paddle.getScaleX() / 2));
+        int startY = (int) (paddle.getY() + (paddle.getHeight() * paddle.getScaleY()));
+        int endX = 108;
+        int endY = 1506;
+        //Node startNode = LevelLoader.graph.getNodeByXY(startX, startY);
+       // Node endNode = LevelLoader.graph.getNodeByXY(endX, endY);
+//        missile = new Missile(game.assets, startX, startY, endX, endY, pathFinder);
 //        stage.addActor(missile);
 
     }
