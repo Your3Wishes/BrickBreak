@@ -2,6 +2,7 @@ package com.your3wishes.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,10 +17,10 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.your3wishes.game.Ball;
 import com.your3wishes.game.BrickExplosion;
 import com.your3wishes.game.Bricks.Brick;
-import com.your3wishes.game.Bricks.FallingBrick;
 import com.your3wishes.game.Drops.Coin;
 import com.your3wishes.game.EnemyBullet;
 import com.your3wishes.game.EnemyShip;
+import com.your3wishes.game.Missile;
 import com.your3wishes.game.ParticleEffects.EnemyHit;
 import com.your3wishes.game.ParticleEffects.Explosion;
 import com.your3wishes.game.Bricks.ExplosiveBrick;
@@ -29,6 +30,9 @@ import com.your3wishes.game.Hud;
 import com.your3wishes.game.MyGame;
 import com.your3wishes.game.Paddle;
 import com.your3wishes.game.Drops.Powerup;
+import com.your3wishes.game.PathFinding.GraphPathImp;
+import com.your3wishes.game.PathFinding.HeuristicImp;
+import com.your3wishes.game.PathFinding.Node;
 import com.your3wishes.game.ScrollingBackground;
 import com.your3wishes.game.ShipBullet;
 import com.your3wishes.game.SideGun;
@@ -74,6 +78,7 @@ public class GameScreen implements Screen {
     private final Pool<BrickExplosion> brickExplosionPool;
     private SideGun sideGun;
     private final Array<SideGun> sideGuns;
+    private Missile missile;
     private int fireBallDuration = 6000;
     private int slowTimeDuration = 5000;
     private int paddleGrowDuration = 5000;
@@ -111,11 +116,12 @@ public class GameScreen implements Screen {
     // Level loading
     LevelLoader levelLoader;
 
-
+    // Pathfinding
+    private IndexedAStarPathFinder<Node> pathFinder;
+    GraphPathImp resultPath = new GraphPathImp();
 
     // For logging fps
     FPSLogger fpsLogger = new FPSLogger();
-
 
 
     public GameScreen(final MyGame game) {
@@ -238,6 +244,18 @@ public class GameScreen implements Screen {
         // Load level
         levelLoader = new LevelLoader(this);
         levelLoader.loadLevel("level1");
+        pathFinder = new IndexedAStarPathFinder<Node>(LevelLoader.graph, false);
+
+        // Initialize missles
+//        int startX = (int) (paddle.getX() + (paddle.getWidth() * paddle.getScaleX() / 2));
+//        int startY = (int) (paddle.getY() + (paddle.getHeight() * paddle.getScaleY()));
+//        int endX = 108;
+//        int endY = 1506;
+//        Node startNode = LevelLoader.graph.getNodeByXY(startX, startY);
+//        Node endNode = LevelLoader.graph.getNodeByXY(endX, endY);
+//        pathFinder.searchNodePath(startNode, endNode, new HeuristicImp(), resultPath);
+//        missile = new Missile(game.assets, resultPath, startX, startY);
+//        stage.addActor(missile);
 
     }
 
