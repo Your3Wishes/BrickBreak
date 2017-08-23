@@ -38,19 +38,20 @@ public class Missile extends Actor implements Pool.Poolable, Freeable {
     private int currentNodeIndex = 0;
     private float currentDestX;
     private float currentDestY;
-    private boolean moving = false;
     private Vector2 velocity = new Vector2();
-    private float speed = 350.0f;
-    private float acceleration = 150.0f;
+    private float speed = 260.0f;
+    private float acceleration = 55.0f;
+    private float theta;
+    private float turnRadius = 6.5f;
+    private float newAngle;
+    private float oldAngle;
+    private float angleDirection;
+    private boolean arcing = false;
     private int newYDir;
     private int newXDir;
 
     private ShapeRenderer shapeRenderer; // For debugging missle path
     static private boolean projectionMatrixSet = false; // For debugging missle path
-    //private Vector2 start = new Vector2();
-   // private Vector2 end = new Vector2();
-
-    public Missile() {}
 
     public Missile(Assets assets, float startX, float startY,
                    float endX, float endY, IndexedAStarPathFinder<Node> pathFinder ) {
@@ -59,6 +60,7 @@ public class Missile extends Actor implements Pool.Poolable, Freeable {
         texture = new TextureRegion(atlas.findRegion("missile"));
         setPosition(startX, startY);
         setBounds(startX,startY,texture.getRegionWidth(),texture.getRegionHeight());
+        setOrigin(getWidth() * getScaleX() / 2, getHeight() * getScaleY() /2);
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
         shapeRenderer = new ShapeRenderer();
 
@@ -82,7 +84,6 @@ public class Missile extends Actor implements Pool.Poolable, Freeable {
             for (int i = 0; i < resultPath.getCount() - 1; i++) {
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                 shapeRenderer.setColor(Color.RED);
-                //shapeRenderer.line(new Vector2(0,0), new Vector2(100,100));
                 shapeRenderer.line(resultPath.get(i).getXY(), resultPath.get(i + 1).getXY());
                 shapeRenderer.setColor(Color.RED);
                 shapeRenderer.end();
@@ -96,27 +97,38 @@ public class Missile extends Actor implements Pool.Poolable, Freeable {
     @Override
     public void act (float delta) {
         speed += acceleration * delta;
-        setX(getX() + (velocity.x * delta));
-        setY(getY() + (velocity.y * delta));
+        setX(getX() + (velocity.x * delta * speed));
+        setY(getY() + (velocity.y * delta * speed));
+
+        if (arcing) {
+            // Arc left
+            if (theta > newAngle) {
+                if (theta <= newAngle) arcing = false;
+                else theta -= turnRadius * delta * angleDirection ;
+            }
+            // Arc right
+            else if (theta < newAngle) {
+                if (theta >= newAngle) arcing = false;
+                else theta += turnRadius * delta * angleDirection;
+            }
+            else {
+                arcing = false;
+            }
+            velocity.x = (float)Math.cos(Math.toRadians(theta));
+            velocity.y = (float)Math.sin(Math.toRadians(theta)) ;
+        }
+        setRotation(theta - 90);
 
         // Check if we need to move to next node
-        if (newYDir > 0 && getY() > currentDestY ||
+        if (newYDir > 0 && getY()  > currentDestY ||
                 newYDir < 0 && getY() < currentDestY ||
-                newXDir > 0 && getX() > currentDestX ||
+                newXDir > 0 && getX()   > currentDestX ||
                 newXDir < 0 && getX() < currentDestX) {
             setNextDest();
         }
     }
 
-    public void setVelocity (float toX, float toY) {
-        velocity.set(toX - getX(), toY - getY());
-        newYDir = Integer.signum((int)(toY - getY()));
-        newXDir = Integer.signum((int)(toX - getX()));
-        velocity.nor(); // Normalizes the value to be used
 
-        velocity.x *= speed;  // Set speed of the object
-        velocity.y *= speed;
-    }
 
     public void setBounds(float x, float y) {
         this.bounds.setX(x);
@@ -151,20 +163,60 @@ public class Missile extends Actor implements Pool.Poolable, Freeable {
     }
 
     public void findPath() {
-        pathFinder.searchNodePath(startNode, endNode, new HeuristicImp(), resultPath);
-        setNextDest();
+        if (pathFinder.searchNodePath(startNode, endNode, new HeuristicImp(), resultPath) == true){
+            smoothPath();
+            velocity.set(resultPath.get(currentNodeIndex).getXY().x - getX(), resultPath.get(currentNodeIndex).getXY().y - getY()); // Set first unit vector in path
+            newAngle = (float)Math.toDegrees(Math.atan2(velocity.y,velocity.x));
+            theta = newAngle;
+            setNextDest();
+        }
+
+    }
+
+
+    public void setVelocity (float toX, float toY) {
+        oldAngle = newAngle;
+
+        newAngle = Math.abs((float)Math.toDegrees(Math.atan2(toY - getY(),toX - getX())));
+        angleDirection = Math.abs(newAngle - oldAngle);
+
+        Gdx.app.log("angle Direction", String.valueOf(angleDirection));
+        if (angleDirection == 0)
+            arcing = false;
+        else {
+            arcing = true;
+        }
+
+        velocity.set(toX - getX(), toY - getY());
+        newYDir = Integer.signum((int)(toY - getY()));
+        newXDir = Integer.signum((int)(toX - getX()));
+        velocity.nor(); // Normalizes the value to be used
     }
 
     public void setNextDest() {
         if (currentNodeIndex < resultPath.getCount()) {
             currentDestX = resultPath.get(currentNodeIndex).getXY().x;
             currentDestY = resultPath.get(currentNodeIndex).getXY().y;
-            setVelocity(currentDestX, currentDestY);
             currentNodeIndex++;
+            setVelocity(currentDestX, currentDestY);
         }
         else {
             velocity.set(0,0);
         }
 
+    }
+
+    public void smoothPath() {
+        GraphPathImp tempPath = new GraphPathImp();
+        for (int i = resultPath.getCount() - 1; i >=2; i--) {
+            Node e = resultPath.get(i-2);
+            Node e2 = resultPath.get(i);
+
+            if (pathFinder.searchNodePath(e, e2, new HeuristicImp(), tempPath) == true) {
+                // Unobstructed path found
+                resultPath.removeIndex(i-1);
+                i--;
+            }
+        }
     }
 }

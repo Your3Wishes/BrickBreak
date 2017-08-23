@@ -43,6 +43,8 @@ public class GraphPathImp implements GraphPath<Node> {
         nodes.reverse();
     }
 
+    public void removeIndex(int index) { nodes.removeIndex(index);}
+
     @Override
     public Iterator<Node> iterator() {
         return nodes.iterator();

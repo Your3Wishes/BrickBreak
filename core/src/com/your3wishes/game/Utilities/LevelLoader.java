@@ -117,8 +117,8 @@ public class LevelLoader {
     }
 
     public void addObstacleNodes(Rectangle rect) {
-        for (int i = 0; i < rect.getWidth() / tilePixelWidth; i++) {
-            for (int j = 0; j < rect.getHeight() / tilePixelHeight; j++) {
+        for (int i = -1; i < rect.getWidth() / tilePixelWidth +1; i++) {
+            for (int j = -1; j < rect.getHeight() / tilePixelHeight + 1; j++) {
                 int tileX = (int) rect.getX() + (i * tilePixelWidth);
                 int tileY = (int) rect.getY() + (j * tilePixelHeight);
                 int modX = tileX / tilePixelWidth;

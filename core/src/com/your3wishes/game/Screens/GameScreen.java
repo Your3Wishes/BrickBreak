@@ -249,12 +249,12 @@ public class GameScreen implements Screen {
         // Initialize missles
         int startX = (int) (paddle.getX() + (paddle.getWidth() * paddle.getScaleX() / 2));
         int startY = (int) (paddle.getY() + (paddle.getHeight() * paddle.getScaleY()));
-        int endX = 108;
-        int endY = 1506;
+        int endX = 500;
+        int endY = 1900;
         //Node startNode = LevelLoader.graph.getNodeByXY(startX, startY);
        // Node endNode = LevelLoader.graph.getNodeByXY(endX, endY);
-//        missile = new Missile(game.assets, startX, startY, endX, endY, pathFinder);
-//        stage.addActor(missile);
+        missile = new Missile(game.assets, startX, startY, endX, endY, pathFinder);
+        stage.addActor(missile);
 
     }
 
@@ -283,7 +283,7 @@ public class GameScreen implements Screen {
     }
 
     private void update(float delta) {
-       // if (MyGame.DEBUG) delta /= 16;
+        //if (MyGame.DEBUG) delta /= 4;
         handleInput();
         stage.act(delta);
         handleTimers();
