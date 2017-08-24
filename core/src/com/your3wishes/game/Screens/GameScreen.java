@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,8 +16,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.your3wishes.game.Ball;
-import com.your3wishes.game.BrickExplosion;
 import com.your3wishes.game.Bricks.Brick;
+import com.your3wishes.game.DamageExplosion;
 import com.your3wishes.game.Drops.Coin;
 import com.your3wishes.game.EnemyBullet;
 import com.your3wishes.game.EnemyShip;
@@ -31,7 +32,6 @@ import com.your3wishes.game.MyGame;
 import com.your3wishes.game.Paddle;
 import com.your3wishes.game.Drops.Powerup;
 import com.your3wishes.game.PathFinding.GraphPathImp;
-import com.your3wishes.game.PathFinding.HeuristicImp;
 import com.your3wishes.game.PathFinding.Node;
 import com.your3wishes.game.ScrollingBackground;
 import com.your3wishes.game.ShipBullet;
@@ -73,18 +73,22 @@ public class GameScreen implements Screen {
     private FireBall fireball;
     private final Array<FireBall> fireballs;
     private final Pool<FireBall> fireballPool;
-    private BrickExplosion brickExplosion;
-    private final Array<BrickExplosion> brickExplosions;
-    private final Pool<BrickExplosion> brickExplosionPool;
+    private DamageExplosion damageExplosion;
+    private final Array<DamageExplosion> damageExplosions;
+    private final Pool<DamageExplosion> damageExplosionPool;
     private SideGun sideGun;
     private final Array<SideGun> sideGuns;
     private Missile missile;
+    private final Array<Missile> missiles;
+    private final Pool<Missile> missilePool;
     private int fireBallDuration = 6000;
     private int slowTimeDuration = 5000;
     private int paddleGrowDuration = 5000;
     private int ballGrowDuration = 5000;
     private int shipBulletDuration = 800;
     private long shipBulletStartTime;
+    private int shipMissileDuration = 1000;
+    private long shipMissileStartTime;
     private long fireBallStartTime;
     private long slowTimeStartTime;
     private long paddleGrowStartTime;
@@ -222,12 +226,22 @@ public class GameScreen implements Screen {
             }
         };
 
-        // Initialize brickExplosions
-        brickExplosions = new Array<BrickExplosion>();
-        brickExplosionPool = new Pool<BrickExplosion>() {
+        // Initialize DamageExplosions
+        damageExplosions = new Array<DamageExplosion>();
+        damageExplosionPool = new Pool<DamageExplosion>() {
             @Override
-            protected  BrickExplosion newObject() {
-                return new BrickExplosion(game.assets);
+            protected  DamageExplosion newObject() {
+                return new DamageExplosion(game.assets);
+            }
+        };
+
+
+        // Initialize missiles
+        missiles = new Array<Missile>();
+        missilePool = new Pool<Missile>() {
+            @Override
+            protected  Missile newObject() {
+                return new Missile(game.assets);
             }
         };
 
@@ -246,7 +260,7 @@ public class GameScreen implements Screen {
         levelLoader.loadLevel("level1");
         pathFinder = new IndexedAStarPathFinder<Node>(LevelLoader.graph, false);
 
-        // Initialize missles
+        // Initialize homing missles
 //        int startX = (int) (paddle.getX() + (paddle.getWidth() * paddle.getScaleX() / 2));
 //        int startY = (int) (paddle.getY() + (paddle.getHeight() * paddle.getScaleY()));
 //        int endX = 500;
@@ -330,12 +344,13 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.justTouched()) {
             // Note: justTouched() input cooridinates are Y down
-            Vector3 touchPos = new Vector3();
-            touchPos.set(Gdx.input.getX(), MyGame.SCREENHEIGHT - Gdx.input.getY(), 0);
+            Vector2 touchPos = new Vector2();
+            touchPos.set(Gdx.input.getX(), MyGame.SCREENHEIGHT - Gdx.input.getY());
 
             // Launch ball if touching top half of screen
             if (touchPos.y >= MyGame.SCREENHEIGHT / 4) {
                 balls.get(0).launch(touchPos.x, touchPos.y);
+                tryToShootMissile(touchPos);
             }
         }
 
@@ -389,12 +404,7 @@ public class GameScreen implements Screen {
 
         // Create brickExplosion and add it to brickExplosionPool
         if (brick instanceof ExplosiveBrick) {
-            brickExplosion = brickExplosionPool.obtain();
-            brickExplosion.setPosition(brick.getX(), brick.getY());
-            brickExplosion.getEffect().setPosition(brick.getX(), brick.getY());
-            brickExplosion.init();
-            brickExplosions.add(brickExplosion);
-            stage.addActor(brickExplosion);
+            spawnBrickExplosion(brick.getX(), brick.getY());
         }
 
         // Spawn coin
@@ -465,6 +475,15 @@ public class GameScreen implements Screen {
         }
     }
 
+    private void spawnMissile(Vector2 touchPos) {
+        missile = missilePool.obtain();
+        missile.setPosition(paddle.getX() + (paddle.getHeight() * paddle.getScaleX() / 2) - (missile.getWidth() * missile.getScaleX() / 2),
+                            paddle.getY() + (paddle.getHeight() * paddle.getScaleY()));
+        missile.launch(touchPos);
+        missiles.add(missile);
+        stage.addActor(missile);
+    }
+
     private void spawnPowerup(Actor entity) {
         powerup = powerupPool.obtain();
         Array<Powerup.Type> powerupTypes = new Array<Powerup.Type>();
@@ -494,6 +513,26 @@ public class GameScreen implements Screen {
         enemyHit.init();
         enemyHits.add(enemyHit);
         stage.addActor(enemyHit);
+    }
+
+    public void spawnBrickExplosion(float x, float y) {
+        damageExplosion = damageExplosionPool.obtain();
+        damageExplosion.setType(DamageExplosion.Type.BRICK);
+        damageExplosion.setPosition(x, y);
+        damageExplosion.getEffect().setPosition(x, y);
+        damageExplosion.init();
+        damageExplosions.add(damageExplosion);
+        stage.addActor(damageExplosion);
+    }
+
+    public void spawnMissileExplosion(float x, float y) {
+        damageExplosion = damageExplosionPool.obtain();
+        damageExplosion.setType(DamageExplosion.Type.MISSILE);
+        damageExplosion.setPosition(x, y);
+        damageExplosion.getEffect().setPosition(x, y);
+        damageExplosion.init();
+        damageExplosions.add(damageExplosion);
+        stage.addActor(damageExplosion);
     }
 
     private void spawnInitialBall() {
@@ -537,9 +576,10 @@ public class GameScreen implements Screen {
         freeItems(explosions, explosionPool);
         freeItems(enemyHits, enemyHitPool);
         freeItems(balls, ballPool);
-        freeItems(brickExplosions, brickExplosionPool);
+        freeItems(damageExplosions, damageExplosionPool);
         freeItems(fireballs, fireballPool);
         freeItems(shipBullets, shipBulletPool);
+        freeItems(missiles, missilePool);
         freeItems(enemyBullets, enemyBulletPool);
     }
 
@@ -562,7 +602,13 @@ public class GameScreen implements Screen {
             spawnShipBullets();
             shipBulletStartTime = System.currentTimeMillis();
         }
+    }
 
+    private void tryToShootMissile(Vector2 touchPos) {
+        if (System.currentTimeMillis() - shipMissileDuration > shipMissileStartTime) {
+            spawnMissile(touchPos);
+            shipMissileStartTime = System.currentTimeMillis();
+        }
     }
 
     private void checkCollisions() {
@@ -685,13 +731,32 @@ public class GameScreen implements Screen {
             }
         }
 
+        // Check for collisions between missiles and bricks
+        for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
+            Brick brick = iterator.next();
+            for (Missile item : missiles) {
+                if (brick.getBounds().overlaps(item.getBounds())) {
+                    item.alive = false;
+                    spawnMissileExplosion(item.getX(), item.getY());
+                    // Damage brick
+                    brick.bulletHit(item.getDamage());
+                    if (!brick.alive) {
+                        removeBrick(iterator, brick);
+                    }
+                    score+=2;
+                    // Move to next brick. No use checking other bullets against this brick if it is now destroyed.
+                    break;
+                }
+            }
+        }
+
 
         // Check for collisions between BrickExplosions and bricks
         for (Iterator<Brick> iterator = bricks.iterator(); iterator.hasNext();) {
             Brick brick = iterator.next();
-            int brickExplosionsSize = brickExplosions.size;
+            int brickExplosionsSize = damageExplosions.size;
             for (int i = 0; i < brickExplosionsSize; i++) {
-                if (brick.getBounds().overlaps(brickExplosions.get(i).getBounds())) {
+                if (brick.getBounds().overlaps(damageExplosions.get(i).getBounds())) {
                     brick.setHealth(0);
                     brick.ballHit();
                     if (!brick.alive) {
@@ -750,6 +815,23 @@ public class GameScreen implements Screen {
             for (ShipBullet item : shipBullets) {
                 if (enemyShip.getBounds().overlaps(item.getBounds())) {
                     item.alive = false;
+                    // Damage enemy
+                    enemyShip.damage(item.getDamage());
+                    spawnEnemyHitParticle(item.getX() + (item.getWidth() * item.getScaleX() / 2), item.getY() + (item.getHeight() * item.getScaleY()));
+                    if (enemyShip.alive == false) {
+                        removeEnemyShip(iterator, enemyShip);
+                    }
+                }
+            }
+        }
+
+        // Check for collisions between missiles and enemy
+        for (Iterator<EnemyShip> iterator = enemyShips.iterator(); iterator.hasNext();) {
+            enemyShip = iterator.next();
+            for (Missile item : missiles) {
+                if (enemyShip.getBounds().overlaps(item.getBounds())) {
+                    item.alive = false;
+                    spawnMissileExplosion(item.getX(), item.getY());
                     // Damage enemy
                     enemyShip.damage(item.getDamage());
                     spawnEnemyHitParticle(item.getX() + (item.getWidth() * item.getScaleX() / 2), item.getY() + (item.getHeight() * item.getScaleY()));
