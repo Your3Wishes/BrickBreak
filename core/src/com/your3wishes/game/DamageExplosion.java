@@ -118,7 +118,7 @@ public class DamageExplosion extends Actor implements Pool.Poolable, Freeable {
                     effect.load(Gdx.files.internal("Particles/brickExplosion.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
                     break;
                 case MISSILE:
-                    effect.load(Gdx.files.internal("Particles/brickExplosion.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
+                    effect.load(Gdx.files.internal("Particles/missileExplosion.p"), assets.assetManager.get("gameScreen.atlas", TextureAtlas.class));
                     break;
             }
         } catch (Exception e){

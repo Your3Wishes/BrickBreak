@@ -349,8 +349,10 @@ public class GameScreen implements Screen {
 
             // Launch ball if touching top half of screen
             if (touchPos.y >= MyGame.SCREENHEIGHT / 4) {
+                if (balls.get(0).launched == true)
+                    tryToShootMissile(touchPos);
                 balls.get(0).launch(touchPos.x, touchPos.y);
-                tryToShootMissile(touchPos);
+
             }
         }
 
@@ -525,10 +527,10 @@ public class GameScreen implements Screen {
         stage.addActor(damageExplosion);
     }
 
-    public void spawnMissileExplosion(float x, float y) {
+    public void spawnMissileExplosion(float x, float y, Missile missile) {
         damageExplosion = damageExplosionPool.obtain();
         damageExplosion.setType(DamageExplosion.Type.MISSILE);
-        damageExplosion.setPosition(x, y);
+        damageExplosion.setPosition(x, y + missile.getHeight());
         damageExplosion.getEffect().setPosition(x, y);
         damageExplosion.init();
         damageExplosions.add(damageExplosion);
@@ -737,7 +739,7 @@ public class GameScreen implements Screen {
             for (Missile item : missiles) {
                 if (brick.getBounds().overlaps(item.getBounds())) {
                     item.alive = false;
-                    spawnMissileExplosion(item.getX(), item.getY());
+                    spawnMissileExplosion(item.getX(), item.getY(), item);
                     // Damage brick
                     brick.bulletHit(item.getDamage());
                     if (!brick.alive) {
@@ -831,7 +833,7 @@ public class GameScreen implements Screen {
             for (Missile item : missiles) {
                 if (enemyShip.getBounds().overlaps(item.getBounds())) {
                     item.alive = false;
-                    spawnMissileExplosion(item.getX(), item.getY());
+                    spawnMissileExplosion(item.getX(), item.getY(), item);
                     // Damage enemy
                     enemyShip.damage(item.getDamage());
                     spawnEnemyHitParticle(item.getX() + (item.getWidth() * item.getScaleX() / 2), item.getY() + (item.getHeight() * item.getScaleY()));
