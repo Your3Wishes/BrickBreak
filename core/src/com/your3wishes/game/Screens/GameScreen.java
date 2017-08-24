@@ -247,14 +247,14 @@ public class GameScreen implements Screen {
         pathFinder = new IndexedAStarPathFinder<Node>(LevelLoader.graph, false);
 
         // Initialize missles
-        int startX = (int) (paddle.getX() + (paddle.getWidth() * paddle.getScaleX() / 2));
-        int startY = (int) (paddle.getY() + (paddle.getHeight() * paddle.getScaleY()));
-        int endX = 500;
-        int endY = 1900;
-        //Node startNode = LevelLoader.graph.getNodeByXY(startX, startY);
-       // Node endNode = LevelLoader.graph.getNodeByXY(endX, endY);
-        missile = new Missile(game.assets, startX, startY, endX, endY, pathFinder);
-        stage.addActor(missile);
+//        int startX = (int) (paddle.getX() + (paddle.getWidth() * paddle.getScaleX() / 2));
+//        int startY = (int) (paddle.getY() + (paddle.getHeight() * paddle.getScaleY()));
+//        int endX = 500;
+//        int endY = 1900;
+//        //Node startNode = LevelLoader.graph.getNodeByXY(startX, startY);
+//       // Node endNode = LevelLoader.graph.getNodeByXY(endX, endY);
+//        missile = new Missile(game.assets, startX, startY, endX, endY, pathFinder);
+//        stage.addActor(missile);
 
     }
 
@@ -334,7 +334,7 @@ public class GameScreen implements Screen {
             touchPos.set(Gdx.input.getX(), MyGame.SCREENHEIGHT - Gdx.input.getY(), 0);
 
             // Launch ball if touching top half of screen
-            if (touchPos.y >= MyGame.SCREENHEIGHT / 2) {
+            if (touchPos.y >= MyGame.SCREENHEIGHT / 4) {
                 balls.get(0).launch(touchPos.x, touchPos.y);
             }
         }
@@ -740,6 +740,7 @@ public class GameScreen implements Screen {
                 item.alive = false;
                 // Damage player
                 life -= item.getDamage();
+                spawnEnemyHitParticle(item.getX() + (item.getWidth() * item.getScaleX() / 2), item.getY() + (item.getHeight() * item.getScaleY()));
             }
         }
 

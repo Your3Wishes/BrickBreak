@@ -18,7 +18,6 @@ import com.your3wishes.game.PathFinding.Node;
 import com.your3wishes.game.Utilities.Assets;
 import com.your3wishes.game.Utilities.LevelLoader;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 
 /**
  * Created by Your3Wishes on 8/20/2017.

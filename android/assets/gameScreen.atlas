@@ -97,9 +97,9 @@ fireballPowerup
   index: -1
 missile
   rotate: false
-  xy: 198, 2
-  size: 18, 64
-  orig: 18, 64
+  xy: 986, 165
+  size: 34, 80
+  orig: 34, 80
   offset: 0, 0
   index: -1
 multiball
@@ -132,7 +132,7 @@ particle2
   index: -1
 shipBullet
   rotate: false
-  xy: 986, 181
+  xy: 198, 2
   size: 18, 64
   orig: 18, 64
   offset: 0, 0
