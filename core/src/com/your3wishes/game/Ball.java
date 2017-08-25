@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool;
+import com.your3wishes.game.Bricks.Brick;
 import com.your3wishes.game.Utilities.Assets;
 
 /**
@@ -195,5 +196,57 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
         this.remove();
     }
 
+    public void bounceBall(Brick brick) {
+        float yDist;
+        float xDist;
+        float brickTop = brick.getY() + brick.getHeight() * brick.getScaleY();
+        float brickRight = brick.getX() + brick.getWidth() * brick.getScaleX();
+        float ballTop = this.getY() + this.getHeight() * this.getScaleY();
+        float ballRight = this.getX() + this.getWidth() * this.getScaleX();
+        // Left side of brick
+        if (this.getX() < brick.getX()) {
+            xDist = ballRight - brick.getX();
+            if (ballTop > brick.getY() && this.getY() < brick.getY()) {
+                yDist = ballTop - brick.getY();
+                setCornerBounce(xDist, yDist);
+            } else if (this.getY() < brickTop && ballTop > brickTop) {
+                yDist = brickTop - this.getY();
+                setCornerBounce(xDist, yDist);
+            } else {
+                // Ball is in middle of side of brick
+                this.brickBounceX = true;
+            }
+        }
+        // Right side of brick
+        else if (ballRight > brickRight) {
+            xDist = brickRight - this.getX();
+            if (ballTop > brick.getY() && this.getY() < brick.getY()) {
+                yDist = ballTop - brick.getY();
+                setCornerBounce(xDist, yDist);
+
+            } else if (this.getY() < brickTop && ballTop > brickTop) {
+                yDist = brickTop - this.getY();
+                setCornerBounce(xDist, yDist);
+            } else {
+                // Ball is in middle of side of brick
+                this.brickBounceX = true;
+            }
+        }
+        // Middle of brick
+        else {
+            this.brickBounceY = true;
+        }
+    }
+
+    public void setCornerBounce(float xDist, float yDist) {
+        if (yDist > xDist)
+            this.brickBounceX = true;
+        else if (yDist < xDist)
+            this.brickBounceY = true;
+        else {
+            this.brickBounceX = true;
+            this.brickBounceY = true;
+        }
+    }
 
 }

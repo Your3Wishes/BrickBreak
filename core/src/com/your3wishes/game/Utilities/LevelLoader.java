@@ -49,7 +49,13 @@ public class LevelLoader {
 
     public void loadLevel(String levelName) {
         // Todo: pass in dynamic level name
-        map = mapLoader.load("Levels/" + levelName + ".tmx");
+        try {
+            map = mapLoader.load("Levels/" + levelName + ".tmx");
+        }
+        catch (Exception e) {
+            map = mapLoader.load("Levels/level1.tmx");
+        }
+
 
         // Get level properties
         MapProperties properties = map.getProperties();

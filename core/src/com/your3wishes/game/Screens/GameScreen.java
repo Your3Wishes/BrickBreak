@@ -98,6 +98,7 @@ public class GameScreen implements Screen {
     private Coin coin;
     private int score;
     private int coinsCollected;
+    private int level = 2;
     private final Array<Coin> coins;
     private final Pool<Coin> coinPool;
     private int coinCount;
@@ -257,7 +258,7 @@ public class GameScreen implements Screen {
 
         // Load level
         levelLoader = new LevelLoader(this);
-        levelLoader.loadLevel("level1");
+        levelLoader.loadLevel("level" + level);
         pathFinder = new IndexedAStarPathFinder<Node>(LevelLoader.graph, false);
 
         // Initialize homing missles
@@ -298,6 +299,7 @@ public class GameScreen implements Screen {
 
     private void update(float delta) {
         //if (MyGame.DEBUG) delta /= 4;
+        //delta /= 3;
         handleInput();
         stage.act(delta);
         handleTimers();
@@ -704,7 +706,7 @@ public class GameScreen implements Screen {
                         removeBrick(iterator, brick);
                     }
                     if (!fireballActive) {
-                        item.brickBounceY = true;
+                        item.bounceBall(brick);
                     }
                     score+=2;
 
