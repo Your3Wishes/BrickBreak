@@ -19,6 +19,7 @@ import com.your3wishes.game.Utilities.Assets;
 public class Paddle extends Actor {
     private TextureRegion texture;
     private Rectangle bounds;
+    private float startY = 20;
     private float dx = 0;
     private float midX;
     public boolean touched;
@@ -31,7 +32,7 @@ public class Paddle extends Actor {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
         texture = atlas.findRegion("paddle");
         setBounds(0,0,texture.getRegionWidth() * getScaleX() ,texture.getRegionHeight() * getScaleY());
-        this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), 20);
+        this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), startY);
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
         shapeRenderer = new ShapeRenderer();
 
@@ -91,6 +92,15 @@ public class Paddle extends Actor {
         else if (getX() > MyGame.SCREENWIDTH - (getWidth() * getScaleX())) {
             setX(MyGame.SCREENWIDTH - (getWidth() * getScaleX()));
         }
+    }
+
+    public void reset() {
+        setScaleX(1.0f);
+        growing = false;
+        // Update paddle bounds
+        setBounds(getX(), getY(), texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
+        bounds.setWidth(getWidth() * getScaleX());
+        this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), startY);
     }
 
 

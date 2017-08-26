@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class ScrollingBackground extends Actor{
 
-    public static final int DEFAULT_SPEED = 80;
+    public static final int DEFAULT_SPEED = 50;
     public static final int ACCELERATION = 50;
     public static final int GOAL_REACH_ACCELERATION = 200;
 
@@ -24,7 +24,7 @@ public class ScrollingBackground extends Actor{
     boolean speedFixed;
 
     public ScrollingBackground (com.your3wishes.game.Utilities.Assets assets) {
-        image = new Texture("stars_background.png");
+        image = new Texture("background2.png");
 
         y1 = 0;
         y2 = image.getHeight();

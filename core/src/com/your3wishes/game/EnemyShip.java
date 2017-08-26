@@ -35,14 +35,15 @@ public class EnemyShip extends Actor {
     public boolean alive = true;
     public boolean fireBullet = false;
     private int bulletDuration = 1000;
-    private long bulletStartTime;
+    private long bulletStartTime = Long.MAX_VALUE;
+    public boolean startEvents = false;
     private float randomNumber;
     private ShapeRenderer shapeRenderer; // For debugging bounding box
     static private boolean projectionMatrixSet = false; // For debugging bounding box
     public enum State {
         IDLE, SWEEPINGDOWN, SWEEPINGUP, STRAFING, WAITINGDOWN, WAITINGUP;
     }
-    private State state = State.SWEEPINGDOWN;
+    private State state = State.IDLE;
 
     public EnemyShip (Assets assets) {
         TextureAtlas atlas = assets.assetManager.get("gameScreen.atlas", TextureAtlas.class);
@@ -100,10 +101,12 @@ public class EnemyShip extends Actor {
                     wiggleUp = true;
                 }
             }
+            if (startEvents) {
+                randomNumber = MathUtils.random(0.0f, 200.0f);
+                if (randomNumber < 1 && randomNumber > 0.5f) state = State.STRAFING;
+                if (randomNumber < 0.5f) state = State.SWEEPINGDOWN;
+            }
 
-            randomNumber = MathUtils.random(0.0f, 200.0f);
-            if (randomNumber < 1 && randomNumber > 0.5f) state = State.STRAFING;
-            if (randomNumber < 0.5f) state = State.SWEEPINGDOWN;
         }
         else if (state == State.STRAFING) {
             setX(getX() + (dx) * delta);
@@ -150,7 +153,7 @@ public class EnemyShip extends Actor {
     private void tryToShoot() {
         if (!fireBullet && System.currentTimeMillis() - bulletDuration > bulletStartTime) {
             fireBullet = true;
-            bulletStartTime = System.currentTimeMillis();
+           setBulletStartTime();
         }
     }
 
@@ -163,6 +166,10 @@ public class EnemyShip extends Actor {
         if (health <= 0) {
             alive = false;
         }
+    }
+
+    public void setBulletStartTime() {
+        bulletStartTime = System.currentTimeMillis();
     }
 
 

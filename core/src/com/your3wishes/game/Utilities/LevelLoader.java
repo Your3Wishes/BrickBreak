@@ -47,10 +47,10 @@ public class LevelLoader {
         mapLoader = new TmxMapLoader();
     }
 
-    public void loadLevel(String levelName) {
+    public void loadLevel(int level) {
         // Todo: pass in dynamic level name
         try {
-            map = mapLoader.load("Levels/" + levelName + ".tmx");
+            map = mapLoader.load("Levels/level" + level + ".tmx");
         }
         catch (Exception e) {
             map = mapLoader.load("Levels/level1.tmx");

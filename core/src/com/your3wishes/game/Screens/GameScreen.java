@@ -22,6 +22,9 @@ import com.your3wishes.game.Drops.Coin;
 import com.your3wishes.game.EnemyBullet;
 import com.your3wishes.game.EnemyShip;
 import com.your3wishes.game.Missile;
+import com.your3wishes.game.Notifications.GameEvent;
+import com.your3wishes.game.Notifications.GameEventHandler;
+import com.your3wishes.game.Notifications.Subject;
 import com.your3wishes.game.ParticleEffects.EnemyHit;
 import com.your3wishes.game.ParticleEffects.Explosion;
 import com.your3wishes.game.Bricks.ExplosiveBrick;
@@ -45,7 +48,7 @@ import static java.lang.Math.abs;
  * Created by guita on 7/2/2017.
  */
 
-public class GameScreen implements Screen {
+public class GameScreen extends Subject implements Screen {
     final MyGame game;
 
     private Stage stage;
@@ -63,7 +66,6 @@ public class GameScreen implements Screen {
     private EnemyShip enemyShip;
     private final Array<EnemyShip> enemyShips;
     private Array<Brick> bricks;
-    private Brick brick;
     private Explosion explosion;
     private final Array<Explosion> explosions;
     private final Pool<Explosion> explosionPool;
@@ -98,7 +100,7 @@ public class GameScreen implements Screen {
     private Coin coin;
     private int score;
     private int coinsCollected;
-    private int level = 2;
+    private int level = 1;
     private final Array<Coin> coins;
     private final Pool<Coin> coinPool;
     private int coinCount;
@@ -131,6 +133,10 @@ public class GameScreen implements Screen {
 
     public GameScreen(final MyGame game) {
         this.game = game;
+
+        // Add GameEvent Observer for handling different game logic events
+        addObserver(new GameEventHandler());
+
         //added for hud
         hudSpriteBatch = new SpriteBatch();
         hud = new Hud(hudSpriteBatch, this);
@@ -258,7 +264,7 @@ public class GameScreen implements Screen {
 
         // Load level
         levelLoader = new LevelLoader(this);
-        levelLoader.loadLevel("level" + level);
+        levelLoader.loadLevel(level);
         pathFinder = new IndexedAStarPathFinder<Node>(LevelLoader.graph, false);
 
         // Initialize homing missles
@@ -314,6 +320,9 @@ public class GameScreen implements Screen {
         }
         if (life <= 0 )
             gameOver=true;
+        if (bricks.size == 0 && enemyShips.size == 0) {
+            setupNextLevel();
+        }
     }
 
     private void handleInput() {
@@ -354,6 +363,7 @@ public class GameScreen implements Screen {
                 if (balls.get(0).launched == true)
                     tryToShootMissile(touchPos);
                 balls.get(0).launch(touchPos.x, touchPos.y);
+                notify(this, GameEvent.BALL_LAUNCHED);
 
             }
         }
@@ -619,21 +629,14 @@ public class GameScreen implements Screen {
         // Paddle and ball collision
         for (Ball item : balls) {
             if (paddle.getBounds().overlaps(item.getBounds()) && item.getDy() < 0) {
-                item.setDy(item.getDy() * -1);
-
-                // Add a slight random speed fluctuation of the x velocity
-                item.setDx(item.getDx() * MathUtils.random(0.7f, 2.5f));
-                // Don't allow the ball to go faster than it's maxDx
-                if (abs(item.getDx()) > item.getMaxDx()) {
-                    if (item.getDx() < 0) item.setDx(-item.getMaxDx());
-                    else item.setDx(item.getMaxDx());
-                }
+                item.hitPaddle();
             }
         }
 
         // Paddle and coin collision. Coin collected
         for (Coin item : coins) {
             if (paddle.getBounds().overlaps(item.getBounds())) {
+                // todo: notify collected coin
                 item.alive = false;
                 coinsCollected++;
                 score+=5;
@@ -706,15 +709,27 @@ public class GameScreen implements Screen {
                         removeBrick(iterator, brick);
                     }
                     if (!fireballActive) {
-                        item.bounceBall(brick);
+                        // Ensure that we only bounce each ball once per frame
+                        if (item.checkForBounce)
+                            item.bounceBall(brick);
                     }
                     score+=2;
-
                     // Move to next brick. No use checking other balls against this brick if it is now destroyed.
                     break;
                 }
             }
-
+        }
+        // Bounce balls
+        for (Ball item: balls) {
+            item.checkForBounce = true;
+            if (item.brickBounceY) {
+                item.setDy(item.getDy() * -1);
+                item.brickBounceY = false;
+            }
+            if (item.brickBounceX) {
+                item.setDx(item.getDx() * -1);
+                item.brickBounceX = false;
+            }
         }
 
         // Check for collisions between bullets and bricks
@@ -727,10 +742,11 @@ public class GameScreen implements Screen {
                     brick.bulletHit(item.getDamage());
                     if (!brick.alive) {
                         removeBrick(iterator, brick);
+                        // Move to next brick. No use checking other bullets against this brick if it is now destroyed.
+                        break;
                     }
                     score+=2;
-                    // Move to next brick. No use checking other bullets against this brick if it is now destroyed.
-                    break;
+                    spawnEnemyHitParticle(item.getX() + (item.getWidth() * item.getScaleX() / 2), item.getY() + (item.getHeight() * item.getScaleY()));
                 }
             }
         }
@@ -845,20 +861,31 @@ public class GameScreen implements Screen {
                 }
             }
         }
+    }
 
-
-        // Bounce balls
-        for (Ball item: balls) {
-            if (item.brickBounceY) {
-                item.setDy(item.getDy() * -1);
-                item.brickBounceY = false;
-            }
-            if (item.brickBounceX) {
-                item.setDx(item.getDx() * -1);
-                item.brickBounceX = false;
-            }
+    public void setupNextLevel() {
+        paddle.reset();
+        // Clear balls
+        for (Ball item : balls) {
+            item.alive = false;
+            item.removeFromStage();
         }
+        balls.clear();
 
+        // Clear Powerups
+        for (FireBall item : fireballs) {
+            item.alive = false;
+        }
+        fireballActive = false;
+        slowTimeActive = false;
+
+
+        for (Coin item : coins) item.alive = false;
+        for (Powerup item : powerups) item.alive = false;
+
+        // Load next level
+        level++;
+        levelLoader.loadLevel(level);
     }
 
     @Override

@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.Pool;
 import com.your3wishes.game.Bricks.Brick;
 import com.your3wishes.game.Utilities.Assets;
 
+import static java.lang.Math.abs;
+
 /**
  * Created by guita on 7/2/2017.
  */
@@ -29,6 +31,7 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
     private float maxDx = 350.0f; // Maximum x velocity
     public boolean brickBounceY = false; // Flag to indicate change in y direction due to bouncing
     public boolean brickBounceX = false; // Flag to indicate change in x directino due to boucning
+    public boolean checkForBounce = true;
     public boolean alive;
     public boolean launched = true;
     private Paddle paddle; // Used to position ball on paddle when not launched yet
@@ -108,8 +111,8 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
         }
         else {
             // Lerp paddles X Scale to original
-            setScaleX(MathUtils.lerp(getScaleX(), 0.75f, 0.8f * delta));
-            setScaleY(MathUtils.lerp(getScaleY(), 0.75f, 0.8f * delta));
+            setScaleX(MathUtils.lerp(getScaleX(), initialScale, 0.8f * delta));
+            setScaleY(MathUtils.lerp(getScaleY(), initialScale, 0.8f * delta));
         }
         // Update ball bounds
         setBounds(getX(), getY(), texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
@@ -127,6 +130,7 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
 
     public void init() {
         alive = true;
+        growing = false;
         this.setScale(initialScale, initialScale);
         setBounds(getX(), getY(), texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
@@ -196,7 +200,20 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
         this.remove();
     }
 
+    public void hitPaddle() {
+        setDy(getDy() * -1);
+
+        // Add a slight random speed fluctuation of the x velocity
+       setDx(getDx() * MathUtils.random(0.7f, 2.5f));
+        // Don't allow the ball to go faster than it's maxDx
+        if (abs(getDx()) > getMaxDx()) {
+            if (getDx() < 0) setDx(-getMaxDx());
+            else setDx(getMaxDx());
+        }
+    }
+
     public void bounceBall(Brick brick) {
+        checkForBounce = false;
         float yDist;
         float xDist;
         float brickTop = brick.getY() + brick.getHeight() * brick.getScaleY();
