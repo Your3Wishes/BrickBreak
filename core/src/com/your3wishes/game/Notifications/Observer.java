@@ -11,7 +11,7 @@ import com.your3wishes.game.Screens.GameScreen;
 
 public interface Observer {
 
-    void onNotify(Actor actor, int event);
-    <T extends Actor> void onNotify(Array<T> actors, int event);
-    void onNotify(GameScreen game, int event);
+    void onNotify(Actor actor, GameEvent.Event event);
+    <T extends Actor> void onNotify(Array<T> actors, GameEvent.Event event);
+    void onNotify(GameScreen game, GameEvent.Event event);
 }

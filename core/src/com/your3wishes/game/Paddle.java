@@ -25,6 +25,9 @@ public class Paddle extends Actor {
     public boolean touched;
     public boolean growing;
     private float growScale = 1.3f;
+    public boolean fireBullet = false;
+    private long shipBulletStartTime = Long.MAX_VALUE;
+    private int shipBulletDuration = 800;
     private ShapeRenderer shapeRenderer; // For debugging bounding box
     static private boolean projectionMatrixSet = false; // For debugging bounding box
 
@@ -92,17 +95,34 @@ public class Paddle extends Actor {
         else if (getX() > MyGame.SCREENWIDTH - (getWidth() * getScaleX())) {
             setX(MyGame.SCREENWIDTH - (getWidth() * getScaleX()));
         }
+
+        tryToShoot();
+    }
+
+    private void tryToShoot() {
+        if (System.currentTimeMillis() - shipBulletDuration > shipBulletStartTime) {
+            fireBullet = true;
+            setBulletStartTime();
+        }
+    }
+
+    public void setBulletStartTime() {
+        shipBulletStartTime = System.currentTimeMillis();
     }
 
     public void reset() {
         setScaleX(1.0f);
         growing = false;
+        stopFiring();
         // Update paddle bounds
         setBounds(getX(), getY(), texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds.setWidth(getWidth() * getScaleX());
         this.setPosition((MyGame.SCREENWIDTH / 2) - (getWidth() / 2), startY);
     }
 
+    public void stopFiring() {
+        shipBulletStartTime = Long.MAX_VALUE;
+    }
 
     public Rectangle getBounds() {
         return bounds;

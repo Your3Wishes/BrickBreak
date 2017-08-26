@@ -8,10 +8,10 @@ import com.your3wishes.game.Screens.GameScreen;
  * Created by Your3Wishes on 8/25/2017.
  */
 
-public class Subject {
+public class Notifier {
     private Array<Observer> observers;
 
-    public Subject() {
+    public Notifier() {
         observers = new Array<Observer>();
     }
 
@@ -28,19 +28,19 @@ public class Subject {
         }
     }
 
-    protected void notify(Actor actor, int event) {
+    public void notify(Actor actor, GameEvent.Event event) {
         for (Observer item : observers) {
             item.onNotify(actor, event);
         }
     }
 
-    protected <T extends Actor> void  notify(Array<T> actors, int event) {
+    public <T extends Actor> void  notify(Array<T> actors, GameEvent.Event event) {
         for (Observer item : observers) {
             item.onNotify(actors, event);
         }
     }
 
-    protected void notify(GameScreen game, int event) {
+    public void notify(GameScreen game, GameEvent.Event event) {
         for (Observer item : observers) {
             item.onNotify(game, event);
         }

@@ -24,7 +24,7 @@ import com.your3wishes.game.EnemyShip;
 import com.your3wishes.game.Missile;
 import com.your3wishes.game.Notifications.GameEvent;
 import com.your3wishes.game.Notifications.GameEventHandler;
-import com.your3wishes.game.Notifications.Subject;
+import com.your3wishes.game.Notifications.Notifier;
 import com.your3wishes.game.ParticleEffects.EnemyHit;
 import com.your3wishes.game.ParticleEffects.Explosion;
 import com.your3wishes.game.Bricks.ExplosiveBrick;
@@ -48,10 +48,11 @@ import static java.lang.Math.abs;
  * Created by guita on 7/2/2017.
  */
 
-public class GameScreen extends Subject implements Screen {
+public class GameScreen implements Screen {
     final MyGame game;
 
     private Stage stage;
+    private Notifier notifier;
     private Paddle paddle;
     private ScrollingBackground scrollingbackground;
     private Ball ball;
@@ -97,6 +98,7 @@ public class GameScreen extends Subject implements Screen {
     private long ballGrowStartTime;
     private boolean fireballActive = false;
     private boolean slowTimeActive = false;
+    private boolean eventsStart = false;
     private Coin coin;
     private int score;
     private int coinsCollected;
@@ -135,7 +137,8 @@ public class GameScreen extends Subject implements Screen {
         this.game = game;
 
         // Add GameEvent Observer for handling different game logic events
-        addObserver(new GameEventHandler());
+        notifier = new Notifier();
+        notifier.addObserver(new GameEventHandler());
 
         //added for hud
         hudSpriteBatch = new SpriteBatch();
@@ -310,7 +313,7 @@ public class GameScreen extends Subject implements Screen {
         stage.act(delta);
         handleTimers();
         checkCollisions();
-        tryToShoot();
+        checkIfShipShooting();
         checkIfEnemiesShooting();
         freeItems();
         fpsLogger.log();
@@ -360,10 +363,13 @@ public class GameScreen extends Subject implements Screen {
 
             // Launch ball if touching top half of screen
             if (touchPos.y >= MyGame.SCREENHEIGHT / 4) {
-                if (balls.get(0).launched == true)
-                    tryToShootMissile(touchPos);
+                tryToShootMissile(touchPos);
                 balls.get(0).launch(touchPos.x, touchPos.y);
-                notify(this, GameEvent.BALL_LAUNCHED);
+                notifier.notify(this, GameEvent.Event.BALL_LAUNCHED);
+                if (eventsStart == false) {
+
+                    notifier.notify(this, GameEvent.Event.EVENTS_START);
+                }
 
             }
         }
@@ -597,6 +603,13 @@ public class GameScreen extends Subject implements Screen {
         freeItems(enemyBullets, enemyBulletPool);
     }
 
+    private void checkIfShipShooting() {
+        if (paddle.fireBullet) {
+            paddle.fireBullet = false;
+            spawnShipBullets();
+        }
+    }
+
     private void checkIfEnemiesShooting() {
         for (EnemyShip item : enemyShips) {
             if (item.fireBullet) {
@@ -611,14 +624,9 @@ public class GameScreen extends Subject implements Screen {
         }
     }
 
-    private void tryToShoot() {
-        if (System.currentTimeMillis() - shipBulletDuration > shipBulletStartTime) {
-            spawnShipBullets();
-            shipBulletStartTime = System.currentTimeMillis();
-        }
-    }
 
     private void tryToShootMissile(Vector2 touchPos) {
+        if (eventsStart == false) return;
         if (System.currentTimeMillis() - shipMissileDuration > shipMissileStartTime) {
             spawnMissile(touchPos);
             shipMissileStartTime = System.currentTimeMillis();
@@ -711,7 +719,7 @@ public class GameScreen extends Subject implements Screen {
                     if (!fireballActive) {
                         // Ensure that we only bounce each ball once per frame
                         if (item.checkForBounce)
-                            item.bounceBall(brick);
+                            item.calculateBounce(brick);
                     }
                     score+=2;
                     // Move to next brick. No use checking other balls against this brick if it is now destroyed.
@@ -721,15 +729,7 @@ public class GameScreen extends Subject implements Screen {
         }
         // Bounce balls
         for (Ball item: balls) {
-            item.checkForBounce = true;
-            if (item.brickBounceY) {
-                item.setDy(item.getDy() * -1);
-                item.brickBounceY = false;
-            }
-            if (item.brickBounceX) {
-                item.setDx(item.getDx() * -1);
-                item.brickBounceX = false;
-            }
+            item.bounce();
         }
 
         // Check for collisions between bullets and bricks
@@ -864,6 +864,7 @@ public class GameScreen extends Subject implements Screen {
     }
 
     public void setupNextLevel() {
+        notifier.notify(this, GameEvent.Event.NEXT_LEVEL);
         paddle.reset();
         // Clear balls
         for (Ball item : balls) {
@@ -879,13 +880,14 @@ public class GameScreen extends Subject implements Screen {
         fireballActive = false;
         slowTimeActive = false;
 
-
         for (Coin item : coins) item.alive = false;
         for (Powerup item : powerups) item.alive = false;
 
         // Load next level
         level++;
         levelLoader.loadLevel(level);
+
+        eventsStart = false;
     }
 
     @Override
@@ -914,6 +916,15 @@ public class GameScreen extends Subject implements Screen {
 
     }
 
+    public void startEvents() {
+        eventsStart = true;
+        // Start gameplay events
+        for (EnemyShip item : enemyShips) {
+            item.startEvents = true;
+            item.setBulletStartTime();
+        }
+        paddle.setBulletStartTime();
+    }
 
     public Array<Brick> getBricks() {
         return bricks;
@@ -930,5 +941,7 @@ public class GameScreen extends Subject implements Screen {
     public MyGame getGame() {
         return game;
     }
+
+    public Paddle getPaddle() { return paddle; }
 
 }

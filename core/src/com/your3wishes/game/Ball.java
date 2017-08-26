@@ -212,7 +212,19 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
         }
     }
 
-    public void bounceBall(Brick brick) {
+    public void bounce() {
+        checkForBounce = true;
+        if (brickBounceY) {
+            setDy(getDy() * -1);
+            brickBounceY = false;
+        }
+        if (brickBounceX) {
+            setDx(getDx() * -1);
+            brickBounceX = false;
+        }
+    }
+
+    public void calculateBounce(Brick brick) {
         checkForBounce = false;
         float yDist;
         float xDist;
