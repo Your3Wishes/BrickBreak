@@ -1,0 +1,160 @@
+
+gameScreen.png
+size: 1024,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ball
+  rotate: false
+  xy: 392, 115
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+bigBallPowerup
+  rotate: false
+  xy: 458, 115
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+brick
+  rotate: false
+  xy: 132, 68
+  size: 108, 64
+  orig: 108, 64
+  offset: 0, 0
+  index: -1
+brick2
+  rotate: false
+  xy: 260, 181
+  size: 108, 64
+  orig: 108, 64
+  offset: 0, 0
+  index: -1
+brickExplosionParticle
+  rotate: false
+  xy: 326, 115
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+coin
+  rotate: false
+  xy: 722, 181
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+enemyBullet
+  rotate: false
+  xy: 524, 115
+  size: 18, 64
+  orig: 18, 64
+  offset: 0, 0
+  index: -1
+enemyHitParticle
+  rotate: false
+  xy: 544, 147
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+enemyShip
+  rotate: false
+  xy: 2, 4
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+explosiveBrick
+  rotate: false
+  xy: 370, 181
+  size: 108, 64
+  orig: 108, 64
+  offset: 0, 0
+  index: -1
+fallingBrick
+  rotate: false
+  xy: 480, 181
+  size: 108, 64
+  orig: 108, 64
+  offset: 0, 0
+  index: -1
+fireParticle
+  rotate: false
+  xy: 656, 181
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+fireballPowerup
+  rotate: false
+  xy: 132, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+missile
+  rotate: false
+  xy: 986, 165
+  size: 34, 80
+  orig: 34, 80
+  offset: 0, 0
+  index: -1
+missileExplosionParticle
+  rotate: false
+  xy: 854, 181
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+multiball
+  rotate: false
+  xy: 260, 115
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+paddle
+  rotate: false
+  xy: 2, 134
+  size: 256, 111
+  orig: 256, 111
+  offset: 0, 0
+  index: -1
+paddleGrowPowerup
+  rotate: false
+  xy: 590, 181
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+particle2
+  rotate: false
+  xy: 578, 147
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+shipBullet
+  rotate: false
+  xy: 198, 2
+  size: 18, 64
+  orig: 18, 64
+  offset: 0, 0
+  index: -1
+sideGun
+  rotate: false
+  xy: 920, 181
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+timePowerup
+  rotate: false
+  xy: 788, 181
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
