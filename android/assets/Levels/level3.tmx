@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="20" height="60" tilewidth="54" tileheight="32" nextobjectid="179">
+ <layer name="Tile Layer 1" width="20" height="60">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup color="#ffff00" name="ExplosiveBricks">
+  <object id="178" type="ExplosiveBrick" x="486" y="352" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#000000" name="SolidBricks">
+  <object id="130" type="SolidBrick" x="108" y="544" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="131" type="SolidBrick" x="162" y="480" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="132" type="SolidBrick" x="432" y="544" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="133" type="SolidBrick" x="378" y="480" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="134" type="SolidBrick" x="108" y="608" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="135" type="SolidBrick" x="432" y="608" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="137" type="SolidBrick" x="216" y="672" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="138" type="SolidBrick" x="324" y="672" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="140" type="SolidBrick" x="540" y="608" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="141" type="SolidBrick" x="864" y="608" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="143" type="SolidBrick" x="810" y="480" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="144" type="SolidBrick" x="756" y="672" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="145" type="SolidBrick" x="648" y="672" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="146" type="SolidBrick" x="540" y="544" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="147" type="SolidBrick" x="864" y="544" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+  <object id="148" type="SolidBrick" x="594" y="480" width="108" height="64">
+   <properties>
+    <property name="TextureName" value="solidBrick"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#0000ff" name="Bricks">
+  <object id="89" type="Brick" x="702" y="608" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="90" type="Brick" x="270" y="544" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="150" type="Brick" x="270" y="608" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="151" type="Brick" x="702" y="544" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="152" type="Brick" x="162" y="288" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="153" type="Brick" x="270" y="288" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="154" type="Brick" x="378" y="288" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="155" type="Brick" x="486" y="288" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="156" type="Brick" x="594" y="288" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="157" type="Brick" x="702" y="288" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="158" type="Brick" x="810" y="288" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="159" type="Brick" x="270" y="416" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="160" type="Brick" x="162" y="416" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="161" type="Brick" x="702" y="416" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="162" type="Brick" x="486" y="416" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="163" type="Brick" x="378" y="416" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="164" type="Brick" x="810" y="416" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="165" type="Brick" x="594" y="416" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="171" type="Brick" x="810" y="352" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="172" type="Brick" x="162" y="352" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="173" type="Brick" x="378" y="352" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="174" type="Brick" x="702" y="352" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="175" type="Brick" x="270" y="352" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="176" type="Brick" x="594" y="352" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ff0000" name="EnemyShips">
+  <object id="35" type="EnemyShip" x="478.242" y="705.697" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup color="#ff00ff" name="FallingBricks">
+  <object id="168" type="FallingBrick" x="486" y="480" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="169" type="FallingBrick" x="270" y="480" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="170" type="FallingBrick" x="702" y="480" width="108" height="64">
+   <properties>
+    <property name="Health" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

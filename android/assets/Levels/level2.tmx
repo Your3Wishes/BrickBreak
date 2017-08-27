@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="20" height="60" tilewidth="54" tileheight="32" nextobjectid="124">
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="20" height="60" tilewidth="54" tileheight="32" nextobjectid="127">
  <layer name="Tile Layer 1" width="20" height="60">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -78,22 +78,22 @@
   </object>
   <object id="3" type="Brick" x="324" y="1344" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="18" type="Brick" x="324" y="1280" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="20" type="Brick" x="648" y="1280" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="21" type="Brick" x="648" y="1344" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="22" type="Brick" x="756" y="512" width="108" height="64">
@@ -108,102 +108,102 @@
   </object>
   <object id="62" type="Brick" x="324" y="1216" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="63" type="Brick" x="324" y="1152" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="64" type="Brick" x="324" y="1088" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="65" type="Brick" x="324" y="1024" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="66" type="Brick" x="648" y="1088" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="67" type="Brick" x="648" y="1024" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="68" type="Brick" x="648" y="1216" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="69" type="Brick" x="648" y="1152" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="76" type="Brick" x="324" y="704" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="77" type="Brick" x="324" y="640" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="78" type="Brick" x="324" y="832" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="79" type="Brick" x="324" y="960" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="80" type="Brick" x="324" y="896" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="81" type="Brick" x="324" y="768" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="82" type="Brick" x="648" y="832" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="83" type="Brick" x="648" y="640" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="84" type="Brick" x="648" y="896" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="85" type="Brick" x="648" y="768" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="86" type="Brick" x="648" y="960" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="87" type="Brick" x="648" y="704" width="108" height="64">
    <properties>
-    <property name="Health" type="int" value="1"/>
+    <property name="Health" type="int" value="2"/>
    </properties>
   </object>
   <object id="88" type="Brick" x="810" y="448" width="108" height="64">
@@ -222,46 +222,6 @@
    </properties>
   </object>
   <object id="91" type="Brick" x="162" y="448" width="108" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="101" type="Brick" x="54" y="1408" width="108" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="102" type="Brick" x="162" y="1408" width="108" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="103" type="Brick" x="270" y="1408" width="108" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="104" type="Brick" x="378" y="1408" width="108" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="105" type="Brick" x="594" y="1408" width="108" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="106" type="Brick" x="702" y="1408" width="108" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="110" type="Brick" x="918" y="1408" width="108" height="64">
-   <properties>
-    <property name="Health" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="111" type="Brick" x="810" y="1408" width="108" height="64">
    <properties>
     <property name="Health" type="int" value="1"/>
    </properties>

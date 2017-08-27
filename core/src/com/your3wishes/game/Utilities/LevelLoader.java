@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.your3wishes.game.Bricks.Brick;
 import com.your3wishes.game.Bricks.ExplosiveBrick;
 import com.your3wishes.game.Bricks.FallingBrick;
+import com.your3wishes.game.Bricks.SolidBrick;
 import com.your3wishes.game.EnemyShip;
 import com.your3wishes.game.PathFinding.GraphGenerator;
 import com.your3wishes.game.PathFinding.GraphImp;
@@ -78,11 +79,25 @@ public class LevelLoader {
         if (map.getLayers().get("Bricks") != null)
             for (MapObject object : map.getLayers().get("Bricks").getObjects().getByType(RectangleMapObject.class)) {
                 Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                Brick temp = new Brick(gameScreen.getGame().assets, rect.getX(), rect.getY(), 1);
+                int health = object.getProperties().get("Health", Integer.class);
+                Brick temp = new Brick(gameScreen.getGame().assets, rect.getX(), rect.getY(), health);
                 temp.setBounds(temp.getX(), temp.getY());
                 gameScreen.getBricks().add(temp);
                 gameScreen.getStage().addActor(temp);
-                // Set obstacle nodes  to true in obstacle hashmap
+                // Set obstacle nodes to true in obstacle hashmap
+                addObstacleNodes(rect);
+            }
+
+        // Solid bricks
+        if (map.getLayers().get("SolidBricks") != null)
+            for (MapObject object : map.getLayers().get("SolidBricks").getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                String textureName = object.getProperties().get("TextureName", String.class);
+                SolidBrick temp = new SolidBrick(gameScreen.getGame().assets, rect.getX(), rect.getY(), textureName);
+                temp.setBounds(temp.getX(), temp.getY());
+                gameScreen.getBricks().add(temp);
+                gameScreen.getStage().addActor(temp);
+                // Set obstacle nodes to true in obstacle hashmap
                 addObstacleNodes(rect);
             }
 

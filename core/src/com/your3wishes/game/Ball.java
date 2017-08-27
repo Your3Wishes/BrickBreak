@@ -213,32 +213,44 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
     }
 
     public void bounce() {
-        checkForBounce = true;
-        if (brickBounceY) {
-            setDy(getDy() * -1);
-            brickBounceY = false;
+        if (checkForBounce = true) {
+            checkForBounce = false;
+            if (brickBounceY) {
+                setDy(getDy() * -1);
+                brickBounceY = false;
+            }
+            if (brickBounceX) {
+                setDx(getDx() * -1);
+                brickBounceX = false;
+            }
         }
-        if (brickBounceX) {
-            setDx(getDx() * -1);
-            brickBounceX = false;
-        }
+
     }
 
     public void calculateBounce(Brick brick) {
-        checkForBounce = false;
+        checkForBounce = true;
         float yDist;
         float xDist;
         float brickTop = brick.getY() + brick.getHeight() * brick.getScaleY();
         float brickRight = brick.getX() + brick.getWidth() * brick.getScaleX();
         float ballTop = this.getY() + this.getHeight() * this.getScaleY();
         float ballRight = this.getX() + this.getWidth() * this.getScaleX();
+        if (dx < 0 && this.getX() < brick.getX()) {
+            brickBounceY = true;
+            return;
+        }
+        else if (dx > 0 && ballRight > brickRight) {
+            brickBounceY = true;
+            return;
+        }
+
         // Left side of brick
         if (this.getX() < brick.getX()) {
             xDist = ballRight - brick.getX();
-            if (ballTop > brick.getY() && this.getY() < brick.getY()) {
+            if (this.getY() < brick.getY()) {
                 yDist = ballTop - brick.getY();
                 setCornerBounce(xDist, yDist);
-            } else if (this.getY() < brickTop && ballTop > brickTop) {
+            } else if (ballTop > brickTop) {
                 yDist = brickTop - this.getY();
                 setCornerBounce(xDist, yDist);
             } else {
@@ -249,11 +261,10 @@ public class Ball extends Actor implements Pool.Poolable, Freeable {
         // Right side of brick
         else if (ballRight > brickRight) {
             xDist = brickRight - this.getX();
-            if (ballTop > brick.getY() && this.getY() < brick.getY()) {
+            if (this.getY() < brick.getY()) {
                 yDist = ballTop - brick.getY();
                 setCornerBounce(xDist, yDist);
-
-            } else if (this.getY() < brickTop && ballTop > brickTop) {
+            } else if (ballTop > brickTop) {
                 yDist = brickTop - this.getY();
                 setCornerBounce(xDist, yDist);
             } else {

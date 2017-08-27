@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.your3wishes.game.Ball;
 import com.your3wishes.game.Bricks.Brick;
+import com.your3wishes.game.Bricks.SolidBrick;
 import com.your3wishes.game.DamageExplosion;
 import com.your3wishes.game.Drops.Coin;
 import com.your3wishes.game.EnemyBullet;
@@ -88,8 +89,6 @@ public class GameScreen implements Screen {
     private int slowTimeDuration = 5000;
     private int paddleGrowDuration = 5000;
     private int ballGrowDuration = 5000;
-    private int shipBulletDuration = 800;
-    private long shipBulletStartTime;
     private int shipMissileDuration = 1000;
     private long shipMissileStartTime;
     private long fireBallStartTime;
@@ -102,7 +101,7 @@ public class GameScreen implements Screen {
     private Coin coin;
     private int score;
     private int coinsCollected;
-    private int level = 1;
+    private int level = 3;
     private final Array<Coin> coins;
     private final Pool<Coin> coinPool;
     private int coinCount;
@@ -375,16 +374,16 @@ public class GameScreen implements Screen {
         }
 
         // Control ball for debugging
-        if (MyGame.DEBUG) {
-            if (Gdx.input.isTouched()) {
-                Vector3 touchPos = new Vector3();
-                touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-                game.camera.unproject(touchPos);
-                ball.setX(touchPos.x - ball.getWidth() / 2);
-                ball.setY(touchPos.y - ball.getHeight() / 2);
-                ball.setBounds(ball.getX(), ball.getY());
-            }
-        }
+//        if (MyGame.DEBUG) {
+//            if (Gdx.input.isTouched()) {
+//                Vector3 touchPos = new Vector3();
+//                touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+//                game.camera.unproject(touchPos);
+//                ball.setX(touchPos.x - ball.getWidth() / 2);
+//                ball.setY(touchPos.y - ball.getHeight() / 2);
+//                ball.setBounds(ball.getX(), ball.getY());
+//            }
+//        }
     }
 
     private void handleTimers() {
@@ -713,17 +712,17 @@ public class GameScreen implements Screen {
                     // Damage brick
                     if (fireballActive) brick.setHealth(0);
                     brick.ballHit();
+                    if (!fireballActive || brick instanceof SolidBrick) {
+                        // Ensure that we only bounce each ball once per frame
+                        item.calculateBounce(brick);
+                    }
+                    if (!(brick instanceof SolidBrick))
+                        score+=2;
                     if (!brick.alive) {
                         removeBrick(iterator, brick);
+//                        // Move to next brick. No use checking other balls against this brick if it is now destroyed.
+//                        break;
                     }
-                    if (!fireballActive) {
-                        // Ensure that we only bounce each ball once per frame
-                        if (item.checkForBounce)
-                            item.calculateBounce(brick);
-                    }
-                    score+=2;
-                    // Move to next brick. No use checking other balls against this brick if it is now destroyed.
-                    break;
                 }
             }
         }

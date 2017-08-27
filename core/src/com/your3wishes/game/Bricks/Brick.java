@@ -1,10 +1,14 @@
 package com.your3wishes.game.Bricks;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.your3wishes.game.MyGame;
+import com.your3wishes.game.ShipBullet;
 import com.your3wishes.game.Utilities.Assets;
 
 /**
@@ -19,6 +23,8 @@ public class Brick extends Actor {
     protected int health;
     protected float scaleFactor = 1.0f;
     protected TextureAtlas atlas;
+    protected ShapeRenderer shapeRenderer; // For debugging bounding box
+    static private boolean projectionMatrixSet = false; // For debugging bounding box
 
 
     public boolean alive = true;
@@ -51,12 +57,25 @@ public class Brick extends Actor {
         setPosition(x, y);
         setBounds(x, y, texture.getRegionWidth() * getScaleX(), texture.getRegionHeight() * getScaleY());
         bounds = new Rectangle(getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
+        shapeRenderer = new ShapeRenderer();
     }
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
         batch.draw(texture,this.getX(),getY(),this.getOriginX(),this.getOriginY(),this.getWidth(),
                 this.getHeight(),this.getScaleX(), this.getScaleY(),this.getRotation());
+
+        if (MyGame.DEBUG) {
+            batch.end();
+            if(!projectionMatrixSet){
+                shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+            }
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+            shapeRenderer.end();
+            batch.begin();
+        }
     }
 
 
@@ -96,6 +115,9 @@ public class Brick extends Actor {
                 texture = atlas.findRegion("brick2");
                 break;
             case 1:
+                texture = atlas.findRegion("brick");
+                break;
+            default:
                 texture = atlas.findRegion("brick");
                 break;
         }
