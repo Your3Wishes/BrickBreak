@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.your3wishes.game.Animations.OneTimeAnimation;
 import com.your3wishes.game.Ball;
 import com.your3wishes.game.Bricks.Brick;
 import com.your3wishes.game.Bricks.SolidBrick;
@@ -71,6 +72,9 @@ public class GameScreen implements Screen {
     private Explosion explosion;
     private final Array<Explosion> explosions;
     private final Pool<Explosion> explosionPool;
+    private OneTimeAnimation oneTimeAnimation;
+    private final Array<OneTimeAnimation> oneTimeAnimations;
+    private final Pool<OneTimeAnimation> oneTimeAnimationPool;
     private EnemyHit enemyHit;
     private final Array<EnemyHit> enemyHits;
     private final Pool<EnemyHit> enemyHitPool;
@@ -101,7 +105,7 @@ public class GameScreen implements Screen {
     private Coin coin;
     private int score;
     private int coinsCollected;
-    private int level = 1;
+    private int level = 3;
     private int entitiesLeft;
     private final Array<Coin> coins;
     private final Pool<Coin> coinPool;
@@ -234,6 +238,15 @@ public class GameScreen implements Screen {
             @Override
             protected  EnemyHit newObject() {
                 return new EnemyHit(game.assets);
+            }
+        };
+
+        // Initialize one time animations
+        oneTimeAnimations = new Array<OneTimeAnimation>();
+        oneTimeAnimationPool = new Pool<OneTimeAnimation>() {
+            @Override
+            protected  OneTimeAnimation newObject() {
+                return new OneTimeAnimation(game.assets);
             }
         };
 
@@ -496,6 +509,14 @@ public class GameScreen implements Screen {
         }
     }
 
+    private void spawnFlashAnimation(Brick brick) {
+        oneTimeAnimation = oneTimeAnimationPool.obtain();
+        oneTimeAnimation.setAnimation("flash");
+        oneTimeAnimation.setPosition(brick.getX(), brick.getY());
+        oneTimeAnimations.add(oneTimeAnimation);
+        stage.addActor(oneTimeAnimation);
+    }
+
     private void spawnMissile(Vector2 touchPos) {
         missile = missilePool.obtain();
         missile.setPosition(paddle.getX() + (paddle.getHeight() * paddle.getScaleX() / 2) - (missile.getWidth() * missile.getScaleX() / 2),
@@ -596,6 +617,7 @@ public class GameScreen implements Screen {
         freeItems(powerups, powerupPool);
         freeItems(explosions, explosionPool);
         freeItems(enemyHits, enemyHitPool);
+        freeItems(oneTimeAnimations, oneTimeAnimationPool);
         freeItems(balls, ballPool);
         freeItems(damageExplosions, damageExplosionPool);
         freeItems(fireballs, fireballPool);
@@ -725,6 +747,10 @@ public class GameScreen implements Screen {
 //                        // Move to next brick. No use checking other balls against this brick if it is now destroyed.
 //                        break;
                     }
+                    else {
+                        spawnFlashAnimation(brick);
+                    }
+
                 }
             }
         }
@@ -743,10 +769,10 @@ public class GameScreen implements Screen {
                     brick.bulletHit(item.getDamage());
                     if (!brick.alive) {
                         removeBrick(iterator, brick);
+                        score+=2;
                         // Move to next brick. No use checking other bullets against this brick if it is now destroyed.
                         break;
                     }
-                    score+=2;
                     spawnEnemyHitParticle(item.getX() + (item.getWidth() * item.getScaleX() / 2), item.getY() + (item.getHeight() * item.getScaleY()));
                 }
             }

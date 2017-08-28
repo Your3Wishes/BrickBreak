@@ -16,7 +16,6 @@ public class Assets {
 
     public void load() {
         assetManager.load("gameScreen.atlas", TextureAtlas.class);
-
     }
 
     public void dispose() {
