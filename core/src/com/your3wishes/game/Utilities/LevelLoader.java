@@ -84,6 +84,7 @@ public class LevelLoader {
                 temp.setBounds(temp.getX(), temp.getY());
                 gameScreen.getBricks().add(temp);
                 gameScreen.getStage().addActor(temp);
+                gameScreen.addEntitiesLeft();
                 // Set obstacle nodes to true in obstacle hashmap
                 addObstacleNodes(rect);
             }
@@ -108,6 +109,7 @@ public class LevelLoader {
                 FallingBrick temp = new FallingBrick(gameScreen.getGame().assets, rect.getX(), rect.getY());
                 gameScreen.getBricks().add(temp);
                 gameScreen.getStage().addActor(temp);
+                gameScreen.addEntitiesLeft();
                 // Set obstacle nodes  to true in obstacle hashmap
                 addObstacleNodes(rect);
             }
@@ -119,6 +121,7 @@ public class LevelLoader {
                 ExplosiveBrick temp = new ExplosiveBrick(gameScreen.getGame().assets, rect.getX(), rect.getY());
                 gameScreen.getBricks().add(temp);
                 gameScreen.getStage().addActor(temp);
+                gameScreen.addEntitiesLeft();
                 // Set obstacle nodes  to true in obstacle hashmap
                 addObstacleNodes(rect);
             }
@@ -132,6 +135,7 @@ public class LevelLoader {
                 EnemyShip temp = new EnemyShip(gameScreen.getGame().assets, rect.getX(), rect.getY());
                 gameScreen.getEnemyShips().add(temp);
                 gameScreen.getStage().addActor(temp);
+                gameScreen.addEntitiesLeft();
                 // Set obstacle nodes  to true in obstacle hashmap
                 addObstacleNodes(rect);
             }

@@ -101,7 +101,8 @@ public class GameScreen implements Screen {
     private Coin coin;
     private int score;
     private int coinsCollected;
-    private int level = 3;
+    private int level = 1;
+    private int entitiesLeft;
     private final Array<Coin> coins;
     private final Pool<Coin> coinPool;
     private int coinCount;
@@ -112,7 +113,8 @@ public class GameScreen implements Screen {
     private float randomNumber;
     private int maxCoinCount;
     private float lastTouchX;
-    private int life = 100;
+    private int startLife = 100;
+    private int life = startLife;
     private int ballLifeReduction = 25;
     private int fallingBrickLifeReduction = 10;
 
@@ -322,7 +324,7 @@ public class GameScreen implements Screen {
         }
         if (life <= 0 )
             gameOver=true;
-        if (bricks.size == 0 && enemyShips.size == 0) {
+        if (entitiesLeft <= 0) {
             setupNextLevel();
         }
     }
@@ -412,7 +414,7 @@ public class GameScreen implements Screen {
         // Remove current element from the iterator
         iterator.remove();
         brick.remove();
-
+        entitiesLeft--;
         // Create explosion and add it to explosionPool
         explosion = explosionPool.obtain();
         explosion.setPosition(brick.getX(), brick.getY());
@@ -446,7 +448,7 @@ public class GameScreen implements Screen {
         // Remove current element from the iterator
         iterator.remove();
         enemyShip.remove();
-
+        entitiesLeft--;
         // Create explosion and add it to explosionPool
         explosion = explosionPool.obtain();
         explosion.setPosition(enemyShip.getX(), enemyShip.getY());
@@ -868,9 +870,25 @@ public class GameScreen implements Screen {
         // Clear balls
         for (Ball item : balls) {
             item.alive = false;
-            item.removeFromStage();
         }
-        balls.clear();
+
+        // Clear explosions
+        for (DamageExplosion item : damageExplosions) {
+            item.alive = false;
+        }
+
+        for (Explosion item : explosions) {
+            item.alive = false;
+        }
+
+        // Clear bullets
+        for (ShipBullet item : shipBullets) {
+            item.alive = false;
+        }
+
+        for (EnemyBullet item : enemyBullets) {
+            item.alive = false;
+        }
 
         // Clear Powerups
         for (FireBall item : fireballs) {
@@ -882,6 +900,16 @@ public class GameScreen implements Screen {
         for (Coin item : coins) item.alive = false;
         for (Powerup item : powerups) item.alive = false;
 
+        // Clear unbreakable bricks
+        for (Brick item : bricks) {
+            item.alive = false;
+            item.remove();
+        }
+        bricks.clear();
+
+        life = startLife;
+
+        freeItems();
         // Load next level
         level++;
         levelLoader.loadLevel(level);
@@ -923,6 +951,10 @@ public class GameScreen implements Screen {
             item.setBulletStartTime();
         }
         paddle.setBulletStartTime();
+    }
+
+    public void addEntitiesLeft() {
+        entitiesLeft++;
     }
 
     public Array<Brick> getBricks() {

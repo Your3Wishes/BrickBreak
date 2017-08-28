@@ -60,6 +60,7 @@ public class Brick extends Actor {
         shapeRenderer = new ShapeRenderer();
     }
 
+
     @Override
     public void draw (Batch batch, float parentAlpha) {
         batch.draw(texture,this.getX(),getY(),this.getOriginX(),this.getOriginY(),this.getWidth(),
