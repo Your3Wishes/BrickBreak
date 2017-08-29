@@ -1,16 +1,13 @@
 package com.your3wishes.game.Animations;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool;
 import com.your3wishes.game.Freeable;
-import com.your3wishes.game.MyGame;
 import com.your3wishes.game.Utilities.Assets;
 
 /**

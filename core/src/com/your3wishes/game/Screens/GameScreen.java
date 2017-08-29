@@ -24,6 +24,7 @@ import com.your3wishes.game.Drops.Coin;
 import com.your3wishes.game.EnemyBullet;
 import com.your3wishes.game.EnemyShip;
 import com.your3wishes.game.Missile;
+import com.your3wishes.game.Notifications.AudioEventHandler;
 import com.your3wishes.game.Notifications.GameEvent;
 import com.your3wishes.game.Notifications.GameEventHandler;
 import com.your3wishes.game.Notifications.Notifier;
@@ -105,7 +106,7 @@ public class GameScreen implements Screen {
     private Coin coin;
     private int score;
     private int coinsCollected;
-    private int level = 3;
+    private int level = 1;
     private int entitiesLeft;
     private final Array<Coin> coins;
     private final Pool<Coin> coinPool;
@@ -121,6 +122,7 @@ public class GameScreen implements Screen {
     private int life = startLife;
     private int ballLifeReduction = 25;
     private int fallingBrickLifeReduction = 10;
+    private int coinScore = 5;
 
     // Hud Variables
     private Hud hud;
@@ -143,7 +145,8 @@ public class GameScreen implements Screen {
 
         // Add GameEvent Observer for handling different game logic events
         notifier = new Notifier();
-        notifier.addObserver(new GameEventHandler());
+        notifier.addObserver(new GameEventHandler(this));
+        notifier.addObserver(new AudioEventHandler(game.assets));
 
         //added for hud
         hudSpriteBatch = new SpriteBatch();
@@ -294,6 +297,8 @@ public class GameScreen implements Screen {
 //        missile = new Missile(game.assets, startX, startY, endX, endY, pathFinder);
 //        stage.addActor(missile);
 
+        notifier.notify(null, GameEvent.Event.START_GAME);
+
     }
 
     @Override
@@ -317,7 +322,6 @@ public class GameScreen implements Screen {
             game.setScreen(new GameOverScreen(game));
             dispose();
         }
-
     }
 
     private void update(float delta) {
@@ -379,10 +383,9 @@ public class GameScreen implements Screen {
             if (touchPos.y >= MyGame.SCREENHEIGHT / 4) {
                 tryToShootMissile(touchPos);
                 balls.get(0).launch(touchPos.x, touchPos.y);
-                notifier.notify(this, GameEvent.Event.BALL_LAUNCHED);
+                notifier.notify(balls.get(0), GameEvent.Event.BALL_LAUNCHED);
                 if (eventsStart == false) {
-
-                    notifier.notify(this, GameEvent.Event.EVENTS_START);
+                    notifier.notify(null, GameEvent.Event.EVENTS_START);
                 }
 
             }
@@ -428,13 +431,7 @@ public class GameScreen implements Screen {
         iterator.remove();
         brick.remove();
         entitiesLeft--;
-        // Create explosion and add it to explosionPool
-        explosion = explosionPool.obtain();
-        explosion.setPosition(brick.getX(), brick.getY());
-        explosion.getEffect().setPosition(brick.getX(), brick.getY());
-        explosion.init();
-        explosions.add(explosion);
-        stage.addActor(explosion);
+        spawnExplosion(brick.getX(), brick.getY());
 
         // Create brickExplosion and add it to brickExplosionPool
         if (brick instanceof ExplosiveBrick) {
@@ -462,13 +459,8 @@ public class GameScreen implements Screen {
         iterator.remove();
         enemyShip.remove();
         entitiesLeft--;
-        // Create explosion and add it to explosionPool
-        explosion = explosionPool.obtain();
-        explosion.setPosition(enemyShip.getX(), enemyShip.getY());
-        explosion.getEffect().setPosition(enemyShip.getX(), enemyShip.getY());
-        explosion.init();
-        explosions.add(explosion);
-        stage.addActor(explosion);
+        spawnExplosion(enemyShip.getX(), enemyShip.getY());
+
 
         // Spawn coin
         randomNumber = MathUtils.random(0.0f, 100.0f);
@@ -557,6 +549,16 @@ public class GameScreen implements Screen {
         stage.addActor(enemyHit);
     }
 
+    public void spawnExplosion(float x, float y) {
+        // Create explosion and add it to explosionPool
+        explosion = explosionPool.obtain();
+        explosion.setPosition(x, y);
+        explosion.getEffect().setPosition(x, y);
+        explosion.init();
+        explosions.add(explosion);
+        stage.addActor(explosion);
+    }
+
     public void spawnBrickExplosion(float x, float y) {
         damageExplosion = damageExplosionPool.obtain();
         damageExplosion.setType(DamageExplosion.Type.BRICK);
@@ -584,6 +586,19 @@ public class GameScreen implements Screen {
         ball.launched = false;
         balls.add(ball);
         stage.addActor(ball);
+    }
+
+    public void spawnMultiBall() {
+        ball = ballPool.obtain();
+        ball.init();
+        ball.setPosition((paddle.getX() + (paddle.getWidth() / 2)), paddle.getY() + paddle.getHeight());
+        // Force ball to move upwards
+        ball.setDy(abs(ball.getDy()));
+        balls.add(ball);
+        stage.addActor(ball);
+        if (fireballActive) {
+            spawnFireball(ball);
+        }
     }
 
     public int getLife() {
@@ -667,44 +682,24 @@ public class GameScreen implements Screen {
         // Paddle and coin collision. Coin collected
         for (Coin item : coins) {
             if (paddle.getBounds().overlaps(item.getBounds())) {
-                // todo: notify collected coin
-                item.alive = false;
-                coinsCollected++;
-                score+=5;
+                notifier.notify(item, GameEvent.Event.COIN_COLLECTED);
+                item.hitPaddle();
             }
         }
 
         // Paddle and powerup collision.
         for (Powerup item : powerups) {
             if (paddle.getBounds().overlaps(item.getBounds())) {
-                item.alive = false;
+                item.hitPaddle();
                 switch (item.getType()) {
                     case MULTIBALL:
-                        // Spawn ball
-                        ball = ballPool.obtain();
-                        ball.init();
-                        ball.setPosition((paddle.getX() + (paddle.getWidth() / 2)), paddle.getY() + paddle.getHeight());
-                        // Force ball to move upwards
-                        ball.setDy(abs(ball.getDy()));
-                        balls.add(ball);
-                        stage.addActor(ball);
-                        if (fireballActive) {
-                            spawnFireball(ball);
-                        }
+                        notifier.notify(item, GameEvent.Event.MULTIBALL_COLLECTED);
                         break;
                     case FIREBALL:
-                        // Add a fireball particle to all balls and set fireballActive to true
-                        if (!fireballActive){
-                            for (Ball element : balls) {
-                                spawnFireball(element);
-                            }
-                            fireBallStartTime = System.currentTimeMillis();
-                            fireballActive = true;
-                        }
+                        notifier.notify(item, GameEvent.Event.FIREBALL_COLLECTED);
                         break;
                     case SLOWTIME:
-                        slowTimeActive = true;
-                        slowTimeStartTime = System.currentTimeMillis();
+                        notifier.notify(item, GameEvent.Event.SLOWTIME_COLLECTED);
                         break;
                     case PADDLEGROW:
                         paddle.growing = true;
@@ -890,8 +885,13 @@ public class GameScreen implements Screen {
         }
     }
 
+    public void collectCoin() {
+        coinsCollected++;
+        score += coinScore;
+    }
+
     public void setupNextLevel() {
-        notifier.notify(this, GameEvent.Event.NEXT_LEVEL);
+        notifier.notify(null, GameEvent.Event.NEXT_LEVEL);
         paddle.reset();
         // Clear balls
         for (Ball item : balls) {
@@ -909,6 +909,11 @@ public class GameScreen implements Screen {
 
         // Clear bullets
         for (ShipBullet item : shipBullets) {
+            item.alive = false;
+        }
+
+        // Clear Missiles
+        for (Missile item : missiles) {
             item.alive = false;
         }
 
@@ -936,11 +941,27 @@ public class GameScreen implements Screen {
         life = startLife;
 
         freeItems();
+        spawnInitialBall();
         // Load next level
         level++;
         levelLoader.loadLevel(level);
 
         eventsStart = false;
+    }
+
+    public void activateFireball() {
+        if (!fireballActive) {
+            for (Ball element : balls) {
+                spawnFireball(element);
+            }
+            fireBallStartTime = System.currentTimeMillis();
+            fireballActive = true;
+        }
+    }
+
+    public void activateSlowTime() {
+        slowTimeActive = true;
+        slowTimeStartTime = System.currentTimeMillis();
     }
 
     @Override

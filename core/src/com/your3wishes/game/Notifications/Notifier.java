@@ -34,16 +34,4 @@ public class Notifier {
         }
     }
 
-    public <T extends Actor> void  notify(Array<T> actors, GameEvent.Event event) {
-        for (Observer item : observers) {
-            item.onNotify(actors, event);
-        }
-    }
-
-    public void notify(GameScreen game, GameEvent.Event event) {
-        for (Observer item : observers) {
-            item.onNotify(game, event);
-        }
-    }
-
 }

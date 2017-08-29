@@ -6,7 +6,8 @@ package com.your3wishes.game.Notifications;
  */
 
 public class GameEvent {
-    public enum Event { BALL_LAUNCHED, EVENTS_START, NEXT_LEVEL}
+    public enum Event { BALL_LAUNCHED, EVENTS_START, NEXT_LEVEL, COIN_COLLECTED, MULTIBALL_COLLECTED, FIREBALL_COLLECTED,
+                        SLOWTIME_COLLECTED, PADDLEGROW_COLLECTED, BIGBALL_COLLECTED, START_GAME}
 
 
 }

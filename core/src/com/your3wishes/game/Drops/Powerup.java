@@ -73,4 +73,8 @@ public class Powerup extends Drop {
         }
 
     }
+
+    public void hitPaddle() {
+        alive = false;
+    }
 }

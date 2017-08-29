@@ -33,5 +33,9 @@ public class Coin extends Drop {
         super.act(delta);
     }
 
+    public void hitPaddle() {
+        alive = false;
+    }
+
 
 }
